@@ -5,7 +5,7 @@ import java.util.List;
 import org.jzy3d.maths.Coord2d;
 import org.vocobox.events.SoundEvent;
 import org.vocobox.events.SoundEvent.Type;
-import org.vocobox.model.song.Note;
+import org.vocobox.model.note.Note;
 import org.vocobox.model.synth.MonitorSettings;
 import org.vocobox.model.voice.pitch.evaluate.PitchPrecisionLatencyInSemitone;
 import org.vocobox.ui.charts.note.NoteChartAbstract;

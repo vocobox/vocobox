@@ -1,10 +1,8 @@
-package org.vocobox.model.song;
+package org.vocobox.model.note;
 
 import java.io.File;
 
-import org.vocobox.model.note.NoteDescriptor;
-import org.vocobox.model.note.NoteDescriptors;
-import org.vocobox.utils.EzRgx;
+import org.vocobox.io.EzRgx;
 
 public class Note extends EzRgx {
     public static NoteParser NOTE_PARSER = new NoteParser();
@@ -14,6 +12,7 @@ public class Note extends EzRgx {
     public int octave;
     public int instance;
     public File file;
+    public Voyel voyel;
 
     public Note(){
     }

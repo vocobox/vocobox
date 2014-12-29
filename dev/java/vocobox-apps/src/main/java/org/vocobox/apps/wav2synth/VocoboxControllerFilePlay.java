@@ -20,7 +20,7 @@ import org.vocobox.voice.pitch.tarsos.VoiceFilePlay;
 public class VocoboxControllerFilePlay extends VocoboxControllerAbstract{
     public static void main(String[] args) throws Exception, UnsupportedAudioFileException {
         VocoboxControllerFilePlay controller = new VocoboxControllerFilePlay();
-        String file = HumanVoiceDataset.MARTIN.getNoteFilename("C3");
+        String file = HumanVoiceDataset.NOTES.getNoteFilename("C3");
         file = "data/sound/doremi-mono.wav";
         controller.play(file);
     }

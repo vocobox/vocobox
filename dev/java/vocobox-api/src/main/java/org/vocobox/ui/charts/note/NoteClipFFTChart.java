@@ -19,7 +19,7 @@ import org.jzy3d.plot3d.rendering.view.ViewportMode;
 import org.jzy3d.plot3d.rendering.view.modes.ViewPositionMode;
 import org.jzy3d.spectro.primitives.SpectrumSurface;
 import org.jzy3d.spectro.trials.SpectrumModelSpectro;
-import org.vocobox.model.song.Note;
+import org.vocobox.model.note.Note;
 
 public class NoteClipFFTChart extends NoteChartAbstract {
     public Clip clip;

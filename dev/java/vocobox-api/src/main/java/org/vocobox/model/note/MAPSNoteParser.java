@@ -4,9 +4,6 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.vocobox.model.song.Note;
-import org.vocobox.model.song.NoteParser;
-
 public class MAPSNoteParser extends NoteParser{
     static String p = "MAPS_(" + word + ")_(" + word + ")_(" + letter + ")_(" + letter_and_nums + ")_M(" + numbers + ")_(" + letter_and_nums + ").wav";
 

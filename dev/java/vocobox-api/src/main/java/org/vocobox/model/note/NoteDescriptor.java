@@ -2,9 +2,6 @@ package org.vocobox.model.note;
 
 import java.io.File;
 
-import org.vocobox.model.song.Note;
-import org.vocobox.model.song.NoteParser;
-
 /**
  * @see {@link NoteDescriptors} holds an array of 88 note description with name, frequency, etc
  * 

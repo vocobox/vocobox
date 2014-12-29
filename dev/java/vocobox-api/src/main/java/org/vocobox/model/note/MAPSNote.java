@@ -2,8 +2,6 @@ package org.vocobox.model.note;
 
 import java.io.File;
 
-import org.vocobox.model.song.Note;
-
 //MAPS
 ///Users/martin/Datasets/MAPS/MAPS_AkPnBcht_1/AkPnBcht/ISOL/NO
 //MAPS_ISOL_NO_P_S0_M30_AkPnBcht.wav

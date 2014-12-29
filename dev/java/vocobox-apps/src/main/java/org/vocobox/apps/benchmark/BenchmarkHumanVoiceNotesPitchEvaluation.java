@@ -8,20 +8,20 @@ import org.jzy3d.ui.MultiChartPanel;
 import org.vocobox.apps.benchmark.charts.NotePitchChart;
 import org.vocobox.apps.benchmark.charts.PitchEvalChart;
 import org.vocobox.io.datasets.HumanVoiceDataset;
+import org.vocobox.model.note.Note;
 import org.vocobox.model.note.NoteDescriptor;
 import org.vocobox.model.note.NoteDescriptors;
-import org.vocobox.model.song.Note;
 
 public class BenchmarkHumanVoiceNotesPitchEvaluation {
     public static void main(String[] args) throws Exception {
-        HumanVoiceDataset voice = HumanVoiceDataset.MARTIN;
+        HumanVoiceDataset voice = HumanVoiceDataset.NOTES;
         
         System.out.println(new File(".").getAbsolutePath());
         
         Note[][] notes = voice.getNoteMatrix();
 
         Chart[][] charts = evalCharts(notes, 0, 0.5f);
-        ui(voice.getHeaders(), charts);
+        ui(voice.getNoteHeaders(), charts);
         //ui(voice.getHeaders(), oneNote("C#3", 138.59f, 0.5f));
     }
 
@@ -67,7 +67,7 @@ public class BenchmarkHumanVoiceNotesPitchEvaluation {
     }
     
     public static Chart[][] oneNote(String name, float expected, float semitoneDistance) throws Exception {
-        Note note = HumanVoiceDataset.MARTIN.getNote(name);
+        Note note = HumanVoiceDataset.NOTES.getNote(name);
         Chart[][] charts = new Chart[2][1];
         charts[0][0] = chartFrequency(note);
         charts[0][1] = chartEval(note, semitoneDistance);

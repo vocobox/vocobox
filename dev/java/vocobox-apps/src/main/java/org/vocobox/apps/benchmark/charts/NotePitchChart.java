@@ -8,7 +8,7 @@ import org.jzy3d.plot3d.primitives.axes.layout.renderers.IntegerTickRenderer;
 import org.jzy3d.plot3d.primitives.axes.layout.renderers.PitchTickRenderer;
 import org.vocobox.events.SoundEvent;
 import org.vocobox.events.SoundEvent.Type;
-import org.vocobox.model.song.Note;
+import org.vocobox.model.note.Note;
 import org.vocobox.model.synth.MonitorSettings;
 import org.vocobox.model.synth.MonitoredSynth;
 import org.vocobox.model.synth.VocoSynth;

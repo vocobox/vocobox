@@ -8,7 +8,7 @@ import org.vocobox.io.datasets.HumanVoiceDataset;
 public class BenchmarkHumanVoiceNotesPitch {
     public static void main(String[] args) throws Exception {
         String[] headers = {"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"};
-        Chart[][] charts = NoteMozaic.charts(HumanVoiceDataset.MARTIN.getNoteMatrix());
+        Chart[][] charts = NoteMozaic.charts(HumanVoiceDataset.NOTES.getNoteMatrix());
         MultiChartPanel monitorPanel = new MultiChartPanel(charts, headers, null, false, 100, 100, false, false);
         monitorPanel.ui();
     }

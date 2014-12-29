@@ -30,8 +30,8 @@ public class VocoboxControllerCsv {
         String analysisName = "doremi";
         String wavFile = "data/sound/" + analysisName + ".wav";
         
-        //controller.muteWinTime = 0.15f;// good for "piano"
-        controller.muteWinTime = -0.01f;// good for "dp2" 0.02
+        controller.muteWinTime = 0.10f;// good for "piano" 0.15
+        //controller.muteWinTime = -0.01f;// good for "dp2" 0.02
         controller.loadAnalysis(analysisRoot, analysisName, wavFile);
     }
 

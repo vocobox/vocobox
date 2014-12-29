@@ -8,13 +8,15 @@ import java.util.List;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import org.apache.log4j.Logger;
-import org.vocobox.model.song.Note;
-import org.vocobox.model.song.NoteParser;
+import org.vocobox.model.note.Note;
+import org.vocobox.model.note.NoteParser;
+import org.vocobox.model.note.Voyel;
 
 
 public class HumanVoiceDataset {
     
-    public static HumanVoiceDataset MARTIN = new HumanVoiceDataset("../../../../human-voice-dataset/data/", "voices/martin/notes/exports/mono/");
+    public static HumanVoiceDataset NOTES = new HumanVoiceDataset("../../../../human-voice-dataset/data/", "voices/martin/notes/exports/mono/");
+    public static HumanVoiceDataset VOYELS = new HumanVoiceDataset("../../../../human-voice-dataset/data/", "voices/martin/voyels/exports/mono/");
     
     protected String root;
     protected String dataset;
@@ -24,11 +26,16 @@ public class HumanVoiceDataset {
         this.dataset = dataset;
     }
     
-    public String[] getHeaders(){
+    public String[] getNoteHeaders(){
         String[] headers = {"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"};
         return headers;
     }
-    
+
+    public String[] getVoyelHeaders(){
+        String[] headers = {Voyel.A.toString(), Voyel.E.toString(), Voyel.I.toString(), Voyel.O.toString(), Voyel.OU.toString(), Voyel.U.toString()};
+        return headers;
+    }
+
 
     public String getRoot() {
         return root;
@@ -50,10 +57,10 @@ public class HumanVoiceDataset {
         String file = root + dataset + name;
         return file + ".wav";
     }
-    
+
     public Note[][] getNoteMatrix() throws UnsupportedAudioFileException, IOException {
         Note[][] notes = new Note[6][12];
-        List<Note> singleNotes = loadList(getFolder());
+        List<Note> singleNotes = getNotes(getFolder());
         
         for(Note n: singleNotes){
             if(n.orderStartAtA()<0)
@@ -63,8 +70,25 @@ public class HumanVoiceDataset {
         }
         return notes;
     }
+
+    public Note[][] getVoyelRow() throws UnsupportedAudioFileException, IOException {
+        Note[][] notes = new Note[6][12];
+        List<Note> singleNotes = getNotes(getFolder());
+        
+        for(Note n: singleNotes){
+            if(n.orderStartAtA()<0)
+                Logger.getLogger(HumanVoiceDataset.class).warn("Exclusing note " + n + " since order < 0");
+            else
+                notes[n.octave][n.orderStartAtA()] = n;
+        }
+        return notes;
+    }
+
+    public List<Note> getNotes() throws UnsupportedAudioFileException, IOException {
+        return getNotes(getFolder());
+    }
     
-    public List<Note> loadList(String folder) throws UnsupportedAudioFileException, IOException {
+    public List<Note> getNotes(String folder) throws UnsupportedAudioFileException, IOException {
         List<Note> notes = new ArrayList<Note>();
         File f = new File(folder);
         

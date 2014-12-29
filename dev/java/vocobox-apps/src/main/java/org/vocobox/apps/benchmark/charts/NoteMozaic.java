@@ -8,7 +8,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import org.jzy3d.chart.Chart;
 import org.vocobox.model.note.MAPSNote;
-import org.vocobox.model.song.Note;
+import org.vocobox.model.note.Note;
 
 public class NoteMozaic {
     public static List<Chart> charts(List<Note> notes) throws Exception {

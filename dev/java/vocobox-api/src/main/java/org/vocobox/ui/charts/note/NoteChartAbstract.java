@@ -1,7 +1,7 @@
 package org.vocobox.ui.charts.note;
 
 import org.jzy3d.chart.Chart;
-import org.vocobox.model.song.Note;
+import org.vocobox.model.note.Note;
 
 public class NoteChartAbstract {
     public Note note;

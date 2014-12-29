@@ -1,13 +1,13 @@
-package org.vocobox.model.song;
+package org.vocobox.model.note;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.vocobox.model.song.Note;
+import org.vocobox.model.note.Note;
 
 public class TestNote {
     @Test
-    public void testRegexp() {
+    public void testRegexpNoteName() {
         Note note_aD2 = new Note("folder/a#2.wav");
         assertEquals("a", note_aD2.name);
         assertEquals("#", note_aD2.sign);
@@ -16,6 +16,17 @@ public class TestNote {
         assertEquals(1, note_aD2.orderStartAtA());
     }
 
+    @Test
+    public void testRegexpVoyelName() {
+        assertEquals(Voyel.A, new Note("folder/_-a-c3.wav").voyel);
+        assertEquals(Voyel.E, new Note("folder/_-e-c3.wav").voyel);
+        assertEquals(Voyel.I, new Note("folder/_-i-c3.wav").voyel);
+        assertEquals(Voyel.O, new Note("folder/_-o-c3.wav").voyel);
+        assertEquals(Voyel.U, new Note("folder/_-u-c3.wav").voyel);
+        assertEquals(Voyel.OU, new Note("folder/_-ou-c3.wav").voyel);
+    }
+
+    
     @Test
     public void testOrderStartAtA() {
         assertEquals(0, new Note("a2.wav").orderStartAtA());

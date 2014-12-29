@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.vocobox.io.EzRgx;
 import org.vocobox.model.note.MAPSNote;
 import org.vocobox.model.note.MAPSNoteParser;
-import org.vocobox.utils.EzRgx;
 
 /**
  * MAPS Database helper
