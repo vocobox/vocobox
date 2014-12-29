@@ -1,0 +1,18 @@
+WARN NORMALIZE
+
+
+WHAT : notes, voyels, oclusives, 
+ALWAYS [nothing, any] vs [nothing, any]
+
+# Note sound:
+For note : in [C2 - C4]
+  For voyel : a, e, i, o, u
+    For occlusive : [none], ta, pa, da, ba, la, ma, na
+
+Beat sound (note [none], voyel [none]):
+For occlusive : t, d, 
+For complexe : poum, tchac, tchink
+
+Silence
+Voix de tete
+Ramps : up, down
