@@ -17,7 +17,7 @@ We also evaluate pitch detection <i>in live</i> by recording the voice with a mi
 To build Vocobox, we gathered :
 * a full java additive synthetizer made by chaining oscillators, filters, and other hardware emulation of real synthetizer components based on <a href="http://www.softsynth.com/jsyn/">JSyn</a>.
 * a pitch detection module based on <a href="https://github.com/JorenSix/TarsosDSP">TarsosDSP</a> java library.
-* efficient OpenGL charts for monitoring and debugging the sound data workflow based on <a href="http://www.jzy3d.org/">Jzy3d</a> charts.
+* efficient OpenGL charts for monitoring and debugging sound data based on <a href="http://www.jzy3d.org/">Jzy3d</a> charts.
 
 
 
