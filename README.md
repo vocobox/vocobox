@@ -59,9 +59,9 @@ To run synthetizer control based on a wav file, see <a href="https://github.com/
 
 To run synthetizer control based on live voice, see <a href="https://github.com/vocobox/vocobox/blob/master/dev/java/vocobox-apps/src/main/java/org/vocobox/apps/mic2synth/VocoboxControllerMic.java">VocoboxControllerMic</a>
 
-##### Benchmark Pitch Detection algorithms
+##### Benchmark Pitch Detection algorithm on Human Voice Dataset
 
-
+Read this <a href="Benchmark.md">document</a>.
 
 
 ### Contributing
