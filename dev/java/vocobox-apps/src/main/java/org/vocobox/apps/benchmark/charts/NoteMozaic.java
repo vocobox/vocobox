@@ -17,7 +17,7 @@ import org.vocobox.model.note.NoteDescriptors;
 import org.vocobox.model.note.Voyel;
 
 public class NoteMozaic {
-    
+
     public static Chart[][] oneNote(String name, float expected, float semitoneDistance) throws Exception {
         Note note = HumanVoiceDataset.NOTES.getNote(name);
         Chart[][] charts = new Chart[2][1];
@@ -26,94 +26,134 @@ public class NoteMozaic {
         return charts;
     }
 
-    
     public static Chart[][] evalChartsPitch(Note[][] notes, int startAt, float semitoneError) throws Exception {
         int octaves = notes.length;
         int semitones = notes[0].length;
-        Chart[][] charts = new Chart[(octaves-startAt)*2][semitones];
-        
+        Chart[][] charts = new Chart[(octaves - startAt) * 2][semitones];
+
         for (int octave = startAt; octave < octaves; octave++) {
             for (int tone = 0; tone < notes[octave].length; tone++) {
                 Note note = notes[octave][tone];
-                if(note!=null){
-                    charts[octave-startAt][tone] = chartFrequency(note);
-                    charts[octave-startAt+octaves][tone] = chartEval(note, semitoneError);
+                if (note != null) {
+                    charts[octave - startAt][tone] = chartFrequency(note);
+                    charts[octave - startAt + octaves][tone] = chartEval(note, semitoneError);
                 }
-            }    
+            }
         }
         return charts;
     }
 
     /* */
-    
+
     public static Chart[][] evalChartsVoyels(List<Note> voyels) throws Exception {
         return evalChartsVoyels(getVoyelMatrix(voyels));
     }
-    
+
     public static Chart[][] evalChartsVoyels(Note[][] voyels) throws Exception {
         Chart[][] charts = new Chart[2][voyels.length];
         for (int tone = 0; tone < voyels.length; tone++) {
             Note note = voyels[tone][0];
-            if(note!=null){
+            if (note != null) {
                 charts[0][tone] = chartFrequency(note);
                 charts[1][tone] = chartEval(note, 0.5f);
             }
-        }    
+        }
 
         return charts;
     }
     
-    public static Note[][] getVoyelMatrix(List<Note> notes){
-        Map<Voyel,Integer> counter = getVoyelCount(notes);
-        int max = getMaxCounter(counter);
+
+    public static Chart[][] evalChartsVoyelInstances(Note[][] voyels) throws Exception {
+        Chart[][] charts = new Chart[voyels.length][voyels[0].length*2];
         
+        for (int i = 0; i < voyels.length; i++) {
+            for (int j = 0; j < voyels[i].length; j++) {
+                Note note = voyels[i][j];
+                if(note!=null){
+                    charts[i][j] = chartFrequency(note);
+                    charts[i][j+voyels[0].length] = chartEval(note, 0.5f);
+                    
+                }
+            }
+        }
+        return charts;
+    }
+
+    public static Note[][] getVoyelMatrix(List<Note> notes) {
         Note[][] matrix = new Note[Voyel.values().length][1];
-        for(Note n: notes){
-            if(matrix[n.voyel.ordinal()][0] == null){
+        for (Note n : notes) {
+            if (matrix[n.voyel.ordinal()][0] == null) {
                 matrix[n.voyel.ordinal()][0] = n;
             }
         }
-        
+
+        return matrix;
+    }
+    
+    public static Note[][] getVoyelInstancesMatrix(List<Note> notes){
+        Map<Voyel, Integer> counter = getVoyelCount(notes);
+        int max = getMaxCounter(counter);
+System.out.println("max" + max);
+        Map<Voyel, Integer> count = new HashMap<Voyel, Integer>();
+        Note[][] matrix = new Note[max][Voyel.values().length];
+        for (Note n : notes) {
+            int inst = get(count, n.voyel);
+            matrix[inst][n.voyel.ordinal()] = n;
+            incrementCounter(count, n.voyel);
+        }
+
         return matrix;
     }
 
     public static int getMaxCounter(Map<Voyel, Integer> counter) {
         int max = 0;
-        for(Map.Entry<Voyel,Integer> e : counter.entrySet()){
-            if(e.getValue()>max)
+        for (Map.Entry<Voyel, Integer> e : counter.entrySet()) {
+            if (e.getValue() > max)
                 max = e.getValue();
         }
         return max;
     }
 
-    public static Map<Voyel,Integer> getVoyelCount(List<Note> notes) {
-        Map<Voyel,Integer> counter = new HashMap<Voyel,Integer>();
-        
-        for(Note note: notes){
-            Integer i = counter.get(note.voyel);
-            if(i==null){
-                i = new Integer(1);
-            }
-            else{
-                i = i++;
-            }
-            counter.put(note.voyel, i);
+    public static Map<Voyel, Integer> getVoyelCount(List<Note> notes) {
+        Map<Voyel, Integer> counter = new HashMap<Voyel, Integer>();
+        for (Note note : notes) {
+            incrementCounter(counter, note.voyel);
         }
         return counter;
     }
 
+    public static int get(Map<Voyel, Integer> counter, Voyel voyel) {
+        Integer i = counter.get(voyel);
+        if (i == null) {
+            return 0;
+        } else {
+            return i;
+        }
+
+    }
+
+    public static void incrementCounter(Map<Voyel, Integer> counter, Voyel voyel) {
+        Integer i = counter.get(voyel);
+        if (i == null) {
+            i = new Integer(1);
+        } else {
+            i = i+1;
+        }
+        counter.put(voyel, i);
+    }
+
     public static Chart chartEval(Note note, float semitoneDistance) throws Exception {
         NoteDescriptor descriptor = note.getDescriptor();
-        if("a".equals(descriptor.note.name) || "b".equals(descriptor.note.name)){
-            descriptor = NoteDescriptors.PIANO.getNoteByKey(descriptor.key-12);
+        if ("a".equals(descriptor.note.name) || "b".equals(descriptor.note.name)) {
+            descriptor = NoteDescriptors.PIANO.getNoteByKey(descriptor.key - 12);
         }
-        return new PitchEvalChart(note, (float)descriptor.frequency, semitoneDistance).getChart();
+        return new PitchEvalChart(note, (float) descriptor.frequency, semitoneDistance).getChart();
     }
 
     public static Chart chartFrequency(Note n) throws Exception {
         return new NotePitchChart(n).getChart();
     }
-    
+
     /* */
     public static List<Chart> charts(List<Note> notes) throws Exception {
         List<Chart> charts = new ArrayList<Chart>();
@@ -125,17 +165,17 @@ public class NoteMozaic {
 
     public static Chart[][] charts(Note[][] notes) throws Exception {
         Chart[][] charts = new Chart[notes.length][notes[0].length];
-        
+
         for (int i = 0; i < notes.length; i++) {
             for (int j = 0; j < notes[i].length; j++) {
-                if(notes[i][j]!=null){
+                if (notes[i][j] != null) {
                     charts[i][j] = chart(notes[i][j]);
                 }
-            }    
+            }
         }
         return charts;
     }
-    
+
     public static Chart chart(Note n) throws Exception {
         return new NotePitchChart(n).getChart();
     }
@@ -143,9 +183,9 @@ public class NoteMozaic {
     public static Note[][] asNoteMatrix(List<Note> singleNotes) throws UnsupportedAudioFileException, IOException {
         Note[][] notes = new Note[8][12];
 
-        for(Note n: singleNotes){
-            //System.out.println(n.order());
-            if(n.orderStartAtA()<0)
+        for (Note n : singleNotes) {
+            // System.out.println(n.order());
+            if (n.orderStartAtA() < 0)
                 System.out.println("excluding " + n);
             else
                 notes[n.octave][n.orderStartAtA()] = n;
@@ -156,9 +196,9 @@ public class NoteMozaic {
     public static MAPSNote[][] asMAPSNoteMatrix(List<MAPSNote> singleNotes) throws UnsupportedAudioFileException, IOException {
         MAPSNote[][] notes = new MAPSNote[9][12];
 
-        for(MAPSNote n: singleNotes){
-            //System.out.println(n.order());
-            if(n.orderStartAtA()<0)
+        for (MAPSNote n : singleNotes) {
+            // System.out.println(n.order());
+            if (n.orderStartAtA() < 0)
                 System.out.println("excluding " + n);
             else
                 notes[n.octave][n.orderStartAtA()] = n;

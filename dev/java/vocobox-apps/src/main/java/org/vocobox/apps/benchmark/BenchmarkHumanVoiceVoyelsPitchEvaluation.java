@@ -6,11 +6,14 @@ import org.jzy3d.chart.Chart;
 import org.jzy3d.ui.MultiChartPanel;
 import org.vocobox.apps.benchmark.charts.NoteMozaic;
 import org.vocobox.io.datasets.HumanVoiceDataset;
+import org.vocobox.model.synth.MonitorSettings;
 
 public class BenchmarkHumanVoiceVoyelsPitchEvaluation {
     public static void main(String[] args) throws Exception {
+        MonitorSettings.OFFSCREEN.applyPalette = false;
         HumanVoiceDataset voice = HumanVoiceDataset.VOYELS;
-        Chart[][] charts = NoteMozaic.evalChartsVoyels(voice.getNotes());
+        //Chart[][] charts = NoteMozaic.evalChartsVoyels(voice.getNotes());
+        Chart[][] charts = NoteMozaic.evalChartsVoyelInstances(NoteMozaic.getVoyelInstancesMatrix(voice.getNotes()));
         ui(voice.getVoyelHeaders(), charts);
     }
 

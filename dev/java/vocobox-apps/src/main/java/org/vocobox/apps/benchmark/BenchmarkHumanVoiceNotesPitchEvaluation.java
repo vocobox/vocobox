@@ -7,9 +7,12 @@ import org.jzy3d.chart.Chart;
 import org.jzy3d.ui.MultiChartPanel;
 import org.vocobox.apps.benchmark.charts.NoteMozaic;
 import org.vocobox.io.datasets.HumanVoiceDataset;
+import org.vocobox.model.synth.MonitorSettings;
 
 public class BenchmarkHumanVoiceNotesPitchEvaluation {
     public static void main(String[] args) throws Exception {
+        MonitorSettings.OFFSCREEN.applyPalette = false;
+
         HumanVoiceDataset voice = HumanVoiceDataset.NOTES;
         
         System.out.println(new File(".").getAbsolutePath());
