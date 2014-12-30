@@ -17,6 +17,15 @@ import org.vocobox.ui.toolkit.transport.TransportPanel;
 import org.vocobox.ui.toolkit.transport.TransportPanel.On;
 import org.vocobox.voice.pitch.tarsos.VoiceFilePlay;
 
+/**
+ * Control synth while playing the input wav file. 
+ * 
+ * Synth controls are scheduled by file reading so might appear inapproriate.
+ * @see VocoboxControllerFileRead that read and schedule events more smartly.
+ * 
+ * @author Martin Pernollet
+ *
+ */
 public class VocoboxControllerFilePlay extends VocoboxControllerAbstract{
     public static void main(String[] args) throws Exception, UnsupportedAudioFileException {
         VocoboxControllerFilePlay controller = new VocoboxControllerFilePlay();

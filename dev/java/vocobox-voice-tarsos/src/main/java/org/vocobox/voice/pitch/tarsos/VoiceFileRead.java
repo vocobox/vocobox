@@ -98,7 +98,7 @@ public class VoiceFileRead extends VoiceTarsos {
 
         addPitchDetection(samplerate, fftSize);
         addGainProcessor(estimationGainValue);
-        addOnsetDetection(fftSize, pickThreshold, minInterOnsetInterv, silenceThreshold);
+        //addOnsetDetection(fftSize, pickThreshold, minInterOnsetInterv, silenceThreshold);
     }
 
     public void addPitchDetection(float samplerate, int size) {
