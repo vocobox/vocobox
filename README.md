@@ -42,9 +42,6 @@ mvn clean install
 
 Folder vocobox/dev/java/vocobox-apps provides several applications
 
-##### Benchmark Pitch Detection algorithms
-
-
 ##### Controlling Synthetizers with CSV files
 
 Our first attempt to analyze voice signal was <a href="https://github.com/vocobox/vocobox/blob/master/dev/r">written in R</a> using <a href="http://rug.mnhn.fr/seewave/">Seewave</a> and <a href="http://aubio.org/">Aubio</a> via an <a href="https://github.com/vocobox/aubio-r/">R binding</a> written for the experiment.
@@ -60,14 +57,12 @@ To run synthetizer control based on a wav file, see <a href="https://github.com/
 
 ##### Controlling Synthetizers with Microphone
 
+To run synthetizer control based on live voice, see <a href="https://github.com/vocobox/vocobox/blob/master/dev/java/vocobox-apps/src/main/java/org/vocobox/apps/mic2synth/VocoboxControllerMic.java">VocoboxControllerMic</a>
+
+##### Benchmark Pitch Detection algorithms
 
 
-```
-> benchmark
-> csv2synth
-> mic2synth
-> wav2synth
-```
+
 
 ### Contributing
 Please join us and share your contributions through <a href="https://help.github.com/articles/using-pull-requests/">pull-requests</a>
