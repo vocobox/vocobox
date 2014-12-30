@@ -1,10 +1,14 @@
 package org.vocobox.apps;
 
+import java.io.FileNotFoundException;
+
 import org.vocobox.model.synth.JavaContext;
 import org.vocobox.model.synth.MonitorSettings;
 import org.vocobox.model.synth.VocoSynth;
 import org.vocobox.model.synth.VocoSynthMonitor;
 import org.vocobox.model.voice.pitch.VocoVoice;
+import org.vocobox.synth.jsyn.JSynVocoSynth;
+import org.vocobox.synth.jsyn.record.Recorder;
 
 /**
  * USING JDK8 
@@ -37,6 +41,17 @@ public abstract class VocoboxControllerAbstract {
     
     public JavaContext getContext(){
         return new JavaContext.JDK6();
+    }
+    
+    /**
+     * Will export to file if the synthetizer is a {@link JSynVocoSynth}
+     * @param filename
+     * @return
+     * @throws FileNotFoundException
+     */
+    public Recorder wireRecorder(String filename) throws FileNotFoundException{
+        Recorder recorder = new Recorder((JSynVocoSynth)synth, filename);
+        return recorder;
     }
 
     

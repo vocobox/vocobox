@@ -13,29 +13,26 @@ import org.vocobox.events.SoundEvent;
 import org.vocobox.model.song.Song;
 import org.vocobox.model.synth.MonitorSettings;
 import org.vocobox.synth.jsyn.circuits.JsynCircuitSynth;
+import org.vocobox.synth.jsyn.record.Recorder;
 import org.vocobox.ui.charts.synth.SynthMonitorCharts;
 import org.vocobox.ui.toolkit.transport.TransportPanel;
 import org.vocobox.ui.toolkit.transport.TransportPanel.On;
 import org.vocobox.voice.pitch.tarsos.VoiceFileRead;
 
 /**
- * http://www.fon.hum.uva.nl/praat/ Linera predictive coding : tuneR
- * 
- * SOX
- * 
- * Bind views to data
- * 
- * TODO : SynthMonitorChart : devrait utiliser elapsed() et comparer la
- * différence avec time (expected)
+ * TODO : use pitch confidence to mute synth when no confidence
  */
 public class VocoboxControllerFileRead extends VocoboxControllerAbstract {
     public static void main(String[] args) throws Exception, UnsupportedAudioFileException {
         VocoboxControllerFileRead controller = new VocoboxControllerFileRead();
         String file = "data/sound/voice2-mono.wav";
+        controller.monitorSettings.timeMax = 28;
+        
+        // Play and record
+        Recorder recorder = controller.wireRecorder("target/out.wav");
         controller.play(file);
+        recorder.recordFor(controller.monitorSettings.timeMax); // warn : blocking
     }
-
-    public static int WINDOW_LENGTH = 15;
 
     protected VocoboxAppFile app;
     protected VocoboxPanelsFile panels;
@@ -46,7 +43,7 @@ public class VocoboxControllerFileRead extends VocoboxControllerAbstract {
     @Override
     public void wireUI() {
         this.monitorSettings = new MonitorSettings();
-        monitorSettings.timeMax = 12;
+        this.monitorSettings.timeMax = 12;
         this.app = new VocoboxAppFile();
     }
 
@@ -113,7 +110,7 @@ public class VocoboxControllerFileRead extends VocoboxControllerAbstract {
     }
 
     public void loadUI() throws IOException {
-        panels = new VocoboxPanelsFile(synth, null, WINDOW_LENGTH, monitorSettings);
+        panels = new VocoboxPanelsFile(synth, null, (int) this.monitorSettings.timeMax, monitorSettings);
         panels.setInputControl(new TransportPanel(new On() {
             @Override
             public void play() {

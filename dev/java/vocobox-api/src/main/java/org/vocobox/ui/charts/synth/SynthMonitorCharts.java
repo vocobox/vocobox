@@ -134,6 +134,10 @@ public class SynthMonitorCharts extends Timer implements VocoSynthMonitor {
         onsetOccuredAt(elapsed(), salience);
     }
 
+    @Override
+    public void offsetOccured() {
+    }
+
     /* Drawing */
 
     @Override

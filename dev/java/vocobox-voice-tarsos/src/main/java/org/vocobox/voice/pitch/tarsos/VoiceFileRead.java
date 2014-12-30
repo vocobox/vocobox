@@ -85,8 +85,6 @@ public class VoiceFileRead extends VoiceTarsos {
         double minInterOnsetInterv= 0.25;
         double silenceThreshold = -55;
         double estimationGainValue = 1;
-
-     *
      */
     public void configure(File file, AudioFormat format, float samplerate, int fftSize, int overlap) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         double pickThreshold = 0.15;

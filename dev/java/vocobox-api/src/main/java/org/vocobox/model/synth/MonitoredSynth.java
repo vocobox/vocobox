@@ -82,7 +82,13 @@ public class MonitoredSynth implements VocoSynth{
         if(monitor!=null)
             monitor.onsetOccured(salience);
     }
-    
+
+    @Override
+    public void sendOffset() {
+        if(monitor!=null)
+            monitor.offsetOccured();
+    }
+
     /* */
     
     protected void doSetFrequency(float frequency) {

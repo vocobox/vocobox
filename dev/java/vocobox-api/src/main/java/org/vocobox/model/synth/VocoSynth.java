@@ -18,6 +18,7 @@ public interface VocoSynth {
     public void sendFrequency(float frequency);
     public void sendConfidence(float confidence);
     public void sendOnset(float salience);
+    public void sendOffset();
     
     // monitor
     public VocoSynthMonitor getMonitor();

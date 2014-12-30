@@ -10,6 +10,7 @@ public interface VocoSynthMonitor {
     public void pitchChanged(float value, Object info);
     public void pitchConfidenceChanged(float value);
     public void onsetOccured(float salience);
+    public void offsetOccured();
     
     public void amplitudeChangeAt(double time, float value);
     public void pitchChangeAt(double time, float value) ;
