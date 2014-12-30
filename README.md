@@ -47,13 +47,16 @@ Folder vocobox/dev/java/vocobox-apps provides several applications
 
 ##### Controlling Synthetizers with CSV files
 
-Our first attempt to analyze voice signal was <a href="">written in R</a> using <a href="">Seewave</a> and <a href="">Aubio</a> via an <a href="">R binding</a>. To control JSyn (java) synthetizer, we export frequency and amplitude change commands in two CSV files.
+Our first attempt to analyze voice signal was <a href="https://github.com/vocobox/vocobox/blob/master/dev/r">written in R</a> using <a href="http://rug.mnhn.fr/seewave/">Seewave</a> and <a href="http://aubio.org/">Aubio</a> via an <a href="https://github.com/vocobox/aubio-r/">R binding</a> written for the experiment.
 
-Each file contains two columns, the first being elapsed time since song start, the second indicating a value change (frequency for pitch.csv, and amplitude for amplitude.csv).
+To control JSyn (java) synthetizer, we export frequency and amplitude change commands in two CSV files. Each file contains two columns, the first being elapsed time since song start, the second indicating a value change (frequency changes for pitch.csv, and amplitude changes for envelope.csv). Note that frequency and amplitude can change independently.
 
-Having the original wav file available
+Having the original wav file available allows to play in background while executing command events.
 
 ##### Controlling Synthetizers with WAV files
+
+To run synthetizer control based on a wav file, see <a href="https://github.com/vocobox/vocobox/blob/master/dev/java/vocobox-apps/src/main/java/org/vocobox/apps/wav2synth/VocoboxControllerFilePlay.java">VocoboxControllerFilePlay</a> and <a href="https://github.com/vocobox/vocobox/blob/master/dev/java/vocobox-apps/src/main/java/org/vocobox/apps/wav2synth/VocoboxControllerFileRead.java">VocoboxControllerFileRead</a>
+
 
 ##### Controlling Synthetizers with Microphone
 
