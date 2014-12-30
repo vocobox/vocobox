@@ -30,9 +30,9 @@ Folder vocobox/dev/java/vocobox-apps provides several applications
 
 Our first attempt to analyze voice signal was <a href="https://github.com/vocobox/vocobox/blob/master/dev/r">written in R</a> using <a href="http://rug.mnhn.fr/seewave/">Seewave</a> and <a href="http://aubio.org/">Aubio</a> via an <a href="https://github.com/vocobox/aubio-r/">R binding</a> written for the experiment.
 
-To control JSyn (java) synthetizer, we export frequency and amplitude change commands in two CSV files. Each file contains two columns, the first being elapsed time since song start, the second indicating a value change (frequency changes for pitch.csv, and amplitude changes for envelope.csv). Note that frequency and amplitude can change independently.
+To control JSyn (java) synthetizer, we export frequency and amplitude change commands in two CSV files. Each file contains two columns, the first being elapsed time since song started, the second indicating a value change (frequency changes for pitch.csv, and amplitude changes for envelope.csv). Note that frequency and amplitude can change independently.
 
-Having the original wav file available allows to play in background while executing command events.
+Having the original wav file available allows to play audio source in background while executing command events.
 
 #### Controlling Synthetizers with WAV files
 
@@ -42,6 +42,8 @@ To run synthetizer control based on a wav file, see <a href="https://github.com/
 #### Controlling Synthetizers with Microphone
 
 To run synthetizer control based on live voice, see <a href="https://github.com/vocobox/vocobox/blob/master/dev/java/vocobox-apps/src/main/java/org/vocobox/apps/mic2synth/VocoboxControllerMic.java">VocoboxControllerMic</a>
+
+<img src="doc/images/mic2synth.png"/>
 
 #### Benchmark Pitch Detection algorithm on Human Voice Dataset
 
