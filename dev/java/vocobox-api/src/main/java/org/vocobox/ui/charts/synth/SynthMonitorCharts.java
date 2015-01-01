@@ -5,15 +5,19 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.jzy3d.chart.Chart;
+import org.jzy3d.chart.factories.AWTLogChartComponentFactory;
 import org.jzy3d.chart2d.Chart2d;
 import org.jzy3d.colors.Color;
 import org.jzy3d.maths.BoundingBox3d;
 import org.jzy3d.maths.Coord2d;
+import org.jzy3d.maths.Coord3d;
 import org.jzy3d.plot2d.primitives.Serie2d;
 import org.jzy3d.plot3d.primitives.axes.AxeBox;
 import org.jzy3d.plot3d.primitives.axes.AxeCrossAnnotation;
 import org.jzy3d.plot3d.primitives.axes.AxeXLineAnnotation;
 import org.jzy3d.plot3d.primitives.axes.AxeXRectangleAnnotation;
+import org.jzy3d.plot3d.primitives.axes.IAxe;
+import org.jzy3d.plot3d.primitives.axes.LogAxeBox;
 import org.jzy3d.plot3d.primitives.axes.layout.IAxeLayout;
 import org.jzy3d.plot3d.primitives.axes.layout.providers.PitchTickProvider;
 import org.jzy3d.plot3d.primitives.axes.layout.providers.RegularTickProvider;
@@ -21,6 +25,8 @@ import org.jzy3d.plot3d.primitives.axes.layout.renderers.IntegerTickRenderer;
 import org.jzy3d.plot3d.primitives.axes.layout.renderers.PitchTickRenderer;
 import org.jzy3d.plot3d.rendering.view.View;
 import org.jzy3d.plot3d.rendering.view.modes.ViewBoundMode;
+import org.jzy3d.plot3d.transform.space.SpaceTransformLog2;
+import org.jzy3d.plot3d.transform.space.SpaceTransformer;
 import org.vocobox.model.synth.MonitorSettings;
 import org.vocobox.model.synth.VocoSynthMonitor;
 import org.vocobox.model.time.Timer;
@@ -57,6 +63,15 @@ public class SynthMonitorCharts extends Timer implements VocoSynthMonitor {
 
     protected List<Runnable> boundsUpdaters = new ArrayList<Runnable>();
     protected SynthChartFactory factory = new SynthChartFactory(settings);
+    protected SynthChartFactory factoryLog = new SynthChartFactory(settings){
+        @Override
+        public IAxe newAxe(BoundingBox3d box, View view) {
+            LogAxeBox axe = new LogAxeBox(box, null); //should support null args, with later definition of transforms
+            axe.setScale(new Coord3d(10.0, 1.0, 1.0));
+            axe.setView(view);
+            return axe;
+        }
+    };
 
     // memory of last event info
     protected double currentTime = 0;
@@ -272,6 +287,11 @@ public class SynthMonitorCharts extends Timer implements VocoSynthMonitor {
         return (Chart2d) factory.newChart(settings.quality, settings.toolkit);
     }
 
+    protected Chart2d newChartLog() {
+        //
+        return (Chart2d) factoryLog.newChart(settings.quality, settings.toolkit);
+    }
+    
     /* PITCH */
 
     public void makeAllCharts() {
@@ -281,12 +301,23 @@ public class SynthMonitorCharts extends Timer implements VocoSynthMonitor {
     }
 
     public void makePitchChart() {
-        pitchChart = newChart();
+        pitchChart = newChartLog();
         makePitchChartLayout();
         makePitchSerie();
         makePitchConfidenceSerie();
         addBoundsUpdater(pitchChart);
         charts.add(pitchChart);
+        
+        // AWTChartComponentFactory
+        SpaceTransformer transformYLog2 = new SpaceTransformer();
+        transformYLog2.setY(new SpaceTransformLog2());
+        // TODO 1:pitchChart.log(transformer);  should set axe, primitives
+        // TODO 2:+ future added primitive should have the space transform used
+        // TODO 3:space transform at AxeBox level
+        // should share the same space transform for all? -> on add drawable via scene graph, add current transform
+
+    
+        // chart.normal();
     }
 
     public void makePitchConfidenceSerie() {

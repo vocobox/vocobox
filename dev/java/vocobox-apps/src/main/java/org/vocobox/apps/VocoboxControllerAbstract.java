@@ -6,7 +6,7 @@ import org.vocobox.model.synth.JavaContext;
 import org.vocobox.model.synth.MonitorSettings;
 import org.vocobox.model.synth.VocoSynth;
 import org.vocobox.model.synth.VocoSynthMonitor;
-import org.vocobox.model.voice.pitch.VocoVoice;
+import org.vocobox.model.voice.pitch.VoiceController;
 import org.vocobox.synth.jsyn.JSynVocoSynth;
 import org.vocobox.synth.jsyn.record.Recorder;
 
@@ -31,7 +31,7 @@ public abstract class VocoboxControllerAbstract {
     
     public VocoSynthMonitor monitor;
     public VocoSynth synth;
-    public VocoVoice voice;
+    public VoiceController voice;
     
     public VocoboxControllerAbstract() {
         wireSynth();

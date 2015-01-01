@@ -62,10 +62,8 @@ public class VoiceFileRead extends VoiceTarsos {
         }
         
         float samplerate = format.getSampleRate();
-        int size = settings.bufferSize;
-        int overlap = settings.overlap;
 
-        configure(file, format, samplerate, size, overlap);
+        configure(file, format, samplerate);
         compute();
 
         List<SoundEvent> all = new ArrayList<SoundEvent>(pitchEvents.size()+ampliEvents.size());
@@ -74,34 +72,20 @@ public class VoiceFileRead extends VoiceTarsos {
         return all;
     }
 
-    
-    /**
-     * 
-     * @param fftSize The size of the fft to take (e.g. 512)
-     * @param peakThreshold A threshold used for peak picking. Values between 0.1 and 0.8. Default is 0.3, if too many onsets are detected adjust to 0.4 or 0.5.
-     * @param silenceThreshold The threshold that defines when a buffer is silent. Default is -70dBSPL. -90 is also used.
-     * @param minimumInterOnsetInterval The minimum inter-onset-interval in seconds. When two onsets are detected within this interval the last one does not count. Default is 0.004 seconds.
-        double pickThreshold = 0.15;
-        double minInterOnsetInterv= 0.25;
-        double silenceThreshold = -55;
-        double estimationGainValue = 1;
-     */
-    public void configure(File file, AudioFormat format, float samplerate, int fftSize, int overlap) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        double pickThreshold = 0.15;
-        double minInterOnsetInterv= 0.25;
-        double silenceThreshold = -55;
+    public void configure(File file, AudioFormat format, float sampleRate) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         double estimationGainValue = 1;
 
-        dispatcher = AudioDispatcherFactory.fromFile(file, fftSize, overlap);
+        dispatcher = AudioDispatcherFactory.fromFile(file, settings.bufferSize, settings.overlap);
 
-        addPitchDetection(samplerate, fftSize);
+        addPitchDetection(sampleRate);
         addGainProcessor(estimationGainValue);
-        //addOnsetDetection(fftSize, pickThreshold, minInterOnsetInterv, silenceThreshold);
+        if(settings.onset)
+            addOnsetDetection();
     }
 
-    public void addPitchDetection(float samplerate, int size) {
-        VoiceDetection pitchDetectionHandler = makePitchDetectionHandler(samplerate);
-        dispatcher.addAudioProcessor(new PitchProcessor(algo, samplerate, size, pitchDetectionHandler));
+    public void addPitchDetection(float sampleRate) {
+        VoiceDetection pitchDetectionHandler = makePitchDetectionHandler(sampleRate);
+        dispatcher.addAudioProcessor(new PitchProcessor(settings.algo, sampleRate, settings.bufferSize, pitchDetectionHandler));
     }
 
     public void addGainProcessor(double estimationGainValue) {
@@ -109,8 +93,8 @@ public class VoiceFileRead extends VoiceTarsos {
         dispatcher.addAudioProcessor(estimationGain);
     }
 
-    public void addOnsetDetection(int size, double pickThreshold, double minInterOnsetInterv, double silenceThreshold) {
-        dispatcher.addAudioProcessor(makeOnsetDetectorComplex(size, pickThreshold, minInterOnsetInterv, silenceThreshold));
+    public void addOnsetDetection() {
+        dispatcher.addAudioProcessor(makeOnsetDetectorComplex(settings.bufferSize, settings.onsetPickThreshold, settings.onsetMinInterOnsetInterv, settings.onsetSilenceThreshold));
         //dispatcher.addAudioProcessor(makeOnsetDetectorPercussion(size));
     }
 
@@ -123,13 +107,17 @@ public class VoiceFileRead extends VoiceTarsos {
     /* */
     
     public VoiceDetection makePitchDetectionHandler(float sampleRate) {
-        VoiceDetection prs = new VoiceDetection(sampleRate, settings.detection) {
+        VoiceDetection prs = new VoiceDetection(sampleRate, settings) {
             @Override
             public void handlePitch(PitchDetectionResult pitchDetectionResult, AudioEvent audioEvent) {
                 // Process
                 float frequency = (float) computeFrequency(pitchDetectionResult);
                 float amplitude = computeAmplitude(audioEvent);
                 double timestamp = audioEvent.getTimeStamp();
+                
+                // TODO Handle confidence
+                //synth.sendConfidence(pitchDetectionResult.getProbability());
+
 
                 pitchEvents.add(SoundEvent.pitch((float) timestamp, frequency));
                 ampliEvents.add(SoundEvent.amplitude((float) timestamp, amplitude));

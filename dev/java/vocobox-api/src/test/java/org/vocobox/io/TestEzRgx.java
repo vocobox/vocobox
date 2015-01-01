@@ -2,7 +2,6 @@ package org.vocobox.io;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.vocobox.io.EzRgx;
 
 public class TestEzRgx extends EzRgx {
     @Test

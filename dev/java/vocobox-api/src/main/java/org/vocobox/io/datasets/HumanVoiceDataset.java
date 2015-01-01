@@ -58,6 +58,12 @@ public class HumanVoiceDataset {
         return file + ".wav";
     }
 
+    public File getNoteFile(String name){
+        return new File(getNoteFilename(name));
+    }
+
+
+    
     public Note[][] getNoteMatrix() throws UnsupportedAudioFileException, IOException {
         Note[][] notes = new Note[6][12];
         List<Note> singleNotes = getNotes(getFolder());

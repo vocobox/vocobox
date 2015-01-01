@@ -2,13 +2,15 @@ package org.vocobox.voice.pitch.tarsos.handler;
 
 import java.util.Arrays;
 
+import org.vocobox.voice.VoiceAnalysisSettings;
+
 import be.tarsos.dsp.AudioEvent;
 import be.tarsos.dsp.EnvelopeFollower;
 import be.tarsos.dsp.pitch.PitchDetectionHandler;
 import be.tarsos.dsp.pitch.PitchDetectionResult;
 
 public abstract class VoiceDetection implements PitchDetectionHandler{
-    public DetectionSettings settings = new DetectionSettings();
+    public VoiceAnalysisSettings settings = new VoiceAnalysisSettings();
     
     protected double prevFrequency = 0;
     protected final double[] previousFrequencies;
@@ -22,11 +24,11 @@ public abstract class VoiceDetection implements PitchDetectionHandler{
     protected double phaseSecond = 0;
     protected boolean usePureSine;
 
-    public VoiceDetection(float samplerate, DetectionSettings settings){
+    public VoiceDetection(float samplerate, VoiceAnalysisSettings settings){
         this(samplerate, settings, false);
     }
     
-    public VoiceDetection(float samplerate, DetectionSettings settings, boolean playPureSine) {
+    public VoiceDetection(float samplerate, VoiceAnalysisSettings settings, boolean playPureSine) {
         super();
         this.usePureSine = playPureSine;
         this.samplerate = samplerate;
@@ -72,7 +74,7 @@ public abstract class VoiceDetection implements PitchDetectionHandler{
 
     protected float[] computeEnvelope(float[] audioBuffer) {
         float[] envelope = null;
-        if (settings.followEnvelope) {
+        if (settings.envelopeFollow) {
             envelope = audioBuffer.clone();
             envelopeFollower.calculateEnvelope(envelope);
         }
@@ -97,7 +99,7 @@ public abstract class VoiceDetection implements PitchDetectionHandler{
                 wave += 0.01 * Math.sin(twoPiF * 8 * time + phaseSecond);
             }
             audioBuffer[sample] = (float) wave;
-            if (settings.followEnvelope) {
+            if (settings.envelopeFollow) {
                 audioBuffer[sample] = audioBuffer[sample] * envelope[sample];
             }
         }

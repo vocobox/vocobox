@@ -24,6 +24,7 @@
 package org.vocobox.voice.pitch.tarsos.handler;
 
 import org.vocobox.model.synth.VocoSynth;
+import org.vocobox.voice.VoiceAnalysisSettings;
 
 import be.tarsos.dsp.AudioEvent;
 import be.tarsos.dsp.pitch.PitchDetectionHandler;
@@ -36,20 +37,9 @@ import be.tarsos.dsp.pitch.PitchDetectionResult;
 public class VoiceDetectionSynthController extends VoiceDetection implements PitchDetectionHandler {
     protected VocoSynth synth;
 
-    public VoiceDetectionSynthController(float samplerate, DetectionSettings settings) {
+    public VoiceDetectionSynthController(float samplerate, VoiceAnalysisSettings settings) {
         super(samplerate, settings);
     }
-    /*public VoiceDetectionSynthController(float samplerate) {
-        this(samplerate, true, false);
-    }
-
-    public VoiceDetectionSynthController(float samplerate, boolean followEnvelope, boolean playPureSine) {
-        this(samplerate, followEnvelope, playPureSine, 5);
-    }
-
-    public VoiceDetectionSynthController(float samplerate, boolean followEnvelope, boolean playPureSine, int filterSize) {
-        super(samplerate, followEnvelope, playPureSine, filterSize);
-    }*/
 
     @Override
     public void handlePitch(PitchDetectionResult pitchDetectionResult, AudioEvent audioEvent) {

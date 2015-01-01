@@ -3,7 +3,6 @@ package org.vocobox.model.note;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.vocobox.model.note.Note;
 
 public class TestNote {
     @Test

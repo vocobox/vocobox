@@ -3,7 +3,6 @@ package org.vocobox.model.time;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.vocobox.model.time.TimeUtils;
 
 public class TestTime {
     @Test

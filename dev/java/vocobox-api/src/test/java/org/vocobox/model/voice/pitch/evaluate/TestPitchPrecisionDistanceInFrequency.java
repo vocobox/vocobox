@@ -3,8 +3,6 @@ package org.vocobox.model.voice.pitch.evaluate;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.vocobox.model.voice.pitch.evaluate.PitchPrecisionDistance;
-import org.vocobox.model.voice.pitch.evaluate.PitchPrecisionDistanceInFrequency;
 
 
 public class TestPitchPrecisionDistanceInFrequency {

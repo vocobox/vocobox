@@ -20,7 +20,7 @@ import org.vocobox.ui.toolkit.transport.TransportPanel.On;
 import org.vocobox.voice.pitch.tarsos.VoiceFileRead;
 
 /**
- * TODO : use pitch confidence to mute synth when no confidence
+ * TODO : use pitch confidence to mute synth when no confidence. see VocoFileRead comments
  */
 public class VocoboxControllerFileRead extends VocoboxControllerAbstract {
     public static void main(String[] args) throws Exception, UnsupportedAudioFileException {
