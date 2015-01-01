@@ -301,7 +301,7 @@ public class SynthMonitorCharts extends Timer implements VocoSynthMonitor {
     }
 
     public void makePitchChart() {
-        pitchChart = newChartLog();
+        pitchChart = newChart();//Log();
         makePitchChartLayout();
         makePitchSerie();
         makePitchConfidenceSerie();
