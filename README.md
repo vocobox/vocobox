@@ -8,9 +8,9 @@ Voice controller for digital instruments
 
 Vocobox intend to provide singers with a software able to turn their voice to a musical controller. Voice features (pitch, volume, ...) are used to control external software or hardware producing music.
 
-###### Vocobox 1.0 (01/01/2015)
+###### VOCOBOX 1.0 (01/01/2015)
 
-At this step we are evaluating pitch detection algorithms using the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a>, a dataset containing notes sung by a singer. We define score such as note onset latency, pitch detection latency and <a href="https://github.com/vocobox/vocobox/blob/master/Benchmark.md">compare samples scores with each other</a>.
+At this step we are mainly evaluating pitch detection algorithms using the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a>, a dataset containing notes sung by a singer. We define score such as note onset latency, pitch detection latency and <a href="https://github.com/vocobox/vocobox/blob/master/Benchmark.md">compare samples scores with each other</a>. 
 
 We also evaluate pitch detection <i>in live</i> by recording the voice with a microphone, and by generating a feedback sound sounds with a synthetizer controlled according to voice analysis.
 
@@ -49,14 +49,9 @@ Below are few synthetized sounds and their wave file controller.
     <td><a href="doc/audio/doremi-voice-in.wav">Do-re-mi voice source</a></td>
   </tr>
   <tr>
-    <th>Comment</th>
-    <td>truc</td>
-    <td>pout</td>
-  </tr>
-  <tr>
     <th>Output</th>
-    <td><a href="doc/audio/doremi-piano-out.wav">Do-re-mi synth tracked by piano</a></td>
-    <td><a href="doc/audio/doremi-voice-out.wav">Do-re-mi synth tracked by voice</a></td>
+    <td><a href="doc/audio/doremi-piano-out.wav">Do-re-mi synth controlled by piano</a></td>
+    <td><a href="doc/audio/doremi-voice-out.wav">Do-re-mi synth controlled by voice</a></td>
   </tr>
   <tr>
     <th>Chart</th>
@@ -72,9 +67,11 @@ See the <a href="doc/audio">doc/audio</a> folder for other input/output/chart re
 To run synthetizer control based on a wav file, see <a href="https://github.com/vocobox/vocobox/blob/master/dev/java/vocobox-apps/src/main/java/org/vocobox/apps/wav2synth/VocoboxControllerFileRead.java">VocoboxControllerFileRead</a>.
 
 
-#### Controlling Synthetizers with available audio inputs (microphone, etc)
+#### Controlling Synthetizers in live with available audio inputs (microphone,  lines)
 
 When starting the application, the list of available source are listed by tarsos, and an estimation algorithm is proposed. We found Yin performs best. Running live synthetizer control allows to see pitch detection is pretty efficient.
+
+<font color="orange">When running a Jack server, audio sources made available by Jack appear in source list!</font>
 
 <img src="doc/images/mic2synth.png"/>
 
@@ -98,7 +95,7 @@ mvn clean install
 Please join us and share your contributions through <a href="https://help.github.com/articles/using-pull-requests/">pull-requests</a>
 
 
-## LICENSING
+## Licensing
 <span style="color:red;">
 IF YOU INTEND TO REUSE THIS SOFTWARE, PLEASE VERIFY COMPONENTS LICENCE!
 </span>
