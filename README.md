@@ -78,7 +78,7 @@ This <a href="Benchmark.md">document</a> explain how we use the <a href="https:/
 
 ### Synthetizers
 
-Synthetizer are powered by <a href="https://github.com/philburk/jsyn">JSyn</a>. Our synthetizer implementations are really dead simple. All the work is actually made by JSyn.
+Synthetizer are powered by <a href="https://github.com/philburk/jsyn">JSyn</a>. The below implementations are basic, we can do much more with JSyn!
 
 <table>
 <tr>
