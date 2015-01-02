@@ -57,9 +57,7 @@ Below are few synthetized sounds and their wave file controller.
   </tr>
 </table>
 
-See the <a href="doc/audio">doc/audio</a> folder for other input/output/chart results.
-
-
+See this <a href="http://doc.jzy3d.org/vocobox/examples/">examples</a> folder for more input/output/chart results.
 
 To run synthetizer control based on a wav file, see <a href="https://github.com/vocobox/vocobox/blob/master/dev/java/vocobox-apps/src/main/java/org/vocobox/apps/wav2synth/VocoboxControllerFileRead.java">VocoboxControllerFileRead</a>.
 

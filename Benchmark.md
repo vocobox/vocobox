@@ -21,7 +21,7 @@ Using <a href="https://github.com/jzy3d/jzy3d-spectro">Jzy3d Spectro</a> we can 
 
 ## Benchmarks on voyel dataset
 
-Below is a comparative evaluation we did on voyels. It shows precision is not related to a voyel category.
+Below is a comparative evaluation we did on voyels. It shows latency is not related to a voyel category, as we observe very varying pitch detection latencies for each column (each column represents several samples of a given voyel).
 
 <img src="doc/images/voyels.png">
 
