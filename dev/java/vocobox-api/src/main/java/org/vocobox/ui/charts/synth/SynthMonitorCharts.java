@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.jzy3d.chart.Chart;
-import org.jzy3d.chart.factories.AWTLogChartComponentFactory;
 import org.jzy3d.chart2d.Chart2d;
 import org.jzy3d.colors.Color;
 import org.jzy3d.maths.BoundingBox3d;

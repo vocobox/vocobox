@@ -17,7 +17,6 @@ import org.vocobox.synth.jsyn.record.Recorder;
 import org.vocobox.ui.charts.synth.SynthMonitorCharts;
 import org.vocobox.ui.toolkit.transport.TransportPanel;
 import org.vocobox.ui.toolkit.transport.TransportPanel.On;
-import org.vocobox.voice.pitch.tarsos.VoiceFilePlay;
 import org.vocobox.voice.pitch.tarsos.VoiceFileRead;
 
 /**

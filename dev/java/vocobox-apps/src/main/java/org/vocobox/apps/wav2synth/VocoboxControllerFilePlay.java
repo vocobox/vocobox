@@ -9,7 +9,6 @@ import org.vocobox.apps.VocoboxControllerAbstract;
 import org.vocobox.io.datasets.HumanVoiceDataset;
 import org.vocobox.model.synth.MonitorSettings;
 import org.vocobox.model.voice.analysis.VocoParseFileAndFFT;
-import org.vocobox.model.voice.pitch.VoiceController;
 import org.vocobox.synth.jsyn.circuits.JsynCircuitSynth;
 import org.vocobox.synth.jsyn.dual.AbstractOcclusiveSynth;
 import org.vocobox.synth.jsyn.dual.JsynOcclusiveNoiseSynth;
