@@ -72,11 +72,13 @@ See the <a href="doc/audio">doc/audio</a> folder for other input/output/chart re
 To run synthetizer control based on a wav file, see <a href="https://github.com/vocobox/vocobox/blob/master/dev/java/vocobox-apps/src/main/java/org/vocobox/apps/wav2synth/VocoboxControllerFileRead.java">VocoboxControllerFileRead</a>.
 
 
-#### Controlling Synthetizers with Microphone
+#### Controlling Synthetizers with available audio inputs (microphone, etc)
 
-To run synthetizer control based on live voice, see <a href="https://github.com/vocobox/vocobox/blob/master/dev/java/vocobox-apps/src/main/java/org/vocobox/apps/mic2synth/VocoboxControllerMic.java">VocoboxControllerMic</a>
+When starting the application, the list of available source are listed by tarsos, and an estimation algorithm is proposed. We found Yin performs best. Running live synthetizer control allows to see pitch detection is pretty efficient.
 
 <img src="doc/images/mic2synth.png"/>
+
+To run synthetizer control based on live voice, see <a href="https://github.com/vocobox/vocobox/blob/master/dev/java/vocobox-apps/src/main/java/org/vocobox/apps/mic2synth/VocoboxControllerMic.java">VocoboxControllerMic</a>
 
 #### Benchmark Pitch Detection algorithm on note datasets
 
