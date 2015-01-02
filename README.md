@@ -38,7 +38,9 @@ To run synthetizer control based on a csv files, see <a href="https://github.com
 
 #### Controlling Synthetizers with WAV files
 
-Here are synthetized sounds and their wave file controller
+The pitch and amplitude change events of a wav file are sent to a <a href="https://github.com/vocobox/vocobox/blob/master/dev/java/vocobox-api/src/main/java/org/vocobox/model/synth/VocoSynth.java">synthetizer</a> via its sendFrequency() / sendAmplitude() methods. In these demonstration, we use <a href="https://github.com/vocobox/vocobox/tree/master/dev/java/vocobox-synth-jsyn/src/main/java/org/vocobox/synth/jsyn">JSyn based synthetizers</a>. As the direct control of oscillator's amplitude from input file is sufficiently good to mimic notes, we do not need additional computation to define note on and note off.
+
+Below are few synthetized sounds and their wave file controller.
 
 <table>
   <tr>
