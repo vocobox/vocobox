@@ -10,7 +10,7 @@ Vocobox intend to provide singers with a software able to turn their voice to a 
 
 ###### VOCOBOX 1.0 (01/01/2015)
 
-At this step we are mainly evaluating pitch detection algorithms using the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a>, a dataset containing notes sung by a singer. We define score such as note onset latency, pitch detection latency and <a href="https://github.com/vocobox/vocobox/blob/master/Benchmark.md">compare samples scores with each other</a>. 
+At this step we are mainly evaluating pitch detection algorithms using the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a>, a dataset containing notes sung by a singer. We define score such as note onset latency, pitch detection latency and <a href="https://github.com/vocobox/vocobox/blob/master/Benchmark.md">compare samples scores with each other</a>.
 
 We also evaluate pitch detection <i>in live</i> by recording the voice with a microphone, and by generating a feedback sound sounds with a synthetizer controlled according to voice analysis.
 
@@ -18,9 +18,6 @@ To build Vocobox, we gathered :
 * a full java additive synthetizer made by chaining oscillators, filters, and other hardware emulation of real synthetizer components based on <a href="http://www.softsynth.com/jsyn/">JSyn</a>. As of Jan. 2015, JSyn has become an <a href="https://github.com/philburk/jsyn">open source project</a>.
 * a pitch detection module based on <a href="https://github.com/JorenSix/TarsosDSP">TarsosDSP</a> java library.
 * efficient OpenGL charts for monitoring and debugging sound data based on <a href="http://www.jzy3d.org/">Jzy3d</a> charts.
-
-
-
 
 ## Applications
 
@@ -71,8 +68,6 @@ To run synthetizer control based on a wav file, see <a href="https://github.com/
 
 When starting the application, the list of available source are listed by tarsos, and an estimation algorithm is proposed. We found Yin performs best. Running live synthetizer control allows to see pitch detection is pretty efficient.
 
-<font color="orange">When running a Jack server, audio sources made available by Jack appear in source list!</font>
-
 <img src="doc/images/mic2synth.png"/>
 
 To run synthetizer control based on live voice, see <a href="https://github.com/vocobox/vocobox/blob/master/dev/java/vocobox-apps/src/main/java/org/vocobox/apps/mic2synth/VocoboxControllerMic.java">VocoboxControllerMic</a>
@@ -80,6 +75,98 @@ To run synthetizer control based on live voice, see <a href="https://github.com/
 #### Benchmark Pitch Detection algorithm on note datasets
 
 This <a href="Benchmark.md">document</a> explain how we use the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a> (a serie of wav files containing human sung notes) to evaluate pitch detection algorithm on isolated notes.
+
+## Components
+
+### Synthetizers
+
+Synthetizer are powered by <a href="https://github.com/philburk/jsyn">JSyn</a>. Our synthetizer implementations are really dead simple. All the work is actually made by JSyn.
+
+<table>
+<tr>
+<th>Synthetizer</th>
+<th>Comment</th>
+</tr>
+
+<tr>
+<td>JsynMonoscilloSynth</td>
+<td>A single oscillator.</td>
+</tr>
+
+<tr>
+<td>JsynMonoscilloRampSynth</td>
+<td>A single oscillator having a LinearRamp on frequency and amplitude change commands, handling numerous pitch / amplitude change events without audio artifact.</td>
+</tr>
+
+<tr>
+<td>JsynOcclusiveNoiseSynth</td>
+<td>A synthetizer using non frequency-defined sounds (here : white noise) when confidence parameter is below a certain threshold. It allows a kind of audio debugging of pitch detection. Brutal tone change make the synthetizer not usable musically but smooth changes in tone balance could make interesting effects.</td>
+</tr>
+
+<tr>
+<td>JsynCircuitSynth</td>
+<td>A synthetizer based on JSyn Circuit, allowing to more easily abstraction and composition of synthetizer elements. Here, we use circuit SynthCircuitBlaster that is derived from JSyn examples. Note the circuit provides its control panel to Vocobox UI.</td>
+</tr>
+
+
+<tr>
+<td>JsynOscilloSpectroHarpSynth</td>
+<td>An experimental synthetizer based on FFT analysis of a file. A file is played, its FFT is processed, and all frequency band energies defines amplitude of one the 93 oscillators covering 0-4kHz.</td>
+</tr>
+
+</table>
+
+### Audio analysis
+
+Audio signal analysis is powered by <a href="https://github.com/JorenSix/TarsosDSP">TarsosDSP</a>. Yin implementation outperforms any other algorithm for pitch detection.
+
+Vocobox delivers pitch detection through following analyzers
+
+<table>
+  <tr>
+    <th>Analyzer</th>
+    <th>Comment</th>
+    </tr>
+  <tr>
+    <td>VoiceMicListen</td>
+    <td>Analyse audio signal from available inputs (microphones, but also lines, etc). <font color="orange">When running a Jack server, audio sources made available by Jack appear in source list!</font>
+    </td>
+  </tr>
+  <tr>
+  <td>VoiceFileRead</td>
+  <td>Analyse audio signal from (mono) wav files. After reading, a collection of audio analysis events are collected an can be send to a synthetizer.</td>
+  </tr>
+</table>
+
+### Charts
+
+Charts are powered by <a href="https://github.com/jzy3d/jzy3d-api">Jzy3d</a>. Vocobox has drived Jzy3d improvements on 2D charts (primitives, time charts, etc).
+
+
+<table>
+  <tr>
+    <th>Chart</th>
+    <th>Comment</th>
+    </tr>
+  <tr>
+    <td>Frequency chart</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Amplitude chart</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Confidence chart</td>
+    <td></td>
+  </tr>
+  </table>
+
+Few features interesting with Jzy3d
+* easy charting
+* performance and liveness
+* <font color="orange">coming soon : log chart</font>
+* underlying JOGL make it 4*4 (any Java Windowing toolkit including Android)
 
 
 ## Getting and building source code

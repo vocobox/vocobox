@@ -20,6 +20,7 @@ import be.tarsos.dsp.onsets.OnsetHandler;
 import be.tarsos.dsp.pitch.PitchProcessor;
 
 /** Schedule reading to trigger synthetizer commands on pitch change events. */
+@Deprecated()
 public class VoiceFilePlay extends VoiceTarsos {
     public AudioDispatcher estimationDispatcher;
     public AudioDispatcher sourceDispatcher;
