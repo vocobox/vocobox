@@ -140,6 +140,8 @@ Vocobox delivers pitch detection through following analyzers
 
 Charts are powered by <a href="https://github.com/jzy3d/jzy3d-api">Jzy3d</a>. Vocobox has drived Jzy3d improvements on 2D charts (primitives, time charts, etc).
 
+Charts are used as synthetizer command logs : parameter changes of the synthetizer are tracked and mapped to multiple charts.
+
 
 <table>
   <tr>
@@ -148,22 +150,18 @@ Charts are powered by <a href="https://github.com/jzy3d/jzy3d-api">Jzy3d</a>. Vo
     </tr>
   <tr>
     <td>Frequency chart</td>
-    <td></td>
+    <td>Shows the synthetizer frequency changes with a pink scatter plot. Confidence is used to define alpha, so there is nothing displayed if pitch detection has confidence 0.</td>
   </tr>
   <tr>
     <td>Amplitude chart</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Confidence chart</td>
-    <td></td>
+    <td>Shows the synthetizer amplitude changes with a cyan scatter plot. Amplitude events below the note relevance threshold (default 0.1) are drawn in gray.</td>
   </tr>
   </table>
 
 Few features interesting with Jzy3d
 * easy charting
 * performance and liveness
-* <font color="orange">coming soon : log chart</font>
+* <font color="orange">coming soon : log chart</font> will help to let frequency charts look like note charts without having to do the conversion by ourself.
 * underlying JOGL make it 4*4 (any Java Windowing toolkit including Android)
 
 
