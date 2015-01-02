@@ -63,7 +63,7 @@ Here are synthetized sounds and their wave file controller
   </tr>
 </table>
 
-See the doc/ folder for other input/output/chart results.
+See the <a href="doc/audio">doc/audio</a> folder for other input/output/chart results.
 
 
 
