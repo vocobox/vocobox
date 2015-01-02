@@ -14,13 +14,11 @@ import org.vocobox.model.note.MAPSNote;
 public class BenchmarkPianoNotesPitch {
     public static void main(String[] args) throws Exception {
         List<MAPSNote> notes = PianoDataset.BOESENDORFER.getNotes();
-        
-        for(MAPSNote note: notes){
+        /*for(MAPSNote note: notes){
             System.out.println(note);
-        }
+        }*/
         
         MAPSNote[][] matrix = NoteMozaic.asMAPSNoteMatrix(notes);
-        
         Chart[][] charts = NoteMozaic.charts(matrix);
         String[] headers = {"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"};
         MultiChartPanel monitorPanel = new MultiChartPanel(charts, headers, null, false, 100, 100, false, false);

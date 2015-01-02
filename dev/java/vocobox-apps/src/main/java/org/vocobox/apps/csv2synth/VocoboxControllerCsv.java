@@ -8,6 +8,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import net.bluecow.spectro.PlayerThread;
 
 import org.vocobox.events.policies.MuteNoConfidencePolicy;
+import org.vocobox.events.policies.SoundEventPolicy;
 import org.vocobox.model.song.Song;
 import org.vocobox.model.synth.MonitorSettings;
 import org.vocobox.model.synth.VocoSynth;
@@ -23,7 +24,6 @@ import org.vocobox.ui.toolkit.transport.TransportPanel.On;
  */
 public class VocoboxControllerCsv {
     public static void main(String[] args) throws IOException, UnsupportedAudioFileException {
-        //OcclusiveNoiseSynth synth = new OcclusiveNoiseSynth();
         VocoboxControllerCsv controller = new VocoboxControllerCsv();
 
         String analysisRoot = "data/analyses/";
@@ -44,7 +44,10 @@ public class VocoboxControllerCsv {
     protected VocoSynth synth;
     protected Song song;
     protected VocoParseFileAndFFT pitchAnalysis;
-    protected float muteWinTime = -1f; // no mute
+    protected SoundEventPolicy soundEventPolicy;
+    
+    // parameters
+    protected float muteWinTime = -1f; // no mute based on confidence
     protected MonitorSettings monitorSettings;
 
     public VocoboxControllerCsv() {
@@ -58,6 +61,7 @@ public class VocoboxControllerCsv {
     public VocoboxControllerCsv(VocoboxAppCsv app, VocoSynth synth) {
         this.app = app;
         this.synth = synth;
+        
         this.monitorSettings = new MonitorSettings();
         this.monitorSettings.timeMax = 20;
     }
@@ -67,6 +71,7 @@ public class VocoboxControllerCsv {
     public void loadAnalysis(String analysisRoot, String analysisName, String waveFile) throws IOException, UnsupportedAudioFileException {
         loadAnalysisData(analysisRoot, analysisName, waveFile);
         loadAnalysisUI();
+                
     }
 
     public void loadAnalysisData(String analysisRoot, String analysisName, String waveFile) throws UnsupportedAudioFileException, IOException {
@@ -120,7 +125,9 @@ public class VocoboxControllerCsv {
      * controls (uncertain pitch variations, etc)
      */
     public void preplayAnalysis() {
-        song.setSoundEventPolicy(new MuteNoConfidencePolicy(monitor, muteWinTime));
+        soundEventPolicy = new MuteNoConfidencePolicy(monitor, muteWinTime);
+
+        song.setSoundEventPolicy(soundEventPolicy);
         song.preprocess();
     }
 

@@ -10,14 +10,14 @@ import org.vocobox.synth.jsyn.circuits.JsynCircuitSynth;
 import org.vocobox.voice.pitch.tarsos.VoiceMicListen;
 
 public class VocoboxControllerMic extends VocoboxControllerAbstract{
-    protected VocoboxAppMic app;
-    protected VocoboxPanelsMic panels;
-
     public static void main(String[] args) throws IOException, UnsupportedAudioFileException {
         new VocoboxControllerMic();
     }
     
     /* ######################################################## */
+
+    protected VocoboxAppMic app;
+    protected VocoboxPanelsMic panels;
 
     @Override
     public void wireVoice() {
