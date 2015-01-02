@@ -109,7 +109,6 @@ public class VocoboxControllerCsv {
     }
 
     public void playAnalysisSource() {
-        // devrait pas être attaché au syn monitor, mais séparé
         PlayerThread player = panels.getAudioSourceCharts().getClipPlayerThread();
         player.setPlaybackPosition(0);
         player.startPlaying();

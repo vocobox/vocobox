@@ -16,12 +16,9 @@ import org.vocobox.model.voice.analysis.VocoParseFileAndFFT;
 public class VocoParseFFT3dTrial {
     public static void main(String[] args) throws UnsupportedAudioFileException, IOException {
         VocoParseFileAndFFT voice = new VocoParseFileAndFFT(new File("data/sound/piano.wav"));
-        //voice.toConsole();
-        
         Chart chart = AWTChartComponentFactory.chart();
         SpectrumSurface d = new SpectrumSurface(new SpectrumModelSpectro(voice.getAnalysis()));
         chart.addDrawable(d);
-       // AWTChartComponentFactory.f
         ChartLauncher.openChart(chart);
     }
 }

@@ -10,6 +10,15 @@ import org.vocobox.model.synth.VocoSynth;
 import org.vocobox.synth.jsyn.monoscillo.JsynMonoscilloRampSynth;
 import org.vocobox.ui.charts.synth.SynthMonitorCharts;
 
+/**
+ * Shows a monoscillo synthetizer (synthetizer based on a single oscillator) using a 
+ * ramp on input changes. It is usefull as voice events produce lot of change that tend
+ * to noisify synthetized sound.
+ * 
+ * First version is based on JSyn {@link LinearRamp}.
+ * 
+ * @author Martin Pernollet
+ */
 public class SynthSmoothRampsTrial {
     public static int LENGTH = 35;
 

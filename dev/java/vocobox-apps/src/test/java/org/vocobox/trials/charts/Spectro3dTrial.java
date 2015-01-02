@@ -38,7 +38,6 @@ public class Spectro3dTrial extends AbstractAnalysis {
         Clip clip = Clip.newInstance(file);
 
         SpectrumModelSpectro spectrum = new SpectrumModelSpectro(clip);
-        //spectrum.
         
         // Create a drawable clip
         int maxFreqId = 50;

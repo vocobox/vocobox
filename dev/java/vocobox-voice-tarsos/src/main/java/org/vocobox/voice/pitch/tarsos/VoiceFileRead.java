@@ -26,8 +26,10 @@ import be.tarsos.dsp.pitch.PitchProcessor;
 import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm;
 
 /**
- * Read pitch changed events from a file as fast as it can. Can't be used for
- * synthetizer control
+ * Read pitch change events from a file as fast as it can. Can't be used for
+ * synthetizer control in live as the synthetizer would be controlled to fast.
+ * 
+ * TODO : should handle confidence in VoiceDetection instance
  */
 public class VoiceFileRead extends VoiceTarsos {
     public AudioDispatcher dispatcher;

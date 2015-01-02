@@ -23,6 +23,11 @@ import org.vocobox.synth.jsyn.harp.JsynOscilloSpectroHarpSynth;
 /**
  * Use a FFT to configure multiple oscillator having frequencies setup at each 
  * frequency band of the FFT spectrum.
+ * 
+ * In this demonstration, the "harp" is based on 93 oscillators. Their amplitude is defined 
+ * by the current FFT spectrum while reading an input file.
+ * 
+ * @author Martin Pernollet
  */
 public class OscilloSpectroHarpTrial extends AbstractAnalysis {
     public static void main(String[] args) throws Exception {
@@ -72,7 +77,6 @@ public class OscilloSpectroHarpTrial extends AbstractAnalysis {
         chart.getView().getCamera().setViewportMode(ViewportMode.STRETCH_TO_FILL);
         // chart.getScene().getGraph().setStrategy(new
         // BarycentreOrderingStrategy()); // not resolving issue3
-
         axeLabels(chart);
     }
 }

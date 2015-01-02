@@ -25,14 +25,11 @@ public class VocoboxAppFile extends JFrame{
     
     public void layout(VocoboxPanelsFile panels) throws IOException{
         JPanel mainPanel = new JPanel();
-
-//        String lines = "[20px][250px][20px][900px]";
         String lines = "[20px][900px]";
         String columns = "[200px][500px,grow]";
         EzLayout layout = new EzLayout(mainPanel, lines, columns);
         //addInputRow(0, panels, layout);
         addSynthRow(0, panels, layout);
-
         //JScrollPane scrollPanel = new JScrollPane();
         //scrollPanel.add(mainPanel);
         add(mainPanel);

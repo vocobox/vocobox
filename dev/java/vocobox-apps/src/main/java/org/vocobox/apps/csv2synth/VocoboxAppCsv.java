@@ -31,7 +31,6 @@ public class VocoboxAppCsv extends JFrame{
         EzLayout layout = new EzLayout(mainPanel, lines, columns);
         addInputRow(0, panels, layout);
         addSynthRow(2, panels, layout);
-
         //JScrollPane scrollPanel = new JScrollPane();
         //scrollPanel.add(mainPanel);
         add(mainPanel);

@@ -26,26 +26,13 @@ public class VocoboxPanelsFile {
     }
 
     public void linkPanels(VocoSynth synth) throws IOException {
-        // input control
-        //inputControl = audioSourceCharts.toolbarPanel;
-
-        // input charts
-        //inputCharts = audioSourceCharts.spectroPanel;
-        //inputCharts = audioSourceCharts.spectroChart3dPanel;
-
-        // synth control
         synthControl = synth.newControlPanel();
-        
-        // synth charts
         MultiChartPanel mSynthCharts = new MultiChartPanel(synthMonitors.getCharts());
         synthCharts = mSynthCharts;
     }
 
     public void buildPanels(VocoSynth synth, VocoParseFileAndFFT vocoParse, int length, MonitorSettings settings) throws IOException {
-        //audioSourceCharts = new AudioSourceChart();
-        //audioSourceCharts.makeCharts(vocoParse);
         synthMonitors = synth.getDefaultMonitor(settings);
-        //length
     }
 
     public JPanel getInputControl() {

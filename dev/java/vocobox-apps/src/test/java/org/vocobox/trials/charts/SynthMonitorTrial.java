@@ -1,4 +1,4 @@
-package org.vocobox.trials.synth.jsyn;
+package org.vocobox.trials.charts;
 
 import javax.media.opengl.GLProfile;
 
@@ -10,6 +10,11 @@ import org.vocobox.model.synth.VocoSynth;
 import org.vocobox.synth.jsyn.monoscillo.JsynMonoscilloSynth;
 import org.vocobox.ui.charts.synth.SynthMonitorCharts;
 
+/**
+ * Shows a basic usage of synthetizer monitoring charts.
+ * 
+ * @author Martin Pernollet
+ */
 public class SynthMonitorTrial {
     public static int LENGTH = 35;
 
