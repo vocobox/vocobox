@@ -29,13 +29,11 @@ public class VocoboxControllerCsv {
         String analysisRoot = "data/analyses/";
         String analysisName = "doremi";
         String wavFile = "data/sound/" + analysisName + ".wav";
-        
-        controller.muteWinTime = 0.10f;// good for "piano" 0.15
-        //controller.muteWinTime = -0.01f;// good for "dp2" 0.02
+        controller.muteWinTime = 0.10f;// good for "piano" 0.15 // good for "dp2" 0.02
         controller.loadAnalysis(analysisRoot, analysisName, wavFile);
     }
 
-    /* */
+    /* ######################################################## */
 
     // ui
     protected VocoboxAppCsv app;
@@ -48,7 +46,6 @@ public class VocoboxControllerCsv {
     protected VocoParseFileAndFFT pitchAnalysis;
     protected float muteWinTime = -1f; // no mute
     protected MonitorSettings monitorSettings;
-    /* */
 
     public VocoboxControllerCsv() {
         this(new VocoboxAppCsv(), new JsynCircuitSynth());

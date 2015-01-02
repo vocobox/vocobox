@@ -14,19 +14,10 @@ public class VocoboxControllerMic extends VocoboxControllerAbstract{
     protected VocoboxPanelsMic panels;
 
     public static void main(String[] args) throws IOException, UnsupportedAudioFileException {
-        VocoboxControllerMic c = new VocoboxControllerMic();
+        new VocoboxControllerMic();
     }
-       
-    @Override
-    public void wireUI()  {
-        this.monitorSettings = new MonitorSettings();
-        monitorSettings.applyPalette = true;
-        monitorSettings.timeMax = 60;
-        this.app = new VocoboxAppMic();
-        this.panels = new VocoboxPanelsMic(this);
-        this.app.layout(panels);
-        this.monitor = panels.getSynthMonitors();    
-    }
+    
+    /* ######################################################## */
 
     @Override
     public void wireVoice() {
@@ -36,5 +27,19 @@ public class VocoboxControllerMic extends VocoboxControllerAbstract{
     @Override
     public void wireSynth() {
         this.synth = new JsynCircuitSynth();
+    }
+
+    @Override
+    public void wireUI()  {
+    	// settings
+        this.monitorSettings = new MonitorSettings();
+        this.monitorSettings.applyPalette = true;
+        this.monitorSettings.timeMax = 60;
+        
+        // ui
+        this.app = new VocoboxAppMic();
+        this.panels = new VocoboxPanelsMic(this);
+        this.app.layout(panels);
+        this.monitor = panels.getSynthMonitors();    
     }
 }

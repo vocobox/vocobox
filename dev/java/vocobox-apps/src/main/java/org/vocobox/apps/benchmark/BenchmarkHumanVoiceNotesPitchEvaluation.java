@@ -1,6 +1,5 @@
 package org.vocobox.apps.benchmark;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.jzy3d.chart.Chart;
@@ -12,10 +11,7 @@ import org.vocobox.model.synth.MonitorSettings;
 public class BenchmarkHumanVoiceNotesPitchEvaluation {
     public static void main(String[] args) throws Exception {
         MonitorSettings.OFFSCREEN.applyPalette = false;
-
         HumanVoiceDataset voice = HumanVoiceDataset.NOTES;
-        
-        System.out.println(new File(".").getAbsolutePath());
         Chart[][] charts = NoteMozaic.evalChartsPitch(voice.getNoteMatrix(), 0, 0.5f);
         ui(voice.getNoteHeaders(), charts);
     }

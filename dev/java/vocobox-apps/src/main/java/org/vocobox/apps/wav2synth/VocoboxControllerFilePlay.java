@@ -9,6 +9,7 @@ import org.vocobox.apps.VocoboxControllerAbstract;
 import org.vocobox.io.datasets.HumanVoiceDataset;
 import org.vocobox.model.synth.MonitorSettings;
 import org.vocobox.model.voice.analysis.VocoParseFileAndFFT;
+import org.vocobox.model.voice.pitch.VoiceController;
 import org.vocobox.synth.jsyn.circuits.JsynCircuitSynth;
 import org.vocobox.synth.jsyn.dual.AbstractOcclusiveSynth;
 import org.vocobox.synth.jsyn.dual.JsynOcclusiveNoiseSynth;
@@ -34,33 +35,17 @@ public class VocoboxControllerFilePlay extends VocoboxControllerAbstract{
         controller.play(file);
     }
 
-    public static int LENGTH = 10;
-    
+    /* ######################################################## */
+
     protected VocoboxAppFile app;
     protected VocoboxPanelsFile panels;
     protected SynthMonitorCharts monitor;
-
-    protected VoiceFilePlay voice;
-    protected String vocoFilename;
+    protected String wavFile;
     
     protected VocoParseFileAndFFT pitchAnalysis;
     protected float muteWinTime = -0.5f;
     protected double sourceGain = 0.0;
-
-    /*public VocoboxControllerFile() {
-        wireSynth();
-        wireVoice();
-        wireUI();
-    }*/
     
-    @Override
-    public void wireUI() {
-        this.monitorSettings = new MonitorSettings();
-        monitorSettings.applyPalette = true;
-        monitorSettings.timeMax = 20;
-        //monitorSettings.
-        this.app = new VocoboxAppFile();
-    }
 
     @Override
     public void wireVoice() {
@@ -72,7 +57,22 @@ public class VocoboxControllerFilePlay extends VocoboxControllerAbstract{
         this.synth = new JsynCircuitSynth();//makeOcclusiveSynth();
     }
     
+    @Override
+    public void wireUI() {
+        this.monitorSettings = new MonitorSettings();
+        monitorSettings.applyPalette = true;
+        monitorSettings.timeMax = 20;
+        //monitorSettings.
+        this.app = new VocoboxAppFile();
+    }
+    
+    @Override
+    protected VoiceFilePlay getVoice() {
+		return (VoiceFilePlay)voice;
+	}
 
+    /* ######################################################## */
+    
     public void play(String file) throws Exception {
         loadFile(file);
         play();
@@ -80,26 +80,25 @@ public class VocoboxControllerFilePlay extends VocoboxControllerAbstract{
     
     /** Play song with synthetizer and source file at the same time */
     public void play() throws Exception {
-        this.voice.play(new File(vocoFilename), 0, sourceGain);
+        getVoice().play(new File(wavFile), 0, sourceGain);
     }
+
 
     public void stop() {
         this.synth.off();
     }
     
     public void loadFile(String waveFile){
-        vocoFilename = waveFile;
+        wavFile = waveFile;
         try {
             loadUI();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
-    
 
     public void loadUI() throws IOException {
-        panels = new VocoboxPanelsFile(synth, pitchAnalysis, LENGTH, monitorSettings);
+        panels = new VocoboxPanelsFile(synth, pitchAnalysis, (int)monitorSettings.timeMax, monitorSettings);
         panels.setInputControl(new TransportPanel(new On() {
             @Override
             public void play() {

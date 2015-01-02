@@ -12,7 +12,6 @@ public class BenchmarkHumanVoiceVoyelsPitchEvaluation {
     public static void main(String[] args) throws Exception {
         MonitorSettings.OFFSCREEN.applyPalette = false;
         HumanVoiceDataset voice = HumanVoiceDataset.VOYELS;
-        //Chart[][] charts = NoteMozaic.evalChartsVoyels(voice.getNotes());
         Chart[][] charts = NoteMozaic.evalChartsVoyelInstances(NoteMozaic.getVoyelInstancesMatrix(voice.getNotes()));
         ui(voice.getVoyelHeaders(), charts);
     }

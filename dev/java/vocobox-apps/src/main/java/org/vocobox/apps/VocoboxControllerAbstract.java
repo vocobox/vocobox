@@ -9,6 +9,7 @@ import org.vocobox.model.synth.VocoSynthMonitor;
 import org.vocobox.model.voice.pitch.VoiceController;
 import org.vocobox.synth.jsyn.JSynVocoSynth;
 import org.vocobox.synth.jsyn.record.Recorder;
+import org.vocobox.voice.pitch.tarsos.VoiceFilePlay;
 
 /**
  * USING JDK8 
@@ -58,4 +59,9 @@ public abstract class VocoboxControllerAbstract {
     public abstract void wireSynth() ;
     public abstract void wireVoice() ;
     public abstract void wireUI();
+    
+	protected VoiceController getVoice() {
+		return voice;
+	}
+
 }

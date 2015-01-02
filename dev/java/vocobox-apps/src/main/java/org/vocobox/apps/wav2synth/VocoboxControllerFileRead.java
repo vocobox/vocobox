@@ -17,6 +17,7 @@ import org.vocobox.synth.jsyn.record.Recorder;
 import org.vocobox.ui.charts.synth.SynthMonitorCharts;
 import org.vocobox.ui.toolkit.transport.TransportPanel;
 import org.vocobox.ui.toolkit.transport.TransportPanel.On;
+import org.vocobox.voice.pitch.tarsos.VoiceFilePlay;
 import org.vocobox.voice.pitch.tarsos.VoiceFileRead;
 
 /**
@@ -33,11 +34,12 @@ public class VocoboxControllerFileRead extends VocoboxControllerAbstract {
         controller.play(file);
         recorder.recordFor(controller.monitorSettings.timeMax); // warn : blocking
     }
+    
+    /* ######################################################## */
 
     protected VocoboxAppFile app;
     protected VocoboxPanelsFile panels;
-    protected VoiceFileRead voice;
-    protected String vocoFilename;
+    protected String wavFile;
     protected Song song;
 
     @Override
@@ -61,6 +63,13 @@ public class VocoboxControllerFileRead extends VocoboxControllerAbstract {
         // this.synth = makeOcclusiveSynth(20, 1);
     }
 
+    @Override
+    protected VoiceFileRead getVoice() {
+		return (VoiceFileRead)voice;
+	}
+
+    /* ######################################################## */
+
     public void play(String file) throws Exception {
         loadFile(file);
         play();
@@ -68,14 +77,12 @@ public class VocoboxControllerFileRead extends VocoboxControllerAbstract {
 
     /** Play song with synthetizer and source file at the same time */
     public void play() throws Exception {
-        voice.read(new File(vocoFilename));
-        song = new Song(null, null, voice.pitchEvents, voice.ampliEvents);
+        getVoice().read(new File(wavFile));
+        song = new Song(null, null, getVoice().pitchEvents, getVoice().ampliEvents);
         song.preprocess();
         song.play(synth);
 
         showOnsets();
-
-        // monit.ampliChart.getView().ge
     }
 
     public void showOnsets() {
@@ -86,7 +93,7 @@ public class VocoboxControllerFileRead extends VocoboxControllerAbstract {
     }
 
     public void showOnsetAsAxeAnnotation(AxeBox axebox) {
-        for (SoundEvent e : voice.onsetEvents) {
+        for (SoundEvent e : getVoice().onsetEvents) {
             AxeXLineAnnotation onset = new AxeXLineAnnotation();
             onset.setColor(Color.YELLOW);
             onset.setWidth(0.05f);
@@ -101,7 +108,7 @@ public class VocoboxControllerFileRead extends VocoboxControllerAbstract {
     }
 
     public void loadFile(String waveFile) {
-        vocoFilename = waveFile;
+        wavFile = waveFile;
         try {
             loadUI();
         } catch (IOException e) {
@@ -120,7 +127,6 @@ public class VocoboxControllerFileRead extends VocoboxControllerAbstract {
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void stop() {
                 VocoboxControllerFileRead.this.stop();
@@ -129,6 +135,5 @@ public class VocoboxControllerFileRead extends VocoboxControllerAbstract {
         }));
         app.layout(panels);
         monitor = panels.getSynthMonitors();
-        // panels.getSynthMonitors().pitchCursorAnnotation.setWidth(muteWinTime);
     }
 }
