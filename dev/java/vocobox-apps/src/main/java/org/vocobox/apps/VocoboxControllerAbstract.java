@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import org.vocobox.model.synth.JavaContext;
 import org.vocobox.model.synth.MonitorSettings;
 import org.vocobox.model.synth.VocoSynth;
-import org.vocobox.model.synth.VocoSynthMonitor;
+import org.vocobox.model.synth.SynthMonitor;
 import org.vocobox.model.voice.pitch.VoiceController;
 import org.vocobox.synth.jsyn.JSynVocoSynth;
 import org.vocobox.synth.jsyn.record.Recorder;
@@ -29,7 +29,7 @@ import org.vocobox.synth.jsyn.record.Recorder;
 public abstract class VocoboxControllerAbstract {
     public MonitorSettings monitorSettings;
     
-    public VocoSynthMonitor monitor;
+    public SynthMonitor monitor;
     public VocoSynth synth;
     public VoiceController voice;
     

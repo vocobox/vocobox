@@ -120,8 +120,10 @@ public class VoiceFileRead extends VoiceTarsos {
                 // TODO Handle confidence
                 //synth.sendConfidence(pitchDetectionResult.getProbability());
 
+                SoundEvent pitch = SoundEvent.pitch((float) timestamp, frequency);
+                pitch.confidence = pitchDetectionResult.getProbability();
 
-                pitchEvents.add(SoundEvent.pitch((float) timestamp, frequency));
+                pitchEvents.add(pitch);
                 ampliEvents.add(SoundEvent.amplitude((float) timestamp, amplitude));
             }
         };

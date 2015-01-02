@@ -21,8 +21,8 @@ public interface VocoSynth {
     public void sendOffset();
     
     // monitor
-    public VocoSynthMonitor getMonitor();
-    public void setMonitor(VocoSynthMonitor monitor);
+    public SynthMonitor getMonitor();
+    public void setMonitor(SynthMonitor monitor);
     public SynthMonitorCharts getDefaultMonitor(MonitorSettings settings);
     
     // UI controller

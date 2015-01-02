@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.vocobox.events.SoundEvent;
 import org.vocobox.maths.ConfidenceEvaluator;
-import org.vocobox.model.synth.VocoSynthMonitor;
+import org.vocobox.model.synth.SynthMonitor;
 
 public class MuteNoConfidencePolicy extends DefaultSoundEventPolicy {
     float currentInputFreq;
@@ -12,13 +12,13 @@ public class MuteNoConfidencePolicy extends DefaultSoundEventPolicy {
     ConfidenceEvaluator confidence = new ConfidenceEvaluator();
     boolean muted = false;
     
-    VocoSynthMonitor logger;
+    SynthMonitor logger;
     float timeWindow;
 
-    public MuteNoConfidencePolicy(VocoSynthMonitor logger) {
+    public MuteNoConfidencePolicy(SynthMonitor logger) {
         this(logger, 0.1f);
     }
-    public MuteNoConfidencePolicy(VocoSynthMonitor logger, float timeWindow) {
+    public MuteNoConfidencePolicy(SynthMonitor logger, float timeWindow) {
         super();
         this.logger = logger;
         this.timeWindow = timeWindow;

@@ -15,7 +15,7 @@ At this step we are evaluating pitch detection algorithms using the <a href="htt
 We also evaluate pitch detection <i>in live</i> by recording the voice with a microphone, and by generating a feedback sound sounds with a synthetizer controlled according to voice analysis.
 
 To build Vocobox, we gathered :
-* a full java additive synthetizer made by chaining oscillators, filters, and other hardware emulation of real synthetizer components based on <a href="http://www.softsynth.com/jsyn/">JSyn</a>.
+* a full java additive synthetizer made by chaining oscillators, filters, and other hardware emulation of real synthetizer components based on <a href="http://www.softsynth.com/jsyn/">JSyn</a>. As of Jan. 2015, JSyn has become an <a href="https://github.com/philburk/jsyn">open source project</a>.
 * a pitch detection module based on <a href="https://github.com/JorenSix/TarsosDSP">TarsosDSP</a> java library.
 * efficient OpenGL charts for monitoring and debugging sound data based on <a href="http://www.jzy3d.org/">Jzy3d</a> charts.
 
@@ -34,9 +34,40 @@ To control JSyn (java) synthetizer, we export frequency and amplitude change com
 
 Having the original wav file available allows to play audio source in background while executing command events.
 
+To run synthetizer control based on a csv files, see <a href="https://github.com/vocobox/vocobox/blob/master/dev/java/vocobox-apps/src/main/java/org/vocobox/apps/csv2synth/VocoboxControllerCsv.java">VocoboxControllerCsv</a>.
+
 #### Controlling Synthetizers with WAV files
 
-To run synthetizer control based on a wav file, see <a href="https://github.com/vocobox/vocobox/blob/master/dev/java/vocobox-apps/src/main/java/org/vocobox/apps/wav2synth/VocoboxControllerFilePlay.java">VocoboxControllerFilePlay</a> and <a href="https://github.com/vocobox/vocobox/blob/master/dev/java/vocobox-apps/src/main/java/org/vocobox/apps/wav2synth/VocoboxControllerFileRead.java">VocoboxControllerFileRead</a>
+Here are synthetized sounds and their wave file controller
+
+<table>
+  <tr>
+    <th>Input</th>
+    <td><a href="doc/audio/doremi-piano-in.wav">Do-re-mi piano source</a></td>
+    <td><a href="doc/audio/doremi-voice-in.wav">Do-re-mi voice source</a></td>
+  </tr>
+  <tr>
+    <th>Comment</th>
+    <td>truc</td>
+    <td>pout</td>
+  </tr>
+  <tr>
+    <th>Output</th>
+    <td><a href="doc/audio/doremi-piano-out.wav">Do-re-mi synth tracked by piano</a></td>
+    <td><a href="doc/audio/doremi-voice-out.wav">Do-re-mi synth tracked by voice</a></td>
+  </tr>
+  <tr>
+    <th>Chart</th>
+    <td><img src="doc/audio/doremi-piano.png"/></td>
+    <td><img src="doc/audio/doremi-voice.png"/></td>
+  </tr>
+</table>
+
+See the doc/ folder for other input/output/chart results.
+
+
+
+To run synthetizer control based on a wav file, see <a href="https://github.com/vocobox/vocobox/blob/master/dev/java/vocobox-apps/src/main/java/org/vocobox/apps/wav2synth/VocoboxControllerFileRead.java">VocoboxControllerFileRead</a>.
 
 
 #### Controlling Synthetizers with Microphone
@@ -45,9 +76,9 @@ To run synthetizer control based on live voice, see <a href="https://github.com/
 
 <img src="doc/images/mic2synth.png"/>
 
-#### Benchmark Pitch Detection algorithm on Human Voice Dataset
+#### Benchmark Pitch Detection algorithm on note datasets
 
-Read this <a href="Benchmark.md">document</a>.
+This <a href="Benchmark.md">document</a> explain how we use the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a> (a serie of wav files containing human sung notes) to evaluate pitch detection algorithm on isolated notes.
 
 
 ## Getting and building source code
@@ -69,6 +100,7 @@ IF YOU INTEND TO REUSE THIS SOFTWARE, PLEASE VERIFY COMPONENTS LICENCE!
 </span>
 
 
-* Vocobox API : MIT License, using also Jzy3d (New BSD License)
-* Vocobox JSyn : Jsyn <a href="http://www.softsynth.com/jsyn/developers/">License</href>
-* Vocobox Tarsos : Tarsos is licensed under <a href="https://github.com/JorenSix/TarsosDSP/blob/master/license.txt">GPL</a>
+* <a href="https://github.com/vocobox/vocobox/blob/master/LICENSE">Vocobox</a>
+* <a href="http://www.softsynth.com/jsyn/developers/">JSyn</a>
+* <a href="https://github.com/JorenSix/TarsosDSP/blob/master/license.txt">Tarsos</a>
+* <a href="https://github.com/jzy3d/jzy3d-api/blob/master/jzy3d-api/license.txt">Jzy3d</a>

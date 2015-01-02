@@ -27,7 +27,7 @@ import org.jzy3d.plot3d.rendering.view.modes.ViewBoundMode;
 import org.jzy3d.plot3d.transform.space.SpaceTransformLog2;
 import org.jzy3d.plot3d.transform.space.SpaceTransformer;
 import org.vocobox.model.synth.MonitorSettings;
-import org.vocobox.model.synth.VocoSynthMonitor;
+import org.vocobox.model.synth.SynthMonitor;
 import org.vocobox.model.time.Timer;
 import org.vocobox.model.voice.pitch.evaluate.PitchPrecisionDistanceInSemitone;
 import org.vocobox.ui.Palette;
@@ -37,7 +37,7 @@ import org.vocobox.ui.Palette;
  * 
  * @author Martin Pernollet
  */
-public class SynthMonitorCharts extends Timer implements VocoSynthMonitor {
+public class SynthMonitorCharts extends Timer implements SynthMonitor {
 
 
     public List<Chart> charts = new ArrayList<Chart>();

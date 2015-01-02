@@ -5,7 +5,7 @@ import java.util.Collection;
 public class SoundEvent {
     public float timeInSec;
     public float value;
-    public float confidence;
+    public float confidence = 1;
     public Type type;
     
     public static enum Type{

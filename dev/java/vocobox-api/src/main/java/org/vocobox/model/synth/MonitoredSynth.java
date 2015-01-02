@@ -6,12 +6,13 @@ import org.vocobox.ui.charts.synth.SynthMonitorCharts;
 
 
 public class MonitoredSynth implements VocoSynth{
-    protected VocoSynthMonitor monitor;
+	public SynthSettings settings = new SynthSettings();
+    protected SynthMonitor monitor;
 
     public MonitoredSynth() {
     }
     
-    public MonitoredSynth(VocoSynthMonitor monitor) {
+    public MonitoredSynth(SynthMonitor monitor) {
         this.monitor = monitor;
     }
 
@@ -36,12 +37,12 @@ public class MonitoredSynth implements VocoSynth{
     }
 
     @Override
-    public VocoSynthMonitor getMonitor() {
+    public SynthMonitor getMonitor() {
         return monitor;
     }
 
     @Override
-    public void setMonitor(VocoSynthMonitor controlLog) {
+    public void setMonitor(SynthMonitor controlLog) {
         this.monitor = controlLog;
     }
     
@@ -57,7 +58,7 @@ public class MonitoredSynth implements VocoSynth{
 
     @Override
     public void sendAmplitude(float amplitude) {
-        amplitude = Math.min(amplitude, 1);
+        amplitude = Math.min(amplitude, 1) * settings.amplitudeGain;
         
         doSetAmplitude(amplitude);
         if(monitor!=null)

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jzy3d.spectro.trials.SpectrumModelSpectro;
-import org.vocobox.model.synth.VocoSynthMonitor;
+import org.vocobox.model.synth.SynthMonitor;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
@@ -21,7 +21,7 @@ public class JsynOscilloSpectroHarpSynth {
     Map<Double, LinearRamp> oscilloAmplitudeHarp;
     protected Synthesizer synth;
     protected LineOut lineOut;
-    protected VocoSynthMonitor controlLog;
+    protected SynthMonitor controlLog;
 
     protected SpectrumModelSpectro spectrum;
     protected double maxFreq;
