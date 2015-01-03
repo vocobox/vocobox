@@ -1,18 +1,20 @@
 #VOCOBOX
 
-Voice controller for digital instruments
-
-<script src="doc/scripts/mermaid.full.min.js"></script>
+Voice Controller for Digital Instruments
 
 ## Description
 
 Vocobox intend to provide singers with a software able to turn their voice to a musical controller. Voice features (pitch, volume, ...) are used to control external software or hardware producing music.
 
+We rather want to build a voice-to-instrument application than a audio-to-midi application. For this reason we found sufficient to control synthetizer in terms of frequency and amplitude, without clearly defining note on/off events. It makes mapping easier, and result is good enough.
+
+
 ###### VOCOBOX 1.0 (01/01/2015)
 
-At this step we are mainly evaluating pitch detection algorithms using the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a>, a dataset containing notes sung by a singer. We define score such as note onset latency, pitch detection latency and <a href="https://github.com/vocobox/vocobox/blob/master/Benchmark.md">compare samples scores with each other</a>.
 
-We also evaluate pitch detection <i>in live</i> by recording the voice with a microphone, and by generating a feedback sound sounds with a synthetizer controlled according to voice analysis.
+At this step we are mainly evaluating pitch detection algorithms using the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a>, a dataset containing notes sung by a singer. We define score such as note onset latency, pitch detection latency and <a href="https://github.com/vocobox/vocobox/blob/master/Benchmark.md">compare samples scores with each other</a> (although the synthetizer does not require explicit note on, we need to consider note on criterias for benchmarking pitch detection).
+
+We also evaluate pitch detection <i>in live</i> by recording the voice with a microphone as input and by generating as output a feedback sound with a synthetizer controlled according to voice analysis.
 
 To build Vocobox, we gathered :
 * a full java additive synthetizer made by chaining oscillators, filters, and other hardware emulation of real synthetizer components based on <a href="http://www.softsynth.com/jsyn/">JSyn</a>. As of Jan. 2015, JSyn has become an <a href="https://github.com/philburk/jsyn">open source project</a>.
@@ -27,7 +29,7 @@ Folder vocobox/dev/java/vocobox-apps provides several applications
 
 Our first attempt to analyze voice signal was <a href="https://github.com/vocobox/vocobox/blob/master/dev/r">written in R</a> using <a href="http://rug.mnhn.fr/seewave/">Seewave</a> and <a href="http://aubio.org/">Aubio</a> via an <a href="https://github.com/vocobox/aubio-r/">R binding</a> written for the experiment.
 
-To control JSyn (java) synthetizer, we export frequency and amplitude change commands in two CSV files. Each file contains two columns, the first being elapsed time since song started, the second indicating a value change (frequency changes for pitch.csv, and amplitude changes for envelope.csv). Note that frequency and amplitude can change independently.
+To control JSyn synthetizer, we export frequency and amplitude change commands in <a href="https://github.com/vocobox/vocobox/tree/master/dev/java/vocobox-apps/data/analyses/piano">two CSV files</a>. Each file contains two columns, the first being elapsed time since song started, the second indicating a value change (frequency changes for pitch.csv, and amplitude changes for envelope.csv). Note that frequency and amplitude can change independently.
 
 Having the original wav file available allows to play audio source in background while executing command events.
 
@@ -35,7 +37,7 @@ To run synthetizer control based on a csv files, see <a href="https://github.com
 
 #### Controlling Synthetizers with WAV files
 
-The pitch and amplitude change events of a wav file are sent to a <a href="https://github.com/vocobox/vocobox/blob/master/dev/java/vocobox-api/src/main/java/org/vocobox/model/synth/VocoSynth.java">synthetizer</a> via its sendFrequency() / sendAmplitude() methods. In these demonstration, we use <a href="https://github.com/vocobox/vocobox/tree/master/dev/java/vocobox-synth-jsyn/src/main/java/org/vocobox/synth/jsyn">JSyn based synthetizers</a>. As the direct control of oscillator's amplitude from input file is sufficiently good to mimic notes, we do not need additional computation to define note on and note off.
+The pitch and amplitude change events of a wav file are sent to a <a href="https://github.com/vocobox/vocobox/blob/master/dev/java/vocobox-api/src/main/java/org/vocobox/model/synth/VocoSynth.java">synthetizer</a> via its sendFrequency() / sendAmplitude() methods. In these demonstrations, we use <a href="https://github.com/vocobox/vocobox/tree/master/dev/java/vocobox-synth-jsyn/src/main/java/org/vocobox/synth/jsyn">JSyn based synthetizers</a>. As the direct control of oscillator's amplitude from input file is sufficiently good to mimic notes, we do not need additional computation to define note on and note off.
 
 Below are few synthetized sounds and their wave file controller.
 
@@ -76,13 +78,36 @@ This <a href="Benchmark.md">document</a> explain how we use the <a href="https:/
 
 ## Components
 
-### Synthetizers
 
-Synthetizer are powered by <a href="https://github.com/philburk/jsyn">JSyn</a>. The below implementations are basic, we can do much more with JSyn!
+### Audio analysis
+
+Audio signal analysis is powered by <a href="https://github.com/JorenSix/TarsosDSP">TarsosDSP</a>. Yin implementation outperforms any other algorithm for pitch detection and has become the default implementation for the <a href="">voice analysis module</a>.
+
+Vocobox delivers pitch detection through following analyzers
 
 <table>
 <tr>
-<th>Synthetizer</th>
+<th width="220">Analyzer</th>
+<th>Comment</th>
+</tr>
+<tr>
+<td>VoiceMicListen</td>
+<td>Analyse audio signal from available inputs (microphones, but also lines, etc). <font color="orange">When running a Jack server, audio sources made available by Jack appear in source list!</font>
+</td>
+</tr>
+<tr>
+<td>VoiceFileRead</td>
+<td>Analyse audio signal from (mono) wav files. After reading, a collection of audio analysis events are collected an can be send to a synthetizer.</td>
+</tr>
+</table>
+
+### Synthetizers
+
+Synthetizer powered by <a href="https://github.com/philburk/jsyn">JSyn</a> are available in a <a href="https://github.com/vocobox/vocobox/tree/master/dev/java/vocobox-synth-jsyn">dedicated maven module</a>. The below implementations are basic, we can do much more with JSyn!
+
+<table>
+<tr>
+<th width="220">Synthetizer</th>
 <th>Comment</th>
 </tr>
 
@@ -114,38 +139,18 @@ Synthetizer are powered by <a href="https://github.com/philburk/jsyn">JSyn</a>. 
 
 </table>
 
-### Audio analysis
-
-Audio signal analysis is powered by <a href="https://github.com/JorenSix/TarsosDSP">TarsosDSP</a>. Yin implementation outperforms any other algorithm for pitch detection.
-
-Vocobox delivers pitch detection through following analyzers
-
-<table>
-  <tr>
-    <th>Analyzer</th>
-    <th>Comment</th>
-    </tr>
-  <tr>
-    <td>VoiceMicListen</td>
-    <td>Analyse audio signal from available inputs (microphones, but also lines, etc). <font color="orange">When running a Jack server, audio sources made available by Jack appear in source list!</font>
-    </td>
-  </tr>
-  <tr>
-  <td>VoiceFileRead</td>
-  <td>Analyse audio signal from (mono) wav files. After reading, a collection of audio analysis events are collected an can be send to a synthetizer.</td>
-  </tr>
-</table>
 
 ### Charts
 
-Charts are powered by <a href="https://github.com/jzy3d/jzy3d-api">Jzy3d</a>. Vocobox has drived Jzy3d improvements on 2D charts (primitives, time charts, etc).
+Charts are powered by <a href="https://github.com/jzy3d/jzy3d-api">Jzy3d</a>.
 
-Charts are used as synthetizer command logs : parameter changes of the synthetizer are tracked and mapped to multiple charts.
+Charts are used as synthetizer command logs : parameter changes of the synthetizer are tracked and mapped to multiple 2d charts. Below is the list of available charts. See <a href="http://doc.jzy3d.org/vocobox/vocobox-video.swf
+">here a video</a> of charts in action.
 
 
 <table>
   <tr>
-    <th>Chart</th>
+    <th width="220">Chart</th>
     <th>Comment</th>
     </tr>
   <tr>
@@ -161,7 +166,7 @@ Charts are used as synthetizer command logs : parameter changes of the synthetiz
 Few features interesting with Jzy3d
 * easy charting
 * performance and liveness
-* <font color="orange">coming soon : log chart</font> will help to let frequency charts look like note charts without having to do the conversion by ourself.
+* <font color="orange">coming soon : log chart</font> will help to let frequency charts look like note charts without having to do the frequency-to-note conversion by ourself.
 * underlying JOGL make it 4*4 (any Java Windowing toolkit including Android)
 
 
@@ -175,8 +180,9 @@ mvn clean install
 ```
 
 ## Contributing
-Please join us and share your contributions through <a href="https://help.github.com/articles/using-pull-requests/">pull-requests</a>
+Please join us and share your contributions through <a href="https://help.github.com/articles/using-pull-requests/">pull-requests</a>.
 
+You can contact martin@vocobox.org for questions.
 
 ## Licensing
 <span style="color:red;">
