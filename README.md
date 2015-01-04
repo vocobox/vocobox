@@ -73,7 +73,6 @@ This <a href="https://github.com/vocobox/vocobox/tree/master/doc/benchmark-human
 
 ## Components
 
-
 ### Audio analysis
 
 Audio signal analysis is powered by <a href="https://github.com/JorenSix/TarsosDSP">TarsosDSP</a>. Yin implementation outperforms any other algorithm for pitch detection and has become the default implementation for the <a href="">voice analysis module</a>.
@@ -174,15 +173,45 @@ Standard version of Java can hardly deal with such speed constraints due to non 
 
 ### Perceptual definition of real time
 
-In our works, we simply consider we will reach "real time" once we will <i>feel</i> no cue when triggering a synthetizer by humming.
+In our works, we simply consider we will reach "real time" once we will <i>feel</i> no cue when triggering a synthetizer by humming. We did not reach this point yet, but we feel Yin is "close" to real time with little pitch precision error and latency.
 
 ## Getting and building source code
 
+Create a Vocobox directory
+```
+cd dev
+mkdir vocobox
+cd vocbox
+mkdir external
+mkdir public
+cd public
+```
+
+
+Getting voice dataset
 ```
 git clone https://github.com/vocobox/human-voice-dataset
+```
+
+Getting and building vocobox
+```
 git clone https://github.com/vocobox/vocobox
 cd vocobox/dev/java
 mvn clean install
+```
+
+Maven should retrieve TarsosDSP, JSyn, and Jzy3d from Jzy3d's maven repository.
+
+If you want to build all those components without depending on Jzy3d, you can get our forks enabling JSyn and TarsosDSP on maven:
+
+```
+cd ../external/
+git clone https://github.com/vocobox/jsyn
+git clone https://github.com/vocobox/TarsosDSP tarsosdsp
+cd jsyn
+mvn clean install -D skipTests
+cd ../tarsosdsp
+mvn clean install -D skipTests
 ```
 
 ## Contributing

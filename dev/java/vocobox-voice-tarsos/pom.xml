@@ -5,27 +5,26 @@
 	<groupId>org.vocobox</groupId>
 	<artifactId>vocobox-voice-tarsos</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-  	<name>Vocobox Pitch and Amplitude Detection (Tarsos DSP)</name>
+	<name>Vocobox Pitch and Amplitude Detection (Tarsos DSP)</name>
 
-    <parent>
-        <groupId>org.vocobox</groupId>
-        <artifactId>vocobox-master</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>org.vocobox</groupId>
+		<artifactId>vocobox-master</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
 
 	<dependencies>
 		<dependency>
-		    <groupId>org.vocobox</groupId>
-		    <artifactId>vocobox-api</artifactId>
-		    <version>${version.lib.vocobox}</version>
+			<groupId>org.vocobox</groupId>
+			<artifactId>vocobox-api</artifactId>
+			<version>${version.lib.vocobox}</version>
 		</dependency>
-		<dependency>
-		    <groupId>org.tarsosdsp</groupId>
-		    <artifactId>tarsosdsp</artifactId>
-		    <version>${version.lib.tarsosdsp}</version>		    
 
-		    <scope>system</scope>
-		    <systemPath>${basedir}/lib/tarsos-dsp.jar</systemPath>
+		<dependency>
+			<groupId>be.tarsosdsp</groupId>
+			<artifactId>tarsosdsp</artifactId>
+			<version>${version.lib.tarsosdsp}</version>
+			<!-- <scope>system</scope> <systemPath>${basedir}/lib/tarsos-dsp.jar</systemPath> -->
 		</dependency>
-    </dependencies>
+	</dependencies>
 </project>

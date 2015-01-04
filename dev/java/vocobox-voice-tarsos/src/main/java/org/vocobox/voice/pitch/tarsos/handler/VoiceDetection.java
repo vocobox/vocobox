@@ -15,7 +15,7 @@ import be.tarsos.dsp.pitch.PitchDetectionResult;
  *
  */
 public abstract class VoiceDetection implements PitchDetectionHandler{
-    public VoiceAnalysisSettings settings = new VoiceAnalysisSettings();
+    public VoiceAnalysisSettings settings = VoiceAnalysisSettings.DEFAULT;
     
     protected double prevFrequency = 0;
     protected final double[] previousFrequencies;

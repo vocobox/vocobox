@@ -5,66 +5,60 @@
 	<groupId>org.vocobox</groupId>
 	<artifactId>vocobox-api</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-  	<name>Vocobox API</name>
+	<name>Vocobox API</name>
 
-    <parent>
-        <groupId>org.vocobox</groupId>
-        <artifactId>vocobox-master</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
+  <parent>
+      <groupId>org.vocobox</groupId>
+      <artifactId>vocobox-master</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+  </parent>
 
 	<dependencies>
-        <dependency>
+		<dependency>
 			<groupId>org.jzy3d</groupId>
 			<artifactId>jzy3d-api</artifactId>
 			<version>${version.lib.jzy3d}</version>
 		</dependency>
 
 		<dependency>
-		    <groupId>org.jzy3d</groupId>
-		    <artifactId>jzy3d-spectro</artifactId>
-            <version>${version.lib.jzy3d}</version>
-		    <scope>system</scope>
-		    <systemPath>${basedir}/lib/jzy3d-spectro.jar</systemPath>
+			<groupId>org.jzy3d</groupId>
+			<artifactId>jzy3d-spectro</artifactId>
+			<version>${version.lib.jzy3d}</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/jzy3d-spectro.jar</systemPath>
 		</dependency>
 
 
 		<!-- Utilities -->
-<!--Powermock-->
 
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
 		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
-<!-- 
-<dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-module-junit4</artifactId>
-      <version>${version.lib.powermock}</version>
-      <scope>test</scope>
-   </dependency> -->
-   <dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-api-easymock</artifactId>
-      <version>${version.lib.powermock}</version>
-      <scope>test</scope>
-   </dependency>
 
-        <dependency>
-          <groupId>org.powermock</groupId>
-          <artifactId>powermock-module-junit4</artifactId>
-          <version>${version.lib.powermock}</version>
-          <scope>test</scope>
-       </dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-easymock</artifactId>
+			<version>${version.lib.powermock}</version>
+			<scope>test</scope>
+		</dependency>
 
-	<dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>${version.lib.powermock}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
 			<version>${version.lib.easymock}</version>
@@ -72,13 +66,13 @@
 		</dependency>
 
 
-        <dependency>
-            <groupId>com.miglayout</groupId>
-            <artifactId>miglayout</artifactId>
-            <version>3.7.4</version>
-        </dependency>
+		<dependency>
+			<groupId>com.miglayout</groupId>
+			<artifactId>miglayout</artifactId>
+			<version>3.7.4</version>
+		</dependency>
 
-    </dependencies>
+  </dependencies>
 
 	<build>
 		<plugins>

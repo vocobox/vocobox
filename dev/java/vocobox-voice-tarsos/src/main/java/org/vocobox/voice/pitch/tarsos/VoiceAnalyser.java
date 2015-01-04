@@ -17,7 +17,7 @@ import be.tarsos.dsp.io.jvm.JVMAudioInputStream;
 import be.tarsos.dsp.pitch.PitchProcessor;
 
 public class VoiceAnalyser extends SynthControllerDefault {
-	public VoiceAnalysisSettings settings = new VoiceAnalysisSettings();
+	public VoiceAnalysisSettings settings = VoiceAnalysisSettings.DEFAULT;
 
 	protected AudioFormat newAudioFormatWithSettings(File file) throws UnsupportedAudioFileException, IOException {
 		AudioFormat format = AudioSystem.getAudioFileFormat(file).getFormat();

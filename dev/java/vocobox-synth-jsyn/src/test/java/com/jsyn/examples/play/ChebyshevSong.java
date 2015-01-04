@@ -1,20 +1,5 @@
 package com.jsyn.examples.play;
 
-import java.awt.BorderLayout;
-
-import javax.swing.JApplet;
-
-import com.jsyn.JSyn;
-import com.jsyn.Synthesizer;
-import com.jsyn.instruments.WaveShapingVoice;
-import com.jsyn.scope.AudioScope;
-import com.jsyn.swing.JAppletFrame;
-import com.jsyn.unitgen.Add;
-import com.jsyn.unitgen.LineOut;
-import com.jsyn.util.PseudoRandom;
-import com.jsyn.util.VoiceAllocator;
-import com.softsynth.jsyn.EqualTemperedTuning;
-import com.softsynth.shared.time.TimeStamp;
 
 /***************************************************************
  * Play notes using a WaveShapingVoice. Allocate the notes using a
@@ -22,6 +7,7 @@ import com.softsynth.shared.time.TimeStamp;
  * 
  * @author Phil Burk (C) 2010 Mobileer Inc
  */
+/*
 public class ChebyshevSong extends JApplet implements Runnable
 {
 	private static final long serialVersionUID = -7459137388629333223L;
@@ -36,7 +22,6 @@ public class ChebyshevSong extends JApplet implements Runnable
 	private VoiceAllocator allocator;
 	private final static int scale[] = { 0, 2, 4, 7, 9 }; // pentatonic scale
 
-	/* Can be run as either an application or as an applet. */
 	public static void main( String args[] )
 	{
 		ChebyshevSong applet = new ChebyshevSong();
@@ -46,9 +31,7 @@ public class ChebyshevSong extends JApplet implements Runnable
 		frame.test();
 	}
 
-	/*
-	 * Setup synthesis.
-	 */
+	
 	@Override
     public void start()
 	{
@@ -86,7 +69,6 @@ public class ChebyshevSong extends JApplet implements Runnable
 		add( BorderLayout.CENTER, scope.getView() );
 		scope.start();
 
-		/* Synchronize Java display. */
 		getParent().validate();
 		getToolkit().sync();
 
@@ -175,4 +157,4 @@ public class ChebyshevSong extends JApplet implements Runnable
 			System.err.println( "Song exiting. " + e );
 		}
 	}
-}
+}*/

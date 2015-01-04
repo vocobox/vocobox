@@ -5,6 +5,7 @@ import javax.sound.sampled.AudioFormat;
 import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm;
 
 public class VoiceAnalysisSettings {
+    public static VoiceAnalysisSettings DEFAULT = new VoiceAnalysisSettings();
     public boolean crashOnStereoFile = true;
     
     // tarsos global settings

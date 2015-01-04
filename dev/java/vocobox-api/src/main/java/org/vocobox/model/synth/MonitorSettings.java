@@ -32,8 +32,8 @@ public class MonitorSettings {
     public Type confidenceOnPitchSerieType = Type.SCATTER;
     public Type evaluationSerieType = Type.SCATTER_POINTS;
     
-    public float pitchMax = 440;
-    public int pitchTickOctaves = 5;
+    public float pitchMax = 220;//440;
+    public int pitchTickOctaves = 4;
     public float evalMaxErrorInSemitone = 3;
     public float evalPitchLatencyTimeMax = 1.2f;
 

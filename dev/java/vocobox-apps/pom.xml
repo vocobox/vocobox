@@ -4,43 +4,46 @@
     <groupId>org.vocobox</groupId>
 	<artifactId>vocobox-apps</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-  	<name>Vocobox Applications</name>
+	<name>Vocobox Applications</name>
 
-    <parent>
-        <groupId>org.vocobox</groupId>
-        <artifactId>vocobox-master</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
+  <parent>
+      <groupId>org.vocobox</groupId>
+      <artifactId>vocobox-master</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+  </parent>
 
 	<dependencies>
 		<dependency>
-		    <groupId>org.vocobox</groupId>
-		    <artifactId>vocobox-api</artifactId>
-            <version>${version.lib.vocobox}</version>
+			<groupId>org.vocobox</groupId>
+			<artifactId>vocobox-api</artifactId>
+			<version>${version.lib.vocobox}</version>
 		</dependency>
-        <dependency>
-            <groupId>org.vocobox</groupId>
-            <artifactId>vocobox-synth-midi</artifactId>
-            <version>${version.lib.vocobox}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.vocobox</groupId>
-            <artifactId>vocobox-synth-jsyn</artifactId>
-            <version>${version.lib.vocobox}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.vocobox</groupId>
-            <artifactId>vocobox-voice-tarsos</artifactId>
-            <version>${version.lib.vocobox}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>jtransforms</groupId>
-            <artifactId>jtransforms</artifactId>
-            <version>1.6</version>         
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/jtransforms-1.6.jar</systemPath>
-        </dependency>
-        
-    </dependencies>
+
+		<dependency>
+			<groupId>org.vocobox</groupId>
+			<artifactId>vocobox-synth-midi</artifactId>
+			<version>${version.lib.vocobox}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.vocobox</groupId>
+			<artifactId>vocobox-synth-jsyn</artifactId>
+			<version>${version.lib.vocobox}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.vocobox</groupId>
+			<artifactId>vocobox-voice-tarsos</artifactId>
+			<version>${version.lib.vocobox}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jtransforms</groupId>
+			<artifactId>jtransforms</artifactId>
+			<version>1.6</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/jtransforms-1.6.jar</systemPath>
+		</dependency>
+
+  </dependencies>
 </project>
