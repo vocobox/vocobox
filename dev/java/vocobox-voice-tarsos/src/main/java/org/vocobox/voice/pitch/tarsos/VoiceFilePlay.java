@@ -13,15 +13,12 @@ import org.vocobox.voice.pitch.tarsos.handler.VoiceDetectionSynthController;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.GainProcessor;
-import be.tarsos.dsp.io.jvm.AudioDispatcherFactory;
 import be.tarsos.dsp.io.jvm.AudioPlayer;
 import be.tarsos.dsp.onsets.ComplexOnsetDetector;
 import be.tarsos.dsp.onsets.OnsetHandler;
-import be.tarsos.dsp.pitch.PitchProcessor;
 
 /** Schedule reading to trigger synthetizer commands on pitch change events. */
-@Deprecated()
-public class VoiceFilePlay extends VoiceTarsos {
+public class VoiceFilePlay extends VoiceAnalyser {
     public AudioDispatcher estimationDispatcher;
     public AudioDispatcher sourceDispatcher;
     public GainProcessor estimationGain;
@@ -35,67 +32,79 @@ public class VoiceFilePlay extends VoiceTarsos {
         this.synth = synth;
     }
 
-    public void play(File file, double synthesisGainValue, double sourceGainValue) throws Exception {
+    public void play(File file) throws Exception {
         currentFile = file;
-        AudioFormat format;
-        format = AudioSystem.getAudioFileFormat(file).getFormat();
-
-        if (format.getChannels() > 1) {
-            throw new RuntimeException("Seems to be a stereo file! Interrupt because tarsos is very bad with stereo");
-        }
-
-        float samplerate = format.getSampleRate();
-        int size = settings.bufferSize;// 1024;//1024;
-        int overlap = settings.overlap;
-
-        VoiceDetectionSynthController controller = configure(file, synthesisGainValue, sourceGainValue, format, samplerate, size, overlap);
-        start(synthesisGainValue, sourceGainValue, controller);
+        settings.format = newAudioFormatWithSettings(file);//AudioSystem.getAudioFileFormat(file).getFormat();
+        configure(settings.format);
+        run();
     }
 
-    public void start(double synthesisGainValue, double sourceGainValue, VoiceDetectionSynthController pitchDetectionHandler) throws Exception {
-        if (pitchDetectionHandler.getSynth() != null)
-            pitchDetectionHandler.getSynth().on();
-        startSynthesis();
-        // if (synthesisGainValue > 0) {
-        // }
-        if (sourceGainValue > 0) {
-            startSourceFile();
+    /* RUN */
+    
+    public void run() throws Exception {
+        if (synth != null)
+            synth.on();
+        runEstimationSynthesis();
+        if (settings.sourceGainValue > 0) {
+            runSourceFile();
         }
     }
 
-    public void startSynthesis() {
+    public void runEstimationSynthesis() {
         new Thread(estimationDispatcher).start();
     }
 
-    public void startSourceFile() {
+    public void runSourceFile() {
         new Thread(sourceDispatcher).start();
     }
+    
+    /* CONFIGURE */
 
-    public VoiceDetectionSynthController configure(File file, double estimationGainValue, double sourceGainValue, AudioFormat format, float samplerate, int size, int overlap) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        VoiceDetectionSynthController pitchDetectionHandler = getVocoPitchDetectionHandler(samplerate);
-        configureSynthesis(file, estimationGainValue, format, samplerate, size, overlap, pitchDetectionHandler);
-        configureSource(file, sourceGainValue, format, size, overlap);
+	public VoiceDetectionSynthController configure(AudioFormat format) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        VoiceDetectionSynthController pitchDetectionHandler = newPitchDetectionHandler(format.getSampleRate());
+        configureSynthesis(currentFile, format, pitchDetectionHandler);
+        configureSource(currentFile, format);
         return pitchDetectionHandler;
     }
 
-    public void configureSource(File file, double sourceGainValue, AudioFormat format, int size, int overlap) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public void configureSource(File file, AudioFormat format) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         // To play source file
-        sourceGain = new GainProcessor(sourceGainValue);
-        sourceDispatcher = AudioDispatcherFactory.fromFile(file, size, overlap);
+        sourceGain = new GainProcessor(settings.sourceGainValue);
+        sourceDispatcher = newAudioDispatcher(file);
         sourceDispatcher.addAudioProcessor(sourceGain);
         sourceDispatcher.addAudioProcessor(new AudioPlayer(format));
     }
 
-    public void configureSynthesis(File file, double estimationGainValue, AudioFormat format, float samplerate, int size, int overlap, VoiceDetectionSynthController pitchDetectionHandler) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    /**
+     * AudioPlayer used in this implementation is used to schedule reading of file and have
+     * and approximative location of sound event. It is however prefered to use {@link VoiceFileRead} 
+     * @param file
+     * @param format
+     * @param pitchDetectionHandler
+     * @throws UnsupportedAudioFileException
+     * @throws IOException
+     * @throws LineUnavailableException
+     */
+    public void configureSynthesis(File file, AudioFormat format, VoiceDetectionSynthController pitchDetectionHandler) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         // To run vocosynth & send to audio out input sound
-        estimationGain = new GainProcessor(estimationGainValue);
-        estimationDispatcher = AudioDispatcherFactory.fromFile(file, size, overlap);
-        estimationDispatcher.addAudioProcessor(new PitchProcessor(settings.algo, samplerate, size, pitchDetectionHandler));
+        estimationGain = new GainProcessor(settings.estimationGainValue);
+        estimationDispatcher = newAudioDispatcher(file);
+        estimationDispatcher.addAudioProcessor(newPitchProcessor(format, pitchDetectionHandler));
         estimationDispatcher.addAudioProcessor(estimationGain);
+        configureOnsetDetection();
+        estimationDispatcher.addAudioProcessor(new AudioPlayer(format));
+    }
 
-        // ONSET DETECT
-        double threshold = 0.04;
-        ComplexOnsetDetector onsetDetector = new ComplexOnsetDetector(size, threshold, 0.07, -60);
+
+	private void configureOnsetDetection() {
+        ComplexOnsetDetector onsetDetector = makeComplexOnsetDetector();
+        // add a processor, handle percussion event.
+        estimationDispatcher.addAudioProcessor(onsetDetector);
+    }
+
+	private ComplexOnsetDetector makeComplexOnsetDetector() {
+	    double threshold = 0.04;
+        ComplexOnsetDetector onsetDetector = new ComplexOnsetDetector(settings.bufferSize, threshold, 0.07, -60);
         onsetDetector.setHandler(new OnsetHandler() {
             int k = 0;
             @Override
@@ -103,12 +112,6 @@ public class VoiceFilePlay extends VoiceTarsos {
                 System.out.println("Onset " + (k++) + " " + arg0 + " " + arg1);
             }
         });
-        // add a processor, handle percussion event.
-        estimationDispatcher.addAudioProcessor(onsetDetector);
-
-        // WARN AUDIO player "schedule" la consommation du flux d'entrée
-        // sans audio player, tous est calculé immédiatement, ce qui montre
-        // la rapidité de l'algo
-        estimationDispatcher.addAudioProcessor(new AudioPlayer(format));
+	    return onsetDetector;
     }
 }

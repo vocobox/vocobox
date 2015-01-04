@@ -4,22 +4,17 @@ Voice Controller for Digital Instruments
 
 ## Description
 
-Vocobox intend to provide singers with a software able to turn their voice to a musical controller. Voice features (pitch, volume, ...) are used to control external software or hardware producing music.
+Vocobox intend to provide singers with a software turning the voice to a musical controller. Voice features (pitch, volume, ...) are used to control external software or hardware producing music.
 
-We rather want to build a voice-to-instrument application than a audio-to-midi application. For this reason we found sufficient to control synthetizer in terms of frequency and amplitude, without clearly defining note on/off events. It makes mapping easier, and result is good enough.
-
+We rather want to build a voice-to-instrument application than an audio-to-midi application. For this reason we found sufficient to control synthetizer in terms of frequency and amplitude, without clearly defining note on/off events. It makes mapping easier, and result is good enough.
 
 ###### VOCOBOX 1.0 (01/01/2015)
 
+At this step we are mainly evaluating pitch detection algorithms using the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a>, a dataset we build to gather examples of singers' voice (e.g. all notes in their range). We define score such as note onset latency, pitch detection latency and <a href="https://github.com/vocobox/vocobox/blob/master/doc/benchmark-human-voice">compare pitch detection performance with charts</a>.
 
-At this step we are mainly evaluating pitch detection algorithms using the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a>, a dataset containing notes sung by a singer. We define score such as note onset latency, pitch detection latency and <a href="https://github.com/vocobox/vocobox/blob/master/Benchmark.md">compare samples scores with each other</a> (although the synthetizer does not require explicit note on, we need to consider note on criterias for benchmarking pitch detection).
+We also evaluate pitch detection <i>in real time</i> by recording the voice with a microphone as input and by generating a synthetizer sound as output.
 
-We also evaluate pitch detection <i>in live</i> by recording the voice with a microphone as input and by generating as output a feedback sound with a synthetizer controlled according to voice analysis.
-
-To build Vocobox, we gathered :
-* a full java additive synthetizer made by chaining oscillators, filters, and other hardware emulation of real synthetizer components based on <a href="http://www.softsynth.com/jsyn/">JSyn</a>. As of Jan. 2015, JSyn has become an <a href="https://github.com/philburk/jsyn">open source project</a>.
-* a pitch detection module based on <a href="https://github.com/JorenSix/TarsosDSP">TarsosDSP</a> java library.
-* efficient OpenGL charts for monitoring and debugging sound data based on <a href="http://www.jzy3d.org/">Jzy3d</a> charts.
+See the component section of this document to learn more about algorithms used in this project.
 
 ## Applications
 
@@ -64,7 +59,7 @@ See this <a href="http://doc.jzy3d.org/vocobox/examples/">examples</a> folder fo
 To run synthetizer control based on a wav file, see <a href="https://github.com/vocobox/vocobox/blob/master/dev/java/vocobox-apps/src/main/java/org/vocobox/apps/wav2synth/VocoboxControllerFileRead.java">VocoboxControllerFileRead</a>.
 
 
-#### Controlling Synthetizers in live with available audio inputs (microphone,  lines)
+#### Controlling Synthetizers in real time with available audio inputs (microphone,  lines)
 
 When starting the application, the list of available source are listed by tarsos, and an estimation algorithm is proposed. We found Yin performs best. Running live synthetizer control allows to see pitch detection is pretty efficient.
 
@@ -74,7 +69,7 @@ To run synthetizer control based on live voice, see <a href="https://github.com/
 
 #### Benchmark Pitch Detection algorithm on note datasets
 
-This <a href="Benchmark.md">document</a> explain how we use the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a> (a serie of wav files containing human sung notes) to evaluate pitch detection algorithm on isolated notes.
+This <a href="https://github.com/vocobox/vocobox/tree/master/doc/benchmark-human-voice">document</a> explain how we use the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a> (a serie of wav files containing human sung notes) to evaluate pitch detection algorithm on isolated notes.
 
 ## Components
 
@@ -123,12 +118,12 @@ Synthetizer powered by <a href="https://github.com/philburk/jsyn">JSyn</a> are a
 
 <tr>
 <td>JsynOcclusiveNoiseSynth</td>
-<td>A synthetizer using non frequency-defined sounds (here : white noise) when confidence parameter is below a certain threshold. It allows a kind of audio debugging of pitch detection. Brutal tone change make the synthetizer not usable musically but smooth changes in tone balance could make interesting effects.</td>
+<td>A synthetizer using a non frequency-defined sound (here : a white noise) when confidence value of pitch detection is below a threshold. It allows a kind of audio debugging of pitch detection. Brutal tone change make the synthetizer sound harsh but smooth changes in tone balance could produce interesting effects.</td>
 </tr>
 
 <tr>
 <td>JsynCircuitSynth</td>
-<td>A synthetizer based on JSyn Circuit, allowing to more easily abstraction and composition of synthetizer elements. Here, we use circuit SynthCircuitBlaster that is derived from JSyn examples. Note the circuit provides its control panel to Vocobox UI.</td>
+<td>A synthetizer based on JSyn <a href="http://www.softsynth.com/jsyn/docs/usersguide.php#GroupingUnits">Circuit</a>, allowing easier abstraction of synthetizer element groups. Here, we use circuit SynthCircuitBlaster that is derived from JSyn examples. Note the circuit provides its control panel to Vocobox UI.</td>
 </tr>
 
 
@@ -142,9 +137,7 @@ Synthetizer powered by <a href="https://github.com/philburk/jsyn">JSyn</a> are a
 
 ### Charts
 
-Charts are powered by <a href="https://github.com/jzy3d/jzy3d-api">Jzy3d</a>.
-
-Charts are used as synthetizer command logs : parameter changes of the synthetizer are tracked and mapped to multiple 2d charts. Below is the list of available charts. See <a href="http://doc.jzy3d.org/vocobox/vocobox-video.swf
+Charts are powered by <a href="https://github.com/jzy3d/jzy3d-api">Jzy3d</a>. They are used as synthetizer command logs : parameter changes of the synthetizer are tracked and mapped to multiple 2d charts. Below is the list of available charts. See <a href="http://doc.jzy3d.org/vocobox/vocobox-video.swf
 ">here a video</a> of charts in action.
 
 
@@ -167,8 +160,21 @@ Few features interesting with Jzy3d
 * easy charting
 * performance and liveness
 * <font color="orange">coming soon : log chart</font> will help to let frequency charts look like note charts without having to do the frequency-to-note conversion by ourself.
-* underlying JOGL make it 4*4 (any Java Windowing toolkit including Android)
+* underlying JOGL let it run everywhere (any Java Windowing toolkit including Android)
 
+## Real time
+
+### Real time Human
+
+<a href="http://aubio.org/phd/thesis/brossier06thesis.pdf">Experiments</a> have shown than human is able to perceive changes up to a limit of 5 to 50 ms (limit depends on sound properties).
+
+### Real time Java?
+
+Standard version of Java can hardly deal with such speed constraints due to non predictability of garbage collection. However there are garbage collectors - such as <a href="http://researcher.watson.ibm.com/researcher/view_group.php?id=174">Metronome GC</a> able work in deterministic time, with promise of not spending more than 3ms in garbage collection
+
+### Perceptual definition of real time
+
+In our works, we simply consider we will reach "real time" once we will <i>feel</i> no cue when triggering a synthetizer by humming.
 
 ## Getting and building source code
 

@@ -12,6 +12,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import org.vocobox.events.SoundEvent;
+import org.vocobox.model.song.Song;
 import org.vocobox.voice.pitch.tarsos.handler.VoiceDetection;
 
 import be.tarsos.dsp.AudioDispatcher;
@@ -31,56 +32,57 @@ import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm;
  * 
  * TODO : should handle confidence in VoiceDetection instance
  */
-public class VoiceFileRead extends VoiceTarsos {
+public class VoiceFileRead extends VoiceAnalyser {
     public AudioDispatcher dispatcher;
     public AudioDispatcher sourceDispatcher;
     public GainProcessor estimationGain;
     public GainProcessor sourceGain;
-    public PitchEstimationAlgorithm algo = PitchEstimationAlgorithm.YIN;
     public File currentFile;
 
     public List<SoundEvent> pitchEvents = new ArrayList<SoundEvent>(1000);
     public List<SoundEvent> ampliEvents = new ArrayList<SoundEvent>(1000);
     public List<SoundEvent> onsetEvents = new ArrayList<SoundEvent>();
 
-    public VoiceFileRead() {
-    }
-
     /** return list of sound event, might not be ordered in time 
      * (mainly : ordered amplitude list appears AFTER ordered pitch list : not
      * interlaced)*/
     public List<SoundEvent> read(File file) throws Exception {
-        pitchEvents.clear();
-        ampliEvents.clear();
-        
+        clearEvents();
         currentFile = file;
-        AudioFormat format;
-        format = AudioSystem.getAudioFileFormat(file).getFormat();
-        
-        if (format.getChannels() > 1) {
-            System.err.println(VoiceFileRead.class.getName() + " STEREO file not supported!");
-            // throw new
-            // RuntimeException("Seems to be a stereo file! Interrupt because tarsos is very bad with stereo");
-        }
-        
-        float samplerate = format.getSampleRate();
-
-        configure(file, format, samplerate);
-        compute();
-
-        List<SoundEvent> all = new ArrayList<SoundEvent>(pitchEvents.size()+ampliEvents.size());
-        all.addAll(pitchEvents);
-        all.addAll(ampliEvents);
-        return all;
+        settings.format = newAudioFormatWithSettings(file);
+        verifyFormat(settings.format);
+        configure(settings.format);
+        run();
+        return getAllEvents();
+    }
+    
+    /**
+     * Return the file as a {@link Song}, a collection of pitch and amplitude change events 
+     * which can easily be used to control a synthetizer:
+     * @code song.play(synth);
+     */
+    public Song asSong() throws IOException{
+		Song song = new Song(null, null, pitchEvents, ampliEvents);
+		song.preprocess();
+		return song;
     }
 
-    public void configure(File file, AudioFormat format, float sampleRate) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        double estimationGainValue = 1;
 
-        dispatcher = AudioDispatcherFactory.fromFile(file, settings.bufferSize, settings.overlap);
+	public void clearEvents() {
+	    pitchEvents.clear();
+        ampliEvents.clear();
+    }
+    
+    public void run() throws Exception {
+        Executors.callable(dispatcher).call();
+    }
 
-        addPitchDetection(sampleRate);
-        addGainProcessor(estimationGainValue);
+    /* CONFIGURE PROCESSING */
+    
+    public void configure(AudioFormat format) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        dispatcher = AudioDispatcherFactory.fromFile(currentFile, settings.bufferSize, settings.overlap);
+        addPitchDetection(format.getSampleRate());
+        addGainProcessor(settings.estimationGainValue);
         if(settings.onset)
             addOnsetDetection();
     }
@@ -96,17 +98,13 @@ public class VoiceFileRead extends VoiceTarsos {
     }
 
     public void addOnsetDetection() {
-        dispatcher.addAudioProcessor(makeOnsetDetectorComplex(settings.bufferSize, settings.onsetPickThreshold, settings.onsetMinInterOnsetInterv, settings.onsetSilenceThreshold));
+        dispatcher.addAudioProcessor(makeOnsetDetectorComplex());
         //dispatcher.addAudioProcessor(makeOnsetDetectorPercussion(size));
     }
 
-    int k = 0;
 
-    public void compute() throws Exception {
-        Executors.callable(dispatcher).call();
-    }
 
-    /* */
+    /* PITCH DETECT */
     
     public VoiceDetection makePitchDetectionHandler(float sampleRate) {
         VoiceDetection prs = new VoiceDetection(sampleRate, settings) {
@@ -116,32 +114,27 @@ public class VoiceFileRead extends VoiceTarsos {
                 float frequency = (float) computeFrequency(pitchDetectionResult);
                 float amplitude = computeAmplitude(audioEvent);
                 double timestamp = audioEvent.getTimeStamp();
-                
-                // TODO Handle confidence
-                //synth.sendConfidence(pitchDetectionResult.getProbability());
 
+                // pitch
                 SoundEvent pitch = SoundEvent.pitch((float) timestamp, frequency);
                 pitch.confidence = pitchDetectionResult.getProbability();
-
                 pitchEvents.add(pitch);
+
+                // amplitude
                 ampliEvents.add(SoundEvent.amplitude((float) timestamp, amplitude));
             }
         };
         return prs;
     }
     
-    public void handleOnsetEvent(double time, double salience) {
-        onsetEvents.add(SoundEvent.onset((float)time, (float)salience));
-        System.out.println(VoiceFileRead.class.getSimpleName() + " " + currentFile.getName() + " : Onset " + (k++) + "\ttime : " + time + "\tsalience : " + salience);
-    }
-
+    /* ONSET DETECT */
     
-    public ComplexOnsetDetector makeOnsetDetectorComplex(int size, double pickThreshold, double minInterOnsetInterv, double silenceThreshold) {
-        ComplexOnsetDetector onsetDetector = new ComplexOnsetDetector(size, pickThreshold, minInterOnsetInterv, silenceThreshold);
+    public ComplexOnsetDetector makeOnsetDetectorComplex() {
+        ComplexOnsetDetector onsetDetector = new ComplexOnsetDetector(settings.bufferSize, settings.onsetPickThreshold, settings.onsetMinInterOnsetInterv, settings.onsetSilenceThreshold);
         onsetDetector.setHandler(new OnsetHandler() {
             @Override
             public void handleOnset(double time, double salience) {
-                handleOnsetEvent(time, salience);
+                doHandleOnsetEvent(time, salience);
             }
         });
         return onsetDetector;
@@ -151,9 +144,26 @@ public class VoiceFileRead extends VoiceTarsos {
         PercussionOnsetDetector onsetDetector = new PercussionOnsetDetector(44100, size, new OnsetHandler() {
             @Override
             public void handleOnset(double time, double salience) {
-                handleOnsetEvent(time, salience);
+                doHandleOnsetEvent(time, salience);
             }
         }, 70, 10);
         return onsetDetector;
     }
+    
+    protected void doHandleOnsetEvent(double time, double salience) {
+        onsetEvents.add(SoundEvent.onset((float)time, (float)salience));
+        System.out.println(VoiceFileRead.class.getSimpleName() + " " + currentFile.getName() + " : Onset " + (k++) + "\ttime : " + time + "\tsalience : " + salience);
+    }
+    
+    int k = 0;
+
+    
+	private List<SoundEvent> getAllEvents() {
+	    List<SoundEvent> all = new ArrayList<SoundEvent>(pitchEvents.size()+ampliEvents.size());
+        all.addAll(pitchEvents);
+        all.addAll(ampliEvents);
+	    return all;
+    }
+
+
 }

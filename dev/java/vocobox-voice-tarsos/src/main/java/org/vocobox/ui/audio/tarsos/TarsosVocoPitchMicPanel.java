@@ -35,7 +35,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import org.vocobox.voice.pitch.tarsos.VoiceMicListen;
+import org.vocobox.voice.pitch.tarsos.VoiceInputListen;
 
 import be.tarsos.dsp.example.InputPanel;
 import be.tarsos.dsp.example.PitchDetectionPanel;
@@ -43,14 +43,14 @@ import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm;
 
 public class TarsosVocoPitchMicPanel extends JPanel {
     private static final long serialVersionUID = 3501426880288136245L;
-    public VoiceMicListen pitchMic;
+    public VoiceInputListen pitchMic;
     public JPanel inputPanel;
     public JPanel pitchDetectionPanel;
-    public TarsosVocoPitchMicPanel(final VoiceMicListen pitchMic) {
+    public TarsosVocoPitchMicPanel(final VoiceInputListen pitchMic) {
         this(pitchMic, false);
     }
     
-    public TarsosVocoPitchMicPanel(final VoiceMicListen pitchMic, boolean vertical) {
+    public TarsosVocoPitchMicPanel(final VoiceInputListen pitchMic, boolean vertical) {
         if(!vertical)
         this.setLayout(new GridLayout(1, 0));
         else
@@ -70,7 +70,7 @@ public class TarsosVocoPitchMicPanel extends JPanel {
         add(pitchDetectionPanel);
     }
 
-    public void wireOnMixerChange(final VoiceMicListen pitchMic, JPanel inputPanel) {
+    public void wireOnMixerChange(final VoiceInputListen pitchMic, JPanel inputPanel) {
         inputPanel.addPropertyChangeListener("mixer", new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent arg0) {

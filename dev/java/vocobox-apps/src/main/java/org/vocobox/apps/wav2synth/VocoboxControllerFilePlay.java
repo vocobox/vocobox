@@ -79,7 +79,7 @@ public class VocoboxControllerFilePlay extends VocoboxControllerAbstract{
     
     /** Play song with synthetizer and source file at the same time */
     public void play() throws Exception {
-        getVoice().play(new File(wavFile), 0, sourceGain);
+        getVoice().play(new File(wavFile));
     }
 
 

@@ -9,6 +9,11 @@ import be.tarsos.dsp.EnvelopeFollower;
 import be.tarsos.dsp.pitch.PitchDetectionHandler;
 import be.tarsos.dsp.pitch.PitchDetectionResult;
 
+/**
+ * Sample rate required for envelope computation. 
+ * @author martin
+ *
+ */
 public abstract class VoiceDetection implements PitchDetectionHandler{
     public VoiceAnalysisSettings settings = new VoiceAnalysisSettings();
     
@@ -17,22 +22,22 @@ public abstract class VoiceDetection implements PitchDetectionHandler{
     protected int previousFrequencyIndex;
 
     protected EnvelopeFollower envelopeFollower;
-    protected float samplerate;
+    protected float sampleRate;
 
     protected double phase = 0;
     protected double phaseFirst = 0;
     protected double phaseSecond = 0;
     protected boolean usePureSine;
 
-    public VoiceDetection(float samplerate, VoiceAnalysisSettings settings){
-        this(samplerate, settings, false);
+    public VoiceDetection(float sampleRate, VoiceAnalysisSettings settings){
+        this(sampleRate, settings, false);
     }
     
-    public VoiceDetection(float samplerate, VoiceAnalysisSettings settings, boolean playPureSine) {
+    public VoiceDetection(float sampleRate, VoiceAnalysisSettings settings, boolean playPureSine) {
         super();
         this.usePureSine = playPureSine;
-        this.samplerate = samplerate;
-        this.envelopeFollower = new EnvelopeFollower(samplerate, settings.envelopeFollowAttackTime, settings.envelopeFollowReleaseTime);//attack, release
+        this.sampleRate = sampleRate;
+        this.envelopeFollower = new EnvelopeFollower(sampleRate, settings.envelopeFollowAttackTime, settings.envelopeFollowReleaseTime);//attack, release
         this.previousFrequencies = new double[settings.filterSize];
         this.previousFrequencyIndex = 0;
     }
@@ -92,7 +97,7 @@ public abstract class VoiceDetection implements PitchDetectionHandler{
 
     protected void applyEnvelopeToBuffer(float[] audioBuffer, final double twoPiF, float[] envelope) {
         for (int sample = 0; sample < audioBuffer.length; sample++) {
-            double time = sample / samplerate;
+            double time = sample / sampleRate;
             double wave = Math.sin(twoPiF * time + phase);
             if (!usePureSine) {
                 wave += 0.05 * Math.sin(twoPiF * 4 * time + phaseFirst);
@@ -111,7 +116,7 @@ public abstract class VoiceDetection implements PitchDetectionHandler{
         double frequency = computeFrequency(pitchDetectionResult);
         final float[] audioBuffer = audioEvent.getFloatBuffer();
         final double twoPiF = 2 * Math.PI * frequency;
-        double timefactor = twoPiF * audioBuffer.length / samplerate;
+        double timefactor = twoPiF * audioBuffer.length / sampleRate;
         computeEnvelopeAndApplyToBuffer(audioBuffer, twoPiF);
         computePhase(timefactor);
     }

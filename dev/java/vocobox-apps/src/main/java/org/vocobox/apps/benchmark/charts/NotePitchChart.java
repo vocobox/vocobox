@@ -46,7 +46,7 @@ public class NotePitchChart extends NoteChartAbstract {
     public void play(Note note, SynthMonitorCharts monitors) throws Exception {
         VocoSynth synth = new MonitoredSynth(monitors);
         VoiceFilePlay voice = new VoiceFilePlay(synth);
-        voice.play(note.file, 0, 0);
+        voice.play(note.file);
     }
 
     public SynthMonitorCharts makeSynthMonitor() {

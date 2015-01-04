@@ -1,9 +1,11 @@
 package org.vocobox.voice;
 
+import javax.sound.sampled.AudioFormat;
+
 import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm;
 
 public class VoiceAnalysisSettings {
-    
+    public boolean crashOnStereoFile = true;
     
     // tarsos global settings
     public PitchEstimationAlgorithm algo = PitchEstimationAlgorithm.YIN;
@@ -16,6 +18,16 @@ public class VoiceAnalysisSettings {
     public double envelopeFollowAttackTime = 0.005;
     public double envelopeFollowReleaseTime = 0.05;
     
+    // voice analysis tarsos settings
+    public double estimationGainValue = 1;
+    public double sourceGainValue = 0;
+    
+    // voice analysis microphone tarsos
+    public float sampleRate = 44100;
+    public int sampleSizeInBits = 16;
+    public int channels = 1;
+
+    public AudioFormat format;
     
     
  // onset simple

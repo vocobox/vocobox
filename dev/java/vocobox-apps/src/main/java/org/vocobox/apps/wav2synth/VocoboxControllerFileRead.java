@@ -35,6 +35,8 @@ public class VocoboxControllerFileRead extends VocoboxControllerAbstract {
 		//exportPiano(controller);
 	}
 	
+	/* ######################################################## */
+
 	public static void exportVoice2(VocoboxControllerFileRead controller) throws FileNotFoundException, IOException, Exception{
 		String file ;
 		String out;
