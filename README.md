@@ -10,17 +10,17 @@ We rather want to build a voice-to-instrument application than an audio-to-midi 
 
 ###### VOCOBOX 1.0 (01/01/2015)
 
-At this step we are mainly evaluating pitch detection algorithms using the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a>, a dataset we build to gather examples of singers' voice (e.g. all notes in their range). We define score such as note onset latency, pitch detection latency and <a href="https://github.com/vocobox/vocobox/blob/master/doc/benchmark-human-voice">compare pitch detection performance with charts</a>.
+If we you want to go straight to example output, go <a href="http://doc.jzy3d.org/vocobox/examples/">here</a>.
+
+At this step we are mainly evaluating pitch detection algorithms using the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a>, a dataset we build to gather examples of singers' voice (e.g. all notes in the voice range). We define scores such as pitch detection latency and precision and <a href="https://github.com/vocobox/vocobox/blob/master/doc/benchmark-human-voice">compare them graphically</a>.
 
 We also evaluate pitch detection <i>in real time</i> by recording the voice with a microphone as input and by generating a synthetizer sound as output.
 
-See the component section of this document to learn more about algorithms used in this project.
+See the <b>Component</b> section of this document to learn more about algorithms used in this project.
 
 To get notified of futured version, simply <a href="https://twitter.com/Vocobox">follow Vocobox</a> on Twitter.
 
 ## Applications
-
-Folder vocobox/dev/java/vocobox-apps provides several applications
 
 #### Controlling Synthetizers with CSV files
 
@@ -72,6 +72,8 @@ To run synthetizer control based on live voice, see <a href="https://github.com/
 #### Benchmark Pitch Detection algorithm on note datasets
 
 This <a href="https://github.com/vocobox/vocobox/tree/master/doc/benchmark-human-voice">document</a> explain how we use the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a> (a serie of wav files containing human sung notes) to evaluate pitch detection algorithm on isolated notes.
+
+<img src="doc/images/voyels.png"/>
 
 ## Components
 
@@ -164,19 +166,19 @@ Few features interesting with Jzy3d
 
 ## Real time
 
-### Real time Human
+### Human perception of real time
 
-<a href="http://aubio.org/phd/thesis/brossier06thesis.pdf">Experiments</a> have shown than human is able to perceive changes up to a limit of 5 to 50 ms (limit depends on sound properties).
+We found in P.Brossier <a href="http://aubio.org/phd/thesis/brossier06thesis.pdf">Thesis</a> that human can perceive audio events when they are separated by 50ms to a few milisecond :
 
-### Real time Java?
+> As auditory nerve cells need to rest after firing, several phenomena may occur within the inner ear. Depending on the nature of the sources, two or more events will be merged into one sensation. In some cases, <b>events will need to be separated by only a few millisecond to be perceived as two distinct events, while some other sounds will be merged if they occur within 50 ms</b>, and sometimes even longer. These effects, known as the psychoacoustic masking effects, are complex, and depend not only of the loudness of both sources, masker and maskee, but also on their frequency and timbre [Zwicker and Fastl, 1990]. The different masking effects can be divided in three kinds [Bregman, 1990]. Pre-masking occurs when a masked event is followed immediately by a louder event. Post-masking instead occurs when a loud event is followed by a quiet noise. In both case, the quiet event will not be perceived – i.e. it will be masked. The third kind of masking effect is simultaneous masking, also referred to as frequency masking, as it is strongly dependent on the spectrum of both the masker and the maskee.
 
-Standard version of Java can hardly deal with such speed constraints due to non predictability of garbage collection. However there are garbage collectors - such as <a href="http://researcher.watson.ibm.com/researcher/view_group.php?id=174">Metronome GC</a> able work in deterministic time, with promise of not spending more than 3ms in garbage collection
+### Real time capabilities of the Java platform
 
-### Perceptual definition of real time
+We thus consider 5ms to be the timeframe within which we should be able to do computational work to be able to produce audio without cues. It is like being able to render images of an animation below 1/25s to display at a rate suitable with persistence of vision.
 
-In our works, we simply consider we will reach "real time" once we will <i>feel</i> no cue when triggering a synthetizer by humming.
+In this project we are rather working on data than delivering production ready software so we could say it is not a matter if standard versions of Java can't  deal with the above speed constraints due to non predictability of garbage collection.
 
-We did not reach this point yet, but we feel Yin is "close" to real time with little pitch precision error and latency.
+But Java can be a good platform for real time, as shown by <a href="http://researcher.watson.ibm.com/researcher/view_group.php?id=174">Metronome GC</a>, a Garbage Collector able work in deterministic time, with the promise of not spending more than 3ms in collecting garbage. 3ms is great because it is lower to than the perception capabilities of our brain as exposed above.
 
 ## Getting and building source code
 
@@ -190,13 +192,12 @@ mkdir public
 cd public
 ```
 
-
-Getting voice dataset
+Get the voice dataset
 ```
 git clone https://github.com/vocobox/human-voice-dataset
 ```
 
-Getting and building vocobox
+Get and build Vocobox
 ```
 git clone https://github.com/vocobox/vocobox
 cd vocobox/dev/java
@@ -205,7 +206,8 @@ mvn clean install
 
 Maven should retrieve TarsosDSP, JSyn, and Jzy3d from Jzy3d's maven repository.
 
-If you want to build all those components without depending on Jzy3d, you can get our forks enabling JSyn and TarsosDSP on maven:
+Following is not necessary, but
+if you want to build the dependencies yourself, you can get our forks enabling JSyn and TarsosDSP on maven:
 
 ```
 cd ../external/
