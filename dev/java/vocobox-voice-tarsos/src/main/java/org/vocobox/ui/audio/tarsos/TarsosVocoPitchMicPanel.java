@@ -35,6 +35,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import org.vocobox.model.voice.analysis.VoiceAnalysisSettings;
 import org.vocobox.voice.pitch.tarsos.VoiceInputListen;
 
 import be.tarsos.dsp.example.InputPanel;
@@ -57,7 +58,7 @@ public class TarsosVocoPitchMicPanel extends JPanel {
             this.setLayout(new GridLayout(0, 1));
 
         this.pitchMic = pitchMic;
-        pitchMic.settings.algo = PitchEstimationAlgorithm.YIN;
+        pitchMic.settings.pitchDetectAlgo = VoiceAnalysisSettings.PITCH_DETECT_YIN;
 
         inputPanel = new InputPanel();
         inputPanel.setBorder(new TitledBorder("Microphones"));
@@ -92,7 +93,7 @@ public class TarsosVocoPitchMicPanel extends JPanel {
         public void actionPerformed(final ActionEvent e) {
             String name = e.getActionCommand();
             PitchEstimationAlgorithm newAlgo = PitchEstimationAlgorithm.valueOf(name);
-            pitchMic.settings.algo = newAlgo;
+            pitchMic.settings.pitchDetectAlgo = newAlgo;
             try {
                 pitchMic.setNewMixer(pitchMic.currentMixer);
             } catch (LineUnavailableException e1) {

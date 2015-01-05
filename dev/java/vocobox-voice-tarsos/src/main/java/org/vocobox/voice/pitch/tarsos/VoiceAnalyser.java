@@ -8,13 +8,14 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import org.vocobox.model.synth.SynthControllerDefault;
-import org.vocobox.voice.VoiceAnalysisSettings;
+import org.vocobox.model.voice.analysis.VoiceAnalysisSettings;
 import org.vocobox.voice.pitch.tarsos.handler.VoiceDetectionSynthController;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.io.jvm.AudioDispatcherFactory;
 import be.tarsos.dsp.io.jvm.JVMAudioInputStream;
 import be.tarsos.dsp.pitch.PitchProcessor;
+import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm;
 
 public class VoiceAnalyser extends SynthControllerDefault {
 	public VoiceAnalysisSettings settings = VoiceAnalysisSettings.DEFAULT;
@@ -44,8 +45,15 @@ public class VoiceAnalyser extends SynthControllerDefault {
     }
 	
 	protected PitchProcessor newPitchProcessor(AudioFormat format, VoiceDetectionSynthController pitchDetectionHandler) {
-	    return new PitchProcessor(settings.algo, format.getSampleRate(), settings.bufferSize, pitchDetectionHandler);
+	    return new PitchProcessor(newPitchDetectAlgo(settings.pitchDetectAlgo), format.getSampleRate(), settings.bufferSize, pitchDetectionHandler);
     }
+	
+	protected PitchEstimationAlgorithm newPitchDetectAlgo(String name){
+	    if("yin".equals(name)){
+	        return PitchEstimationAlgorithm.YIN;
+	    }
+	    return null;
+	}
 	
 	protected VoiceDetectionSynthController newPitchDetectionHandler(float sampleRate) {
 		VoiceDetectionSynthController prs = new VoiceDetectionSynthController(sampleRate, settings);

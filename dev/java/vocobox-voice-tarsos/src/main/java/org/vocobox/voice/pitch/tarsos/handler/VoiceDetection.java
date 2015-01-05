@@ -2,7 +2,7 @@ package org.vocobox.voice.pitch.tarsos.handler;
 
 import java.util.Arrays;
 
-import org.vocobox.voice.VoiceAnalysisSettings;
+import org.vocobox.model.voice.analysis.VoiceAnalysisSettings;
 
 import be.tarsos.dsp.AudioEvent;
 import be.tarsos.dsp.EnvelopeFollower;

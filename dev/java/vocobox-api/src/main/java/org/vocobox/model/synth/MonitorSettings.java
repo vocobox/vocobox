@@ -46,6 +46,10 @@ public class MonitorSettings {
     public Color pitchWithConfidence0 = Color.GRAY;
     public ColorMapper confidenceSerieColormap = new ColorMapper(new ColorMapWhiteGreen(), 0, 1);
 
+    public boolean pitchColorAlphaWithConfidence = true;
+    public boolean pitchColorAlphaWithAmplitude = false;
+    public float pitchColorAlphaFactor = 1;
+    
     public int pitchSerieWidth = 2;
     public int ampliSerieWidth = 2;
     public int confidenceSerieWidth = 3;

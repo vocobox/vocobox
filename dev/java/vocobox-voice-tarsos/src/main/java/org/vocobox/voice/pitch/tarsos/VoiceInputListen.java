@@ -48,7 +48,7 @@ public class VoiceInputListen extends VoiceAnalyser {
         pitchPitchHandler = newPitchDetectionHandler(format.getSampleRate());
         audioStream = getAudioInputStream(currentMixer, format);
         dispatcher = newAudioDispatcher(audioStream);
-        dispatcher.addAudioProcessor(new PitchProcessor(settings.algo, format.getSampleRate(), settings.bufferSize, pitchPitchHandler));
+        dispatcher.addAudioProcessor(new PitchProcessor(newPitchDetectAlgo(settings.pitchDetectAlgo), format.getSampleRate(), settings.bufferSize, pitchPitchHandler));
         return pitchPitchHandler;
     }
 

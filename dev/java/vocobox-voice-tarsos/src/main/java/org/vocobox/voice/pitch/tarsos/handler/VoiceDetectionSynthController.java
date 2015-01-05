@@ -24,7 +24,7 @@
 package org.vocobox.voice.pitch.tarsos.handler;
 
 import org.vocobox.model.synth.VocoSynth;
-import org.vocobox.voice.VoiceAnalysisSettings;
+import org.vocobox.model.voice.analysis.VoiceAnalysisSettings;
 
 import be.tarsos.dsp.AudioEvent;
 import be.tarsos.dsp.pitch.PitchDetectionHandler;

@@ -1,15 +1,16 @@
-package org.vocobox.voice;
+package org.vocobox.model.voice.analysis;
 
 import javax.sound.sampled.AudioFormat;
 
-import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm;
-
 public class VoiceAnalysisSettings {
+    public static final String PITCH_DETECT_YIN = "yin";
+    
     public static VoiceAnalysisSettings DEFAULT = new VoiceAnalysisSettings();
     public boolean crashOnStereoFile = true;
     
     // tarsos global settings
-    public PitchEstimationAlgorithm algo = PitchEstimationAlgorithm.YIN;
+    public String pitchDetectAlgo = "yin";
+    
     public int bufferSize = 2048; // 1024 too small for lower notes
     public int overlap = 10; // mic listen=0, file read/play=1
     public int filterSize = 1; // default 5 : reducing to 1 reduce latency

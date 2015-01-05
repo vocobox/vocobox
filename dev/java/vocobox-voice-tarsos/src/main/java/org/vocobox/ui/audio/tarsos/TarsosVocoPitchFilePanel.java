@@ -15,6 +15,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.vocobox.model.voice.analysis.VoiceAnalysisSettings;
 import org.vocobox.voice.pitch.tarsos.VoiceFilePlay;
 
 import be.tarsos.dsp.example.PitchDetectionPanel;
@@ -98,7 +99,7 @@ public class TarsosVocoPitchFilePanel extends JPanel {
 		this.add(fileChooserPanel, BorderLayout.NORTH);
 		this.add(gainPanel, BorderLayout.SOUTH);
 		JPanel pitchDetectionPanel = new PitchDetectionPanel(algoChangeListener);
-		pitchFile.settings.algo = PitchEstimationAlgorithm.YIN;
+		pitchFile.settings.pitchDetectAlgo = VoiceAnalysisSettings.PITCH_DETECT_YIN;
 		this.add(pitchDetectionPanel, BorderLayout.CENTER);
 	}
 
@@ -108,7 +109,7 @@ public class TarsosVocoPitchFilePanel extends JPanel {
 			public void actionPerformed(final ActionEvent e) {
 				String name = e.getActionCommand();
 				PitchEstimationAlgorithm newAlgo = PitchEstimationAlgorithm.valueOf(name);
-				pitchFile.settings.algo = newAlgo;
+				pitchFile.settings.pitchDetectAlgo = newAlgo.toString();
 				if (pitchFile.currentFile != null) {
 					pitchFile.estimationDispatcher.stop();
 					pitchFile.sourceDispatcher.stop();

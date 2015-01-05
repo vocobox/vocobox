@@ -89,7 +89,7 @@ public class VoiceFileRead extends VoiceAnalyser {
 
     public void addPitchDetection(float sampleRate) {
         VoiceDetection pitchDetectionHandler = makePitchDetectionHandler(sampleRate);
-        dispatcher.addAudioProcessor(new PitchProcessor(settings.algo, sampleRate, settings.bufferSize, pitchDetectionHandler));
+        dispatcher.addAudioProcessor(new PitchProcessor(newPitchDetectAlgo(settings.pitchDetectAlgo), sampleRate, settings.bufferSize, pitchDetectionHandler));
     }
 
     public void addGainProcessor(double estimationGainValue) {
