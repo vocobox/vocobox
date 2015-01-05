@@ -5,6 +5,9 @@ import org.jzy3d.colors.ColorMapper;
 import org.jzy3d.colors.colormaps.ColorMapWhiteGreen;
 import org.jzy3d.plot2d.primitives.Serie2d.Type;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
+import org.vocobox.ui.charts.synth.PitchChartProcessor;
+import org.vocobox.ui.charts.synth.PitchChartProcessorDefault;
+import org.vocobox.ui.charts.synth.SynthMonitorCharts;
 
 public class MonitorSettings {
     public static MonitorSettings DEFAULT = new MonitorSettings();
@@ -33,7 +36,7 @@ public class MonitorSettings {
     public Type evaluationSerieType = Type.SCATTER_POINTS;
     
     public float pitchMax = 220;//440;
-    public int pitchTickOctaves = 4;
+    public int pitchTickOctaves = 4; //5;
     public float evalMaxErrorInSemitone = 3;
     public float evalPitchLatencyTimeMax = 1.2f;
 
@@ -54,4 +57,9 @@ public class MonitorSettings {
     public int ampliSerieWidth = 2;
     public int confidenceSerieWidth = 3;
     public int evalSerieWidth = 2;
+    
+    /**
+     * Coloring with alpha based on amplitude or confidence, depending on {@link MonitorSettings}
+     */
+    public PitchChartProcessor pitchProcessor = new PitchChartProcessorDefault();
 }

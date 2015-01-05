@@ -75,9 +75,9 @@ public class SynthMonitorCharts extends Timer implements SynthMonitor {
     };
 
     // memory of last event info
-    protected double currentTime = 0;
-    protected float currentConfidence = 1;
-    protected float currentAmplitude = 1;
+    public double currentTimeReadOnly = 0;
+    public float currentConfidenceReadOnly = 1;
+    public float currentAmplitudeReadOnly = 1;
     protected float expectedFrequency;
 
     public PitchPrecisionDistanceInSemitone getPitchPrecisionEvaluator() {
@@ -160,37 +160,20 @@ public class SynthMonitorCharts extends Timer implements SynthMonitor {
 
     @Override
     public void amplitudeChangeAt(double time, float value) {
-        currentTime = time;
-        currentAmplitude = value;
+        currentTimeReadOnly = time;
+        currentAmplitudeReadOnly = value;
 
         Color c = settings.ampliColor.clone();
-        c.a = currentConfidence;
+        c.a = currentConfidenceReadOnly;
         showAmplitude(time, value, c);
     }
 
     @Override
     public void pitchChangeAt(double time, float value) {
-        currentTime = time;
-
-        Color c = getCurrentPitchColor();
+        currentTimeReadOnly = time;
+        Color c = settings.pitchProcessor.getColor(time, value, this, settings);
         showPitch(time, value, c);
         showPitchEvaluation(time, value, getExpectedFrequency(time));
-    }
-
-    /**
-     * Coloring with alpha based on amplitude or confidence, depending on {@link MonitorSettings}
-     */
-    protected Color getCurrentPitchColor() {
-        Color c = settings.pitchColor.clone();
-        if (settings.pitchColorAlphaWithConfidence && !settings.pitchColorAlphaWithAmplitude)
-            c.a = currentConfidence;
-        else if (!settings.pitchColorAlphaWithConfidence && settings.pitchColorAlphaWithAmplitude)
-            c.a = currentAmplitude;
-        else if (settings.pitchColorAlphaWithConfidence && settings.pitchColorAlphaWithAmplitude)
-            c.a = currentAmplitude * currentConfidence;
-        c.a = c.a * settings.pitchColorAlphaFactor;
-        System.out.println(currentAmplitude);
-        return c;
     }
 
     private float getExpectedFrequency(double time) {
@@ -208,13 +191,13 @@ public class SynthMonitorCharts extends Timer implements SynthMonitor {
     }
 
     public void pitchChangeAtWithInfo(double time, float value, Object info) {
-        currentTime = time;
+        currentTimeReadOnly = time;
     }
 
     @Override
     public void pitchConfidenceChangedAt(double time, float confidence, float pitch) {
-        currentTime = time;
-        currentConfidence = confidence;
+        currentTimeReadOnly = time;
+        currentConfidenceReadOnly = confidence;
         showConfidenceOnPitch(time, confidence, pitch);
         showConfidenceOnAmplitude(time, confidence);
         showConfidenceOnConfidence(time, confidence);
