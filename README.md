@@ -16,6 +16,8 @@ We also evaluate pitch detection <i>in real time</i> by recording the voice with
 
 See the component section of this document to learn more about algorithms used in this project.
 
+To get notified of futured version, simply <a href="https://twitter.com/Vocobox">follow Vocobox</a> on Twitter.
+
 ## Applications
 
 Folder vocobox/dev/java/vocobox-apps provides several applications
@@ -136,8 +138,7 @@ Synthetizer powered by <a href="https://github.com/philburk/jsyn">JSyn</a> are a
 
 ### Charts
 
-Charts are powered by <a href="https://github.com/jzy3d/jzy3d-api">Jzy3d</a>. They are used as synthetizer command logs : parameter changes of the synthetizer are tracked and mapped to multiple 2d charts. Below is the list of available charts. See <a href="http://doc.jzy3d.org/vocobox/vocobox-video.swf
-">here a video</a> of charts in action.
+Charts are powered by <a href="https://github.com/jzy3d/jzy3d-api">Jzy3d</a>. They are used as synthetizer command logs : parameter changes of the synthetizer are tracked and mapped to multiple 2d charts. Below is the list of available charts. See <a href="http://doc.jzy3d.org/vocobox/vocobox-video.swf">here a video</a> of charts in action.
 
 
 <table>
@@ -173,7 +174,9 @@ Standard version of Java can hardly deal with such speed constraints due to non 
 
 ### Perceptual definition of real time
 
-In our works, we simply consider we will reach "real time" once we will <i>feel</i> no cue when triggering a synthetizer by humming. We did not reach this point yet, but we feel Yin is "close" to real time with little pitch precision error and latency.
+In our works, we simply consider we will reach "real time" once we will <i>feel</i> no cue when triggering a synthetizer by humming.
+
+We did not reach this point yet, but we feel Yin is "close" to real time with little pitch precision error and latency.
 
 ## Getting and building source code
 
