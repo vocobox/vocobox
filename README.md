@@ -2,6 +2,8 @@
 
 Voice Controller for Digital Instruments
 
+<img src="doc/images/piano-track.png"/>
+
 ## Description
 
 Vocobox intend to provide singers with a software turning the voice to a musical controller. Voice features (pitch, volume, ...) are used to control external software or hardware producing music.
