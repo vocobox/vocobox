@@ -17,20 +17,20 @@ import be.tarsos.dsp.pitch.PitchProcessor;
  * 
  * @author Martin Pernollet
  */
-public class VoiceInputListen extends VoiceAnalyser {
+public class VoiceInputStreamListen extends VoiceAnalyser {
     public AudioDispatcher dispatcher;
     public Mixer currentMixer;
     public VoiceDetectionSynthController pitchPitchHandler;
     public JVMAudioInputStream audioStream;
     
-    public VoiceInputListen(){
+    public VoiceInputStreamListen(){
     }
     
-    public VoiceInputListen(VocoSynth synth){
+    public VoiceInputStreamListen(VocoSynth synth){
         this.synth = synth;
     }
 
-    public void setNewMixer(Mixer mixer) throws LineUnavailableException, UnsupportedAudioFileException, Exception {
+    public void changeMixer(Mixer mixer) throws LineUnavailableException, UnsupportedAudioFileException, Exception {
         stopDispatcherIfAny();
         currentMixer = mixer;
         settings.format = newAudioFormatWithSettings();

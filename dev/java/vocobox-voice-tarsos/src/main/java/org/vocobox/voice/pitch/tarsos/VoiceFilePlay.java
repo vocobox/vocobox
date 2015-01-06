@@ -64,17 +64,17 @@ public class VoiceFilePlay extends VoiceAnalyser {
     @Override
     public VoiceDetectionSynthController configure() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         VoiceDetectionSynthController pitchDetectionHandler = newPitchDetectionHandler(settings.format.getSampleRate());
-        configureSynthesis(currentFile, settings.format, pitchDetectionHandler);
-        configureSource(currentFile, settings.format);
+        configureSynthesis(pitchDetectionHandler);
+        configureSource();
         return pitchDetectionHandler;
     }
 
-    public void configureSource(File file, AudioFormat format) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public void configureSource() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         // To play source file
         sourceGain = new GainProcessor(settings.sourceGainValue);
-        sourceDispatcher = newAudioDispatcher(file);
+        sourceDispatcher = newAudioDispatcher(currentFile);
         sourceDispatcher.addAudioProcessor(sourceGain);
-        sourceDispatcher.addAudioProcessor(new AudioPlayer(format));
+        sourceDispatcher.addAudioProcessor(new AudioPlayer(settings.format));
     }
 
     /**
@@ -89,14 +89,14 @@ public class VoiceFilePlay extends VoiceAnalyser {
      * @throws IOException
      * @throws LineUnavailableException
      */
-    public void configureSynthesis(File file, AudioFormat format, VoiceDetectionSynthController pitchDetectionHandler) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public void configureSynthesis(VoiceDetectionSynthController pitchDetectionHandler) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         // To run vocosynth & send to audio out input sound
         estimationGain = new GainProcessor(settings.estimationGainValue);
-        dispatcher = newAudioDispatcher(file);
-        dispatcher.addAudioProcessor(newPitchProcessor(format, pitchDetectionHandler));
+        dispatcher = newAudioDispatcher(currentFile);
+        dispatcher.addAudioProcessor(newPitchProcessor(settings.format, pitchDetectionHandler));
         dispatcher.addAudioProcessor(estimationGain);
         configureOnsetDetection();
-        dispatcher.addAudioProcessor(new AudioPlayer(format));
+        dispatcher.addAudioProcessor(new AudioPlayer(settings.format));
     }
 
     private void configureOnsetDetection() {

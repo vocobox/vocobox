@@ -112,7 +112,7 @@ public abstract class VoiceDetection implements PitchDetectionHandler{
     
     /* */
     
-    public void applyDetectionToSelfOscillo(PitchDetectionResult pitchDetectionResult, AudioEvent audioEvent) {
+    protected void applyDetectionToSelfOscillo(PitchDetectionResult pitchDetectionResult, AudioEvent audioEvent) {
         double frequency = computeFrequency(pitchDetectionResult);
         final float[] audioBuffer = audioEvent.getFloatBuffer();
         final double twoPiF = 2 * Math.PI * frequency;

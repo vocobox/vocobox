@@ -51,7 +51,14 @@ public abstract class VoiceAnalyser extends SynthControllerDefault {
 
     
     public AudioDispatcher dispatcher;
+    
+    protected void stopDispatcherIfAny() {
+        if (dispatcher != null) 
+            dispatcher.stop();
+    }
 
+
+    /* FACTORY METHODS FOR TARSOS OBJECTS */
 	
 	protected AudioFormat newAudioFormatWithSettings(File file) throws UnsupportedAudioFileException, IOException {
 		AudioFormat format = AudioSystem.getAudioFileFormat(file).getFormat();

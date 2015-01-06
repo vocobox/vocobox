@@ -7,7 +7,7 @@ import org.vocobox.model.synth.MonitorSettings;
 import org.vocobox.ui.audio.AudioSourceChart;
 import org.vocobox.ui.audio.tarsos.TarsosVocoPitchMicPanel;
 import org.vocobox.ui.charts.synth.SynthMonitorCharts;
-import org.vocobox.voice.pitch.tarsos.VoiceInputListen;
+import org.vocobox.voice.pitch.tarsos.VoiceInputStreamListen;
 
 public class VocoboxPanelsMic {
     protected JPanel inputControl;
@@ -23,7 +23,7 @@ public class VocoboxPanelsMic {
     }
 
     public void linkPanels(VocoboxControllerMic controller)  {
-        inputControl = new TarsosVocoPitchMicPanel((VoiceInputListen) controller.voice);
+        inputControl = new TarsosVocoPitchMicPanel((VoiceInputStreamListen) controller.voice);
         synthControl = controller.synth.newControlPanel();
         synthCharts = new MultiChartPanel(synthMonitors.getCharts());
     }

@@ -7,7 +7,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import org.vocobox.apps.VocoboxControllerAbstract;
 import org.vocobox.model.synth.MonitorSettings;
 import org.vocobox.synth.jsyn.circuits.JsynCircuitSynth;
-import org.vocobox.voice.pitch.tarsos.VoiceInputListen;
+import org.vocobox.voice.pitch.tarsos.VoiceInputStreamListen;
 
 public class VocoboxControllerMic extends VocoboxControllerAbstract{
     public static void main(String[] args) throws IOException, UnsupportedAudioFileException {
@@ -21,7 +21,7 @@ public class VocoboxControllerMic extends VocoboxControllerAbstract{
 
     @Override
     public void wireVoice() {
-        this.voice = new VoiceInputListen(synth);
+        this.voice = new VoiceInputStreamListen(synth);
     }
 
     @Override

@@ -36,7 +36,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import org.vocobox.model.voice.analysis.VoiceAnalysisSettings;
-import org.vocobox.voice.pitch.tarsos.VoiceInputListen;
+import org.vocobox.voice.pitch.tarsos.VoiceInputStreamListen;
 
 import be.tarsos.dsp.example.InputPanel;
 import be.tarsos.dsp.example.PitchDetectionPanel;
@@ -44,14 +44,14 @@ import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm;
 
 public class TarsosVocoPitchMicPanel extends JPanel {
     private static final long serialVersionUID = 3501426880288136245L;
-    public VoiceInputListen pitchMic;
+    public VoiceInputStreamListen pitchMic;
     public JPanel inputPanel;
     public JPanel pitchDetectionPanel;
-    public TarsosVocoPitchMicPanel(final VoiceInputListen pitchMic) {
+    public TarsosVocoPitchMicPanel(final VoiceInputStreamListen pitchMic) {
         this(pitchMic, false);
     }
     
-    public TarsosVocoPitchMicPanel(final VoiceInputListen pitchMic, boolean vertical) {
+    public TarsosVocoPitchMicPanel(final VoiceInputStreamListen pitchMic, boolean vertical) {
         if(!vertical)
         this.setLayout(new GridLayout(1, 0));
         else
@@ -71,12 +71,12 @@ public class TarsosVocoPitchMicPanel extends JPanel {
         add(pitchDetectionPanel);
     }
 
-    public void wireOnMixerChange(final VoiceInputListen pitchMic, JPanel inputPanel) {
+    public void wireOnMixerChange(final VoiceInputStreamListen pitchMic, JPanel inputPanel) {
         inputPanel.addPropertyChangeListener("mixer", new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent arg0) {
                 try {
-                    pitchMic.setNewMixer((Mixer) arg0.getNewValue());
+                    pitchMic.changeMixer((Mixer) arg0.getNewValue());
                 } catch (LineUnavailableException e) {
                     e.printStackTrace();
                 } catch (UnsupportedAudioFileException e) {
@@ -95,7 +95,7 @@ public class TarsosVocoPitchMicPanel extends JPanel {
             PitchEstimationAlgorithm newAlgo = PitchEstimationAlgorithm.valueOf(name);
             pitchMic.settings.pitchDetectAlgo = newAlgo.toString();
             try {
-                pitchMic.setNewMixer(pitchMic.currentMixer);
+                pitchMic.changeMixer(pitchMic.currentMixer);
             } catch (LineUnavailableException e1) {
                 e1.printStackTrace();
             } catch (UnsupportedAudioFileException e1) {

@@ -140,7 +140,7 @@ public class VoiceFileRead extends VoiceAnalyser {
         return newPercussionOnsetDetector(onsetHandlerDoer);
     }
 
-    OnsetHandler onsetHandlerDoer = new OnsetHandler() {
+    protected OnsetHandler onsetHandlerDoer = new OnsetHandler() {
         @Override
         public void handleOnset(double time, double salience) {
             doHandleOnsetEvent(time, salience);
