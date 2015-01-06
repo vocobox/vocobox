@@ -12,7 +12,7 @@ We rather want to build a voice-to-instrument application than an audio-to-midi 
 
 If we you want to go straight to example output, go <a href="http://doc.jzy3d.org/vocobox/examples/">here</a>.
 
-At this step we are mainly evaluating pitch detection algorithms using the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a>, a dataset we build to gather examples of singers' voice (e.g. all notes in the voice range). We define scores such as pitch detection latency and precision and <a href="https://github.com/vocobox/vocobox/blob/master/doc/benchmark-human-voice">compare them graphically</a>.
+At this step we are mainly evaluating pitch detection algorithms using the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a>, a dataset we build to gather examples of singers' voice (e.g. all notes in the voice range). We define scores such as pitch detection latency and precision and <a href="https://github.com/vocobox/vocobox/blob/master/doc/benchmark-human-voice.md">compare them graphically</a>.
 
 We also evaluate pitch detection <i>in real time</i> by recording the voice with a microphone as input and by generating a synthetizer sound as output.
 
@@ -71,7 +71,7 @@ To run synthetizer control based on live voice, see <a href="https://github.com/
 
 #### Benchmark Pitch Detection algorithm on note datasets
 
-This <a href="https://github.com/vocobox/vocobox/tree/master/doc/benchmark-human-voice">document</a> explain how we use the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a> (a serie of wav files containing human sung notes) to evaluate pitch detection algorithm on isolated notes.
+This <a href="https://github.com/vocobox/vocobox/tree/master/doc/benchmark-human-voice.md">document</a> explain how we use the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a> (a serie of wav files containing human sung notes) to evaluate pitch detection algorithm on isolated notes.
 
 <img src="doc/images/voyels.png"/>
 
@@ -79,7 +79,7 @@ This <a href="https://github.com/vocobox/vocobox/tree/master/doc/benchmark-human
 
 ### Audio analysis
 
-Audio signal analysis is powered by <a href="https://github.com/JorenSix/TarsosDSP">TarsosDSP</a>. Yin implementation outperforms any other algorithm for pitch detection and has become the default implementation for the <a href="">voice analysis module</a>.
+Audio signal analysis is powered by <a href="https://github.com/JorenSix/TarsosDSP">TarsosDSP</a>. Yin implementation outperforms any other algorithm for pitch detection and has become the default implementation for the voice analysis module.
 
 Vocobox delivers pitch detection through following analyzers
 
@@ -89,7 +89,7 @@ Vocobox delivers pitch detection through following analyzers
 <th>Comment</th>
 </tr>
 <tr>
-<td>VoiceMicListen</td>
+<td>VoiceInputStreamListen</td>
 <td>Analyse audio signal from available inputs (microphones, but also lines, etc). <font color="orange">When running a Jack server, audio sources made available by Jack appear in source list!</font>
 </td>
 </tr>
@@ -168,17 +168,22 @@ Few features interesting with Jzy3d
 
 ### Human perception of real time
 
-We found in P.Brossier <a href="http://aubio.org/phd/thesis/brossier06thesis.pdf">Thesis</a> that human can perceive audio events when they are separated by 50ms to a few milisecond :
+We found in P.Brossier <a href="http://aubio.org/phd/thesis/brossier06thesis.pdf">Thesis</a> that human can't perceive audio events when they are separated by less than 50ms to a few milisecond :
 
 > As auditory nerve cells need to rest after firing, several phenomena may occur within the inner ear. Depending on the nature of the sources, two or more events will be merged into one sensation. In some cases, <b>events will need to be separated by only a few millisecond to be perceived as two distinct events, while some other sounds will be merged if they occur within 50 ms</b>, and sometimes even longer. These effects, known as the psychoacoustic masking effects, are complex, and depend not only of the loudness of both sources, masker and maskee, but also on their frequency and timbre [Zwicker and Fastl, 1990]. The different masking effects can be divided in three kinds [Bregman, 1990]. Pre-masking occurs when a masked event is followed immediately by a louder event. Post-masking instead occurs when a loud event is followed by a quiet noise. In both case, the quiet event will not be perceived – i.e. it will be masked. The third kind of masking effect is simultaneous masking, also referred to as frequency masking, as it is strongly dependent on the spectrum of both the masker and the maskee.
 
-### Real time capabilities of the Java platform
-
 We thus consider 5ms to be the timeframe within which we should be able to do computational work to be able to produce audio without cues. It is like being able to render images of an animation below 1/25s to display at a rate suitable with persistence of vision.
+
+### Real time capabilities of the Java platform
 
 In this project we are rather working on data than delivering production ready software so we could say it is not a matter if standard versions of Java can't  deal with the above speed constraints due to non predictability of garbage collection.
 
 But Java can be a good platform for real time, as shown by <a href="http://researcher.watson.ibm.com/researcher/view_group.php?id=174">Metronome GC</a>, a Garbage Collector able work in deterministic time, with the promise of not spending more than 3ms in collecting garbage. 3ms is great because it is lower to than the perception capabilities of our brain as exposed above.
+
+### Performance of components
+
+We noticed Tarsos processes files in much faster time a player would read it.
+
 
 ## Getting and building source code
 
@@ -234,3 +239,7 @@ IF YOU INTEND TO REUSE THIS SOFTWARE, PLEASE VERIFY COMPONENTS LICENCE!
 * <a href="http://www.softsynth.com/jsyn/developers/">JSyn</a>
 * <a href="https://github.com/JorenSix/TarsosDSP/blob/master/license.txt">Tarsos</a>
 * <a href="https://github.com/jzy3d/jzy3d-api/blob/master/jzy3d-api/license.txt">Jzy3d</a>
+
+## Thanks
+
+To Phil Burk and Jochen Six for their kind help and advices regarding the excellent tools JSyn and TarsosDSP.
