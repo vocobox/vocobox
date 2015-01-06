@@ -16,11 +16,21 @@ At this step we are mainly evaluating pitch detection algorithms using the <a hr
 
 We also evaluate pitch detection <i>in real time</i> by recording the voice with a microphone as input and by generating a synthetizer sound as output.
 
-<img src="doc/images/piano-track.png"/>
 
 See the <b>Component</b> section of this document to learn more about algorithms used in this project.
 
-To get notified of futured version, simply <a href="https://twitter.com/Vocobox">follow Vocobox</a> on Twitter.
+
+###### FUTURE VERSIONS
+
+To get notified of futured version, simply <a href="https://twitter.com/Vocobox">follow Vocobox</a> on Twitter or here on Github.
+
+Contributors are most welcome! See end of this page.
+
+We are currently having fun with sequence detection :
+<img src="doc/images/benchmark-sequence-nicest.png"/>
+
+<i>Expected notes (midi file) are drawn as rectangle. Pitch detected value is show has a scatter : gray when it appears during an expected note, red otherwise. Amplitude is shown in background. It is scaled to show source enveloppe amplified according synthetizer input gain setting of the simulation</i>
+
 
 ## Applications
 
