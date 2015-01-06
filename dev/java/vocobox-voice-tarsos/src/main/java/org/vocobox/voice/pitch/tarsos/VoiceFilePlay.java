@@ -101,12 +101,8 @@ public class VoiceFilePlay extends VoiceAnalyser {
 
     private void configureOnsetDetection() {
         double threshold = 0.04;
-
         ComplexOnsetDetector onsetDetector = newOnsetDetectorComplex(threshold);
         // add a processor, handle percussion event.
         dispatcher.addAudioProcessor(onsetDetector);
     }
-    
-    /* MAK*/
-
 }

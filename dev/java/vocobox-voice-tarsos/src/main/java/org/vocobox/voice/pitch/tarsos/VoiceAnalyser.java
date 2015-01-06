@@ -26,11 +26,29 @@ import be.tarsos.dsp.onsets.PercussionOnsetDetector;
 import be.tarsos.dsp.pitch.PitchProcessor;
 import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm;
 
+/**
+ * Should control synthetizer according voice analysis performed by
+ * the actual implementation
+ * 
+ * @author Martin Pernollet
+ */
 public abstract class VoiceAnalyser extends SynthControllerDefault {
-    public abstract void run() throws Exception;
+    public VoiceAnalysisSettings settings = VoiceAnalysisSettings.DEFAULT;
+
+    /**
+     * Should configure a {@link VoiceDetection} algorithm according to current
+     * analyzer settings
+     * @return
+     * @throws Exception
+     */
     public abstract VoiceDetection configure() throws Exception;
 
-    public VoiceAnalysisSettings settings = VoiceAnalysisSettings.DEFAULT;
+    /**
+     * Run analysis on the content managed by this analyzer
+     * @throws Exception
+     */
+    public abstract void run() throws Exception;
+
     
     public AudioDispatcher dispatcher;
 
