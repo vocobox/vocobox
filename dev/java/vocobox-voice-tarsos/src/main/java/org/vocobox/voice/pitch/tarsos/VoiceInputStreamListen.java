@@ -20,7 +20,7 @@ import be.tarsos.dsp.pitch.PitchProcessor;
 public class VoiceInputStreamListen extends VoiceAnalyser {
     public AudioDispatcher dispatcher;
     public Mixer currentMixer;
-    public VoiceDetectionSynthController pitchPitchHandler;
+    public VoiceDetectionSynthController pitchDetectionHandler;
     public JVMAudioInputStream audioStream;
     
     public VoiceInputStreamListen(){
@@ -38,23 +38,19 @@ public class VoiceInputStreamListen extends VoiceAnalyser {
         run();
     }
 
-    protected void stopDispatcherIfAny() {
-        if (dispatcher != null) 
-            dispatcher.stop();
-    }
 
     @Override
     public void run() throws Exception {
-        pitchPitchHandler.getSynth().on();
+        pitchDetectionHandler.getSynth().on();
         new Thread(dispatcher, "Audio dispatching").start();
     }
     
     @Override
     public VoiceDetection configure() throws LineUnavailableException {
-        pitchPitchHandler = newPitchDetectionHandler(settings.format.getSampleRate());
+        pitchDetectionHandler = newPitchDetectionHandler(settings.format.getSampleRate());
         audioStream = newJVMAudioInputStream(currentMixer, settings.format);
         dispatcher = newAudioDispatcher(audioStream);
-        dispatcher.addAudioProcessor(new PitchProcessor(newPitchDetectAlgo(settings.pitchDetectAlgo), settings.format.getSampleRate(), settings.bufferSize, pitchPitchHandler));
-        return pitchPitchHandler;
+        dispatcher.addAudioProcessor(new PitchProcessor(newPitchDetectAlgo(settings.pitchDetectAlgo), settings.format.getSampleRate(), settings.bufferSize, pitchDetectionHandler));
+        return pitchDetectionHandler;
     }
 }
