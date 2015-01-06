@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
@@ -24,7 +22,6 @@ import be.tarsos.dsp.onsets.OnsetHandler;
 import be.tarsos.dsp.onsets.PercussionOnsetDetector;
 import be.tarsos.dsp.pitch.PitchDetectionResult;
 import be.tarsos.dsp.pitch.PitchProcessor;
-import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm;
 
 /**
  * Read pitch change events from a file as fast as it can. Can't be used for
@@ -33,7 +30,6 @@ import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm;
  * TODO : should handle confidence in VoiceDetection instance
  */
 public class VoiceFileRead extends VoiceAnalyser {
-    public AudioDispatcher dispatcher;
     public AudioDispatcher sourceDispatcher;
     public GainProcessor estimationGain;
     public GainProcessor sourceGain;
@@ -50,8 +46,7 @@ public class VoiceFileRead extends VoiceAnalyser {
         clearEvents();
         currentFile = file;
         settings.format = newAudioFormatWithSettings(file);
-        verifyFormat(settings.format);
-        configure(settings.format);
+        configure();
         run();
         return getAllEvents();
     }
@@ -67,29 +62,30 @@ public class VoiceFileRead extends VoiceAnalyser {
 		return song;
     }
 
-
 	public void clearEvents() {
 	    pitchEvents.clear();
         ampliEvents.clear();
     }
     
+	@Override
     public void run() throws Exception {
         Executors.callable(dispatcher).call();
     }
 
-    /* CONFIGURE PROCESSING */
-    
-    public void configure(AudioFormat format) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+	@Override
+    public VoiceDetection configure() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         dispatcher = AudioDispatcherFactory.fromFile(currentFile, settings.bufferSize, settings.overlap);
-        addPitchDetection(format.getSampleRate());
+        VoiceDetection d = addPitchDetection();
         addGainProcessor(settings.estimationGainValue);
         if(settings.onset)
             addOnsetDetection();
+        return d;
     }
 
-    public void addPitchDetection(float sampleRate) {
-        VoiceDetection pitchDetectionHandler = makePitchDetectionHandler(sampleRate);
-        dispatcher.addAudioProcessor(new PitchProcessor(newPitchDetectAlgo(settings.pitchDetectAlgo), sampleRate, settings.bufferSize, pitchDetectionHandler));
+    public VoiceDetection addPitchDetection() {
+        VoiceDetection pitchDetectionHandler = newPitchDetectionHandler();
+        dispatcher.addAudioProcessor(new PitchProcessor(newPitchDetectAlgo(settings.pitchDetectAlgo), settings.format.getSampleRate(), settings.bufferSize, pitchDetectionHandler));
+        return pitchDetectionHandler;
     }
 
     public void addGainProcessor(double estimationGainValue) {
@@ -98,16 +94,25 @@ public class VoiceFileRead extends VoiceAnalyser {
     }
 
     public void addOnsetDetection() {
-        dispatcher.addAudioProcessor(makeOnsetDetectorComplex());
-        //dispatcher.addAudioProcessor(makeOnsetDetectorPercussion(size));
+        dispatcher.addAudioProcessor(newOnsetDetectorComplex());
+        //dispatcher.addAudioProcessor(newOnsetDetectorPercussion());
     }
-
-
-
-    /* PITCH DETECT */
     
-    public VoiceDetection makePitchDetectionHandler(float sampleRate) {
-        VoiceDetection prs = new VoiceDetection(sampleRate, settings) {
+        
+	protected List<SoundEvent> getAllEvents() {
+	    List<SoundEvent> all = new ArrayList<SoundEvent>(pitchEvents.size()+ampliEvents.size());
+        all.addAll(pitchEvents);
+        all.addAll(ampliEvents);
+	    return all;
+    }
+	
+    /* FACTORY */
+    
+	/**
+     * A pitch detection storing {@link SoundEvent}
+     */
+    protected VoiceDetection newPitchDetectionHandler() {
+        VoiceDetection prs = new VoiceDetection(settings.format.getSampleRate(), settings) {
             @Override
             public void handlePitch(PitchDetectionResult pitchDetectionResult, AudioEvent audioEvent) {
                 // Process
@@ -127,28 +132,20 @@ public class VoiceFileRead extends VoiceAnalyser {
         return prs;
     }
     
-    /* ONSET DETECT */
-    
-    public ComplexOnsetDetector makeOnsetDetectorComplex() {
-        ComplexOnsetDetector onsetDetector = new ComplexOnsetDetector(settings.bufferSize, settings.onsetPickThreshold, settings.onsetMinInterOnsetInterv, settings.onsetSilenceThreshold);
-        onsetDetector.setHandler(new OnsetHandler() {
-            @Override
-            public void handleOnset(double time, double salience) {
-                doHandleOnsetEvent(time, salience);
-            }
-        });
-        return onsetDetector;
+    protected ComplexOnsetDetector newOnsetDetectorComplex() {
+        return newOnsetDetectorComplex(onsetHandlerDoer);
     }
     
-    public PercussionOnsetDetector makeOnsetDetectorPercussion(int size){
-        PercussionOnsetDetector onsetDetector = new PercussionOnsetDetector(44100, size, new OnsetHandler() {
-            @Override
-            public void handleOnset(double time, double salience) {
-                doHandleOnsetEvent(time, salience);
-            }
-        }, 70, 10);
-        return onsetDetector;
+    protected PercussionOnsetDetector newOnsetDetectorPercussion(OnsetHandler handler){
+        return newPercussionOnsetDetector(onsetHandlerDoer);
     }
+
+    OnsetHandler onsetHandlerDoer = new OnsetHandler() {
+        @Override
+        public void handleOnset(double time, double salience) {
+            doHandleOnsetEvent(time, salience);
+        }
+    };
     
     protected void doHandleOnsetEvent(double time, double salience) {
         onsetEvents.add(SoundEvent.onset((float)time, (float)salience));
@@ -156,14 +153,5 @@ public class VoiceFileRead extends VoiceAnalyser {
     }
     
     int k = 0;
-
-    
-	private List<SoundEvent> getAllEvents() {
-	    List<SoundEvent> all = new ArrayList<SoundEvent>(pitchEvents.size()+ampliEvents.size());
-        all.addAll(pitchEvents);
-        all.addAll(ampliEvents);
-	    return all;
-    }
-
 
 }

@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 import org.vocobox.model.synth.JavaContext;
 import org.vocobox.model.synth.MonitorSettings;
 import org.vocobox.model.synth.SynthController;
-import org.vocobox.model.synth.VocoSynth;
 import org.vocobox.model.synth.SynthMonitor;
+import org.vocobox.model.synth.VocoSynth;
 import org.vocobox.synth.jsyn.JSynVocoSynth;
 import org.vocobox.synth.jsyn.record.Recorder;
 

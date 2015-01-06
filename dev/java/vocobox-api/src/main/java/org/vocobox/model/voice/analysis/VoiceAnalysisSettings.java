@@ -29,6 +29,7 @@ public class VoiceAnalysisSettings {
     public int sampleSizeInBits = 16;
     public int channels = 1;
 
+    /** A property writable by the framework (see voice analysis)*/
     public AudioFormat format;
     
     

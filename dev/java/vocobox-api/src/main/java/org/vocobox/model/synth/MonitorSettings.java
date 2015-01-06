@@ -7,7 +7,6 @@ import org.jzy3d.plot2d.primitives.Serie2d.Type;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
 import org.vocobox.ui.charts.synth.PitchChartProcessor;
 import org.vocobox.ui.charts.synth.PitchChartProcessorDefault;
-import org.vocobox.ui.charts.synth.SynthMonitorCharts;
 
 public class MonitorSettings {
     public static MonitorSettings DEFAULT = new MonitorSettings();

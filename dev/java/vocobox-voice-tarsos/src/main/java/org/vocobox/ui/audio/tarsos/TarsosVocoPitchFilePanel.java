@@ -40,7 +40,7 @@ public class TarsosVocoPitchFilePanel extends JPanel {
 		estimationGainSlider.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
-				if (pitchFile.estimationDispatcher != null) {
+				if (pitchFile.dispatcher != null) {
 					double gainValue = estimationGainSlider.getValue() / 100.0;
 					pitchFile.estimationGain.setGain(gainValue);
 				}
@@ -111,7 +111,7 @@ public class TarsosVocoPitchFilePanel extends JPanel {
 				PitchEstimationAlgorithm newAlgo = PitchEstimationAlgorithm.valueOf(name);
 				pitchFile.settings.pitchDetectAlgo = newAlgo.toString();
 				if (pitchFile.currentFile != null) {
-					pitchFile.estimationDispatcher.stop();
+					pitchFile.dispatcher.stop();
 					pitchFile.sourceDispatcher.stop();
 					
 					pitchFile.settings.estimationGainValue = estimationGainSlider.getValue() / 100.0;

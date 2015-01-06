@@ -1,11 +1,7 @@
 package org.vocobox.voice.pitch.tarsos;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.Mixer;
-import javax.sound.sampled.TargetDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import org.vocobox.model.synth.VocoSynth;
@@ -16,6 +12,11 @@ import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.io.jvm.JVMAudioInputStream;
 import be.tarsos.dsp.pitch.PitchProcessor;
 
+/**
+ * Listen to currently selected source given by mixer and configured by settings.
+ * 
+ * @author Martin Pernollet
+ */
 public class VoiceInputListen extends VoiceAnalyser {
     public AudioDispatcher dispatcher;
     public Mixer currentMixer;
@@ -30,45 +31,30 @@ public class VoiceInputListen extends VoiceAnalyser {
     }
 
     public void setNewMixer(Mixer mixer) throws LineUnavailableException, UnsupportedAudioFileException, Exception {
-        if (dispatcher != null) {
-            dispatcher.stop();
-        }
+        stopDispatcherIfAny();
         currentMixer = mixer;
         settings.format = newAudioFormatWithSettings();
-        configure(newAudioFormatWithSettings());
+        configure();
         run();
     }
 
+    protected void stopDispatcherIfAny() {
+        if (dispatcher != null) 
+            dispatcher.stop();
+    }
+
+    @Override
     public void run() throws Exception {
         pitchPitchHandler.getSynth().on();
         new Thread(dispatcher, "Audio dispatching").start();
     }
     
-    public VoiceDetection configure(AudioFormat format) throws LineUnavailableException {
-        pitchPitchHandler = newPitchDetectionHandler(format.getSampleRate());
-        audioStream = getAudioInputStream(currentMixer, format);
+    @Override
+    public VoiceDetection configure() throws LineUnavailableException {
+        pitchPitchHandler = newPitchDetectionHandler(settings.format.getSampleRate());
+        audioStream = newJVMAudioInputStream(currentMixer, settings.format);
         dispatcher = newAudioDispatcher(audioStream);
-        dispatcher.addAudioProcessor(new PitchProcessor(newPitchDetectAlgo(settings.pitchDetectAlgo), format.getSampleRate(), settings.bufferSize, pitchPitchHandler));
+        dispatcher.addAudioProcessor(new PitchProcessor(newPitchDetectAlgo(settings.pitchDetectAlgo), settings.format.getSampleRate(), settings.bufferSize, pitchPitchHandler));
         return pitchPitchHandler;
     }
-
-
-    public JVMAudioInputStream getAudioInputStream(Mixer mixer, final AudioFormat format) throws LineUnavailableException {
-        // line
-    	final DataLine.Info dataLineInfo = new DataLine.Info(TargetDataLine.class, format);
-        TargetDataLine line = (TargetDataLine) mixer.getLine(dataLineInfo);
-        line.open(format, settings.bufferSize);
-        line.start();
-        
-        // Audio stream
-        final AudioInputStream stream = new AudioInputStream(line);
-        JVMAudioInputStream audioStream = new JVMAudioInputStream(stream);
-        return audioStream;
-    }
-    
-	public AudioFormat newAudioFormatWithSettings() {
-	    final AudioFormat format = new AudioFormat(settings.sampleRate, settings.sampleSizeInBits, settings.channels, true, true);
-	    return format;
-    }
-
 }

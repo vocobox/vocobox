@@ -4,8 +4,6 @@ package org.vocobox.synth.jsyn.dual;
 import org.junit.Assert;
 import org.junit.Test;
 import org.vocobox.model.time.PauseUtils;
-import org.vocobox.synth.jsyn.dual.AbstractOcclusiveSynth;
-import org.vocobox.synth.jsyn.dual.JsynOcclusiveNoiseSynth;
 import org.vocobox.synth.jsyn.dual.AbstractOcclusiveSynth.Period;
 
 public class TestJsynOcclusiveSynth {

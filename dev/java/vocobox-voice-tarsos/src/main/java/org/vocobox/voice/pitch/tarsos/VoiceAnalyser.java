@@ -4,22 +4,37 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.Mixer;
+import javax.sound.sampled.TargetDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import org.vocobox.model.synth.SynthControllerDefault;
 import org.vocobox.model.voice.analysis.VoiceAnalysisSettings;
+import org.vocobox.voice.pitch.tarsos.handler.VoiceDetection;
 import org.vocobox.voice.pitch.tarsos.handler.VoiceDetectionSynthController;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.io.jvm.AudioDispatcherFactory;
 import be.tarsos.dsp.io.jvm.JVMAudioInputStream;
+import be.tarsos.dsp.onsets.ComplexOnsetDetector;
+import be.tarsos.dsp.onsets.OnsetHandler;
+import be.tarsos.dsp.onsets.PercussionOnsetDetector;
 import be.tarsos.dsp.pitch.PitchProcessor;
 import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm;
 
-public class VoiceAnalyser extends SynthControllerDefault {
-	public VoiceAnalysisSettings settings = VoiceAnalysisSettings.DEFAULT;
+public abstract class VoiceAnalyser extends SynthControllerDefault {
+    public abstract void run() throws Exception;
+    public abstract VoiceDetection configure() throws Exception;
 
+    public VoiceAnalysisSettings settings = VoiceAnalysisSettings.DEFAULT;
+    
+    public AudioDispatcher dispatcher;
+
+	
 	protected AudioFormat newAudioFormatWithSettings(File file) throws UnsupportedAudioFileException, IOException {
 		AudioFormat format = AudioSystem.getAudioFileFormat(file).getFormat();
 		verifyFormat(format);
@@ -49,10 +64,12 @@ public class VoiceAnalyser extends SynthControllerDefault {
     }
 	
 	protected PitchEstimationAlgorithm newPitchDetectAlgo(String name){
-	    if("yin".equals(name)){
+	    if(name!=null && name.contains("yin")){
 	        return PitchEstimationAlgorithm.YIN;
 	    }
-	    return null;
+	    else{
+	        throw new IllegalArgumentException("unsupported algorithm " + name);
+	    }
 	}
 	
 	protected VoiceDetectionSynthController newPitchDetectionHandler(float sampleRate) {
@@ -61,5 +78,48 @@ public class VoiceAnalyser extends SynthControllerDefault {
 		return prs;
 	}
 
+    protected AudioFormat newAudioFormatWithSettings() {
+        final AudioFormat format = new AudioFormat(settings.sampleRate, settings.sampleSizeInBits, settings.channels, true, true);
+        return format;
+    }
 
+    protected JVMAudioInputStream newJVMAudioInputStream(Mixer mixer, final AudioFormat format) throws LineUnavailableException {
+        // line
+        final DataLine.Info dataLineInfo = new DataLine.Info(TargetDataLine.class, format);
+        TargetDataLine line = (TargetDataLine) mixer.getLine(dataLineInfo);
+        line.open(format, settings.bufferSize);
+        line.start();
+        
+        // Audio stream
+        final AudioInputStream stream = new AudioInputStream(line);
+        JVMAudioInputStream audioStream = new JVMAudioInputStream(stream);
+        return audioStream;
+    }
+    
+    protected ComplexOnsetDetector newOnsetDetectorComplex(OnsetHandler handler) {
+        ComplexOnsetDetector onsetDetector = new ComplexOnsetDetector(settings.bufferSize, settings.onsetPickThreshold, settings.onsetMinInterOnsetInterv, settings.onsetSilenceThreshold);
+        onsetDetector.setHandler(handler);
+        return onsetDetector;
+    }
+
+
+    protected ComplexOnsetDetector newOnsetDetectorComplex(double threshold) {
+        ComplexOnsetDetector onsetDetector = new ComplexOnsetDetector(settings.bufferSize, threshold, 0.07, -60);
+        onsetDetector.setHandler(new OnsetHandler() {
+            int k = 0;
+
+            @Override
+            public void handleOnset(double arg0, double arg1) {
+                System.out.println("Onset " + (k++) + " " + arg0 + " " + arg1);
+            }
+        });
+        return onsetDetector;
+    }
+    
+    protected PercussionOnsetDetector newPercussionOnsetDetector(OnsetHandler handler) {
+        return new PercussionOnsetDetector(settings.sampleRate, settings.bufferSize, handler, 70, 10);
+    }
+    
+    
+    
 }

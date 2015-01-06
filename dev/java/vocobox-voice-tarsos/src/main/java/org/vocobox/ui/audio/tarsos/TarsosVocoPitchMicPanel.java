@@ -93,7 +93,7 @@ public class TarsosVocoPitchMicPanel extends JPanel {
         public void actionPerformed(final ActionEvent e) {
             String name = e.getActionCommand();
             PitchEstimationAlgorithm newAlgo = PitchEstimationAlgorithm.valueOf(name);
-            pitchMic.settings.pitchDetectAlgo = newAlgo;
+            pitchMic.settings.pitchDetectAlgo = newAlgo.toString();
             try {
                 pitchMic.setNewMixer(pitchMic.currentMixer);
             } catch (LineUnavailableException e1) {
