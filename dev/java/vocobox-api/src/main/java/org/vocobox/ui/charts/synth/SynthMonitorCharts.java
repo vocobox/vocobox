@@ -24,6 +24,7 @@ import org.jzy3d.plot3d.primitives.axes.layout.renderers.IntegerTickRenderer;
 import org.jzy3d.plot3d.primitives.axes.layout.renderers.PitchTickRenderer;
 import org.jzy3d.plot3d.rendering.view.View;
 import org.jzy3d.plot3d.rendering.view.modes.ViewBoundMode;
+import org.jzy3d.plot3d.rendering.view.modes.ViewPositionMode;
 import org.jzy3d.plot3d.transform.space.SpaceTransformLog2;
 import org.jzy3d.plot3d.transform.space.SpaceTransformer;
 import org.vocobox.model.synth.MonitorSettings;
@@ -305,6 +306,11 @@ public class SynthMonitorCharts extends Timer implements SynthMonitor {
         addBoundsUpdater(pitchChart);
         charts.add(pitchChart);
 
+        
+        //pitchChart.getView().setViewPositionMode(ViewPositionMode.FREE);
+        //pitchChart.setViewPoint(View.computeCameraEyeTop(pitchChart.getViewPoint(), pitchChart.getView().getCamera().getTarget()));
+        //pitchChart.addMouseController();
+        
         // AWTChartComponentFactory
         SpaceTransformer transformYLog2 = new SpaceTransformer();
         transformYLog2.setY(new SpaceTransformLog2());

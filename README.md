@@ -10,7 +10,7 @@ We rather want to build a voice-to-instrument application than an audio-to-midi 
 
 If we you want to go straight to example output, go <a href="http://doc.jzy3d.org/vocobox/examples/">here</a>.
 
-###### VOCOBOX 1.0 (01/01/2015)
+### VOCOBOX 1.0 (01/01/2015)
 
 At this step we are mainly evaluating pitch detection algorithms using the <a href="https://github.com/vocobox/human-voice-dataset">Human Voice Dataset</a>, a dataset we build to gather examples of singers' voice (e.g. all notes in the voice range). We define scores such as pitch detection latency and precision and <a href="https://github.com/vocobox/vocobox/blob/master/doc/benchmark-human-voice.md">compare them graphically</a>.
 
@@ -20,16 +20,14 @@ We also evaluate pitch detection <i>in real time</i> by recording the voice with
 See the <b>Component</b> section of this document to learn more about algorithms used in this project.
 
 
-###### FUTURE VERSIONS
+### FUTURE VERSIONS
 
 To get notified of futured version, simply <a href="https://twitter.com/Vocobox">follow Vocobox</a> on Twitter or here on Github.
 
 Contributors are most welcome! See end of this page.
 
-We are currently having fun with sequence detection :
-<img src="doc/images/benchmark-sequence-nicest.png"/>
+We are currently having fun with <a href="doc/benchmark-sequence.md">sequence detection</a>.
 
-<i>Expected notes (midi file) are drawn as rectangle. Pitch detected value is show has a scatter : gray when it appears during an expected note, red otherwise. Amplitude is shown in background. It is scaled to show source enveloppe amplified according synthetizer input gain setting of the simulation</i>
 
 
 ## Applications
