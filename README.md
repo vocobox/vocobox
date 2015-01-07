@@ -24,11 +24,9 @@ See the <b>Component</b> section of this document to learn more about algorithms
 
 To get notified of futured version, simply <a href="https://twitter.com/Vocobox">follow Vocobox</a> on Twitter or here on Github.
 
-Contributors are most welcome! See end of this page.
+We are currently having fun with <a href="https://github.com/vocobox/vocobox/blob/master/doc/benchmark-sequences.md">sequence detection</a>.
 
-We are currently having fun with <a href="doc/benchmark-sequence.md">sequence detection</a>.
-
-
+Collaborators are most welcome! See end of this page.
 
 ## Applications
 
