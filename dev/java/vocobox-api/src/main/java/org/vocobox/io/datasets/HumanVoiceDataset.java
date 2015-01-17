@@ -14,6 +14,12 @@ import org.vocobox.model.note.Voyel;
 
 
 public class HumanVoiceDataset {
+    public static void configureDatasetRoot(String root){
+        NOTES = new HumanVoiceDataset(root, "voices/martin/notes/exports/mono/");
+        VOYELS = new HumanVoiceDataset(root, "voices/martin/voyels/exports/mono/");
+    
+        System.out.println("Set dataset root to : " + root);
+    }
     
     public static HumanVoiceDataset NOTES = new HumanVoiceDataset("../../../../human-voice-dataset/data/", "voices/martin/notes/exports/mono/");
     public static HumanVoiceDataset VOYELS = new HumanVoiceDataset("../../../../human-voice-dataset/data/", "voices/martin/voyels/exports/mono/");
@@ -97,6 +103,8 @@ public class HumanVoiceDataset {
     public List<Note> getNotes(String folder) throws UnsupportedAudioFileException, IOException {
         List<Note> notes = new ArrayList<Note>();
         File f = new File(folder);
+        
+        System.out.println(this.getClass().getSimpleName() + " get notes from folder " + folder);
         
         NoteParser p = new NoteParser();
         for (File n : f.listFiles()) {

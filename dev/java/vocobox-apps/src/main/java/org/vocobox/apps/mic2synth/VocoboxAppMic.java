@@ -16,10 +16,10 @@ public class VocoboxAppMic extends JFrame{
     VocoboxPanelsMic panels;
     
     public VocoboxAppMic(){
+        super();
         LookAndFeel.apply();
         windowExitListener(this);
-        show();
-        setVisible(true);
+//        show();
     }
     
     public void layout(VocoboxPanelsMic panels) {
@@ -34,6 +34,8 @@ public class VocoboxAppMic extends JFrame{
         //scrollPanel.add(mainPanel);
         add(mainPanel);
         pack();
+        show();
+        setVisible(true);
     }
     
     public void addInputRow(int id, VocoboxPanelsMic panels, EzLayout layout) {

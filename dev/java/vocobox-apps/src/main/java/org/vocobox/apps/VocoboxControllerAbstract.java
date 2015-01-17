@@ -40,7 +40,7 @@ public abstract class VocoboxControllerAbstract {
     }
     
     public JavaContext getContext(){
-        return new JavaContext.JDK6();
+        return new JavaContext.JDK8();
     }
     
     /**

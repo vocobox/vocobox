@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+
+	<id>distribution</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<fileSets>
+		<fileSet>
+			<directory>target</directory>
+			<includes>
+				<include>vocobox-apps-${pom.version}.jar</include>
+			</includes>
+			<outputDirectory></outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>${project.build.scriptSourceDirectory}</directory>
+			<includes>
+				<include>run-mic2synth.bat</include>
+				<include>run-mic2synth.sh</include>
+			</includes>
+			<fileMode>755</fileMode>
+
+			<outputDirectory></outputDirectory>
+		</fileSet>
+
+
+		<fileSet>
+			<outputDirectory></outputDirectory>
+			<directory>src/scripts</directory>
+			<fileMode>755</fileMode>
+		</fileSet>
+
+
+		<!--<fileSet>
+			<directory>template/data/</directory>
+			<outputDirectory>data</outputDirectory>
+			<excludes>
+				<exclude>data/databases/octo</exclude>
+			</excludes>
+		</fileSet>-->
+	</fileSets>
+
+	<!--<dependencySets>
+		<dependencySet>
+			<outputDirectory>lib</outputDirectory>
+			<excludes>
+				<exclude>*:pom</exclude>
+			</excludes>
+			<useStrictFiltering>true</useStrictFiltering>
+			<useProjectArtifact>false</useProjectArtifact>
+			<scope>runtime</scope>
+		</dependencySet>
+	</dependencySets>-->
+
+	<dependencySets>
+		<dependencySet>
+			<useProjectArtifact>true</useProjectArtifact>
+			<scope>runtime</scope>
+			<excludes>
+				<exclude>*:pom</exclude>
+			</excludes>
+			<outputDirectory>lib</outputDirectory>
+
+		</dependencySet>
+	</dependencySets>
+
+
+<!--	<dependencySets>
+		<dependencySet>
+			<includes>
+			<include>org.vocobox:vocobox-api:jar</include>
+			<include>org.vocobox:vocobox-synth-jsyn:jar</include>
+			<include>org.vocobox:vocobox-voice-tarsos:jar</include>
+
+
+
+			<include>org.jzy3d:jzy3d-api:jar</include>
+			<include>org.jzy3d:jzy3d-jdt-core:jar</include>
+			<include>org.jzy3d:jzy3d-depthpeeling:jar</include>
+			<include>net.sourceforge.jmatio:jmatio:jar</include>
+			<include>com.miglayout:miglayout:jar</include>
+
+			<include>org.jogamp.gluegen:gluegen-rt:jar</include>
+			<include>org.jogamp.gluegen:gluegen-rt:jar:natives-macosx-universal</include>
+			<include>org.jogamp.gluegen:gluegen-rt:jar:natives-linux-amd64</include>
+			<include>org.jogamp.gluegen:gluegen-rt:jar:natives-linux-armv6</include>
+			<include>org.jogamp.gluegen:gluegen-rt:jar:natives-linux-armv6hf</include>
+			<include>org.jogamp.gluegen:gluegen-rt:jar:natives-linux-i586</include>
+			<include>org.jogamp.gluegen:gluegen-rt:jar:natives-macosx-universal</include>
+			<include>org.jogamp.gluegen:gluegen-rt:jar:natives-solaris-amd64</include>
+			<include>org.jogamp.gluegen:gluegen-rt:jar:natives-solaris-i586</include>
+			<include>org.jogamp.gluegen:gluegen-rt:jar:natives-windows-amd64</include>
+			<include>org.jogamp.gluegen:gluegen-rt:jar:natives-windows-i586</include>
+
+			<include>org.jogamp.jogl:jogl-all:jar</include>
+			<include>org.jogamp.jogl:jogl-all:jar:natives-linux-amd64</include>
+			<include>org.jogamp.jogl:jogl-all:jar:natives-linux-armv6</include>
+			<include>org.jogamp.jogl:jogl-all:jar:natives-linux-armv6hf</include>
+			<include>org.jogamp.jogl:jogl-all:jar:natives-linux-i586</include>
+			<include>org.jogamp.jogl:jogl-all:jar:natives-macosx-universal</include>
+			<include>org.jogamp.jogl:jogl-all:jar:natives-solaris-amd64</include>
+			<include>org.jogamp.jogl:jogl-all:jar:natives-solaris-i586</include>
+			<include>org.jogamp.jogl:jogl-all:jar:natives-windows-amd64</include>
+			<include>org.jogamp.jogl:jogl-all:jar:natives-windows-i586</include>
+	</includes>
+	<excludes>
+		<exclude>*:pom</exclude>
+	</excludes>
+	<outputDirectory>lib</outputDirectory>
+</dependencySet>
+</dependencySets>-->
+
+</assembly>

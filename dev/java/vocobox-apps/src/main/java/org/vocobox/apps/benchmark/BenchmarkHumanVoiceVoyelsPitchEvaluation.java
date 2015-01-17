@@ -10,6 +10,8 @@ import org.vocobox.model.synth.MonitorSettings;
 
 public class BenchmarkHumanVoiceVoyelsPitchEvaluation {
     public static void main(String[] args) throws Exception {
+        configureWithArgs(args);
+        
         MonitorSettings.OFFSCREEN.applyPalette = false;
         HumanVoiceDataset voice = HumanVoiceDataset.VOYELS;
         Chart[][] charts = NoteMozaic.evalChartsVoyelInstances(NoteMozaic.getVoyelInstancesMatrix(voice.getNotes()));
@@ -20,4 +22,11 @@ public class BenchmarkHumanVoiceVoyelsPitchEvaluation {
         MultiChartPanel monitorPanel = new MultiChartPanel(charts, headers, null, false, 100, 100, false, false);
         monitorPanel.ui();
     }
+    
+    public static void configureWithArgs(String[] args){
+        if(args.length>0){
+            HumanVoiceDataset.configureDatasetRoot(args[0]);
+        }
+    }
+
 }

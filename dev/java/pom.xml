@@ -2,6 +2,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/maven-v4_0_0.xsd">
+
+   <!-- USING 1.8 JDK, ON MY MAC :
+   export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/"
+ -->
+
+
   <modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.vocobox</groupId>
@@ -66,13 +72,8 @@
     <version.lib.powermock>1.5.6</version.lib.powermock>
     <version.lib.easymock>3.2</version.lib.easymock>
     <version.lib.log4j>1.2.17</version.lib.log4j>
+    <version.lib.miglayout>3.7.4</version.lib.miglayout>
 	</properties>
-
-
-  <!-- USING 1.8 JDK, ON MY MAC :
-  export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/"
--->
-
 
   <!-- Adding jzy3d's repositories to retrieve Jzy3d, JSyn, and TarsosDSP via Maven-->
   <repositories>
@@ -119,4 +120,32 @@
       </extension>
     </extensions>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${version.javadoc}</version>
+        <configuration>
+          <stylesheetfile>${basedir}/src/javadoc/stylesheet.css</stylesheetfile>
+          <show>public</show>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>${version.maven.plugins.cobertura}</version>
+        <configuration>
+          <outputDirectory>./target/tmpCobertura</outputDirectory>
+          <formats>
+            <format>html</format>
+          </formats>
+          <aggregate>true</aggregate>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
 </project>

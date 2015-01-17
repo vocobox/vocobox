@@ -29,14 +29,27 @@ public class VocoboxControllerFileRead extends VocoboxControllerAbstract {
 	public static void main(String[] args) throws Exception,
 			UnsupportedAudioFileException {
 		VocoboxControllerFileRead controller = new VocoboxControllerFileRead();
-
-		exportVoice2(controller);
+controller.play("data/sound/doremi-mono.wav");
+		//controller.play("/Users/martin/Dev/vocobox/external/audio/coran/saint-coran-2min.wav");
+        //exportCoran(controller);
+		//exportVoice2(controller);
 		//exportDoremi(controller);
 		//exportPiano(controller);
 	}
 	
 	/* ######################################################## */
 
+	   public static void exportCoran(VocoboxControllerFileRead controller) throws FileNotFoundException, IOException, Exception{
+	        String file ;
+	        String out;
+	        file = "/Users/martin/Dev/vocobox/external/audio/coran/saint-coran-10min.wav";
+	        out = "target/saint-coran-out.wav";
+	        controller.monitorSettings.timeMax = 60 * 10;
+	        ((MonitoredSynth)controller.synth).settings.amplitudeGain = 2;
+	        exportBlocking(controller, file, out);
+	    }
+
+	   
 	public static void exportVoice2(VocoboxControllerFileRead controller) throws FileNotFoundException, IOException, Exception{
 		String file ;
 		String out;
