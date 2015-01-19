@@ -39,6 +39,13 @@ public class PitchPrecisionDistanceInSemitone implements PitchPrecisionDistance 
     public double noteSemitoneValue(float frequency) {
         return SEMITONES * log2(frequency / NOTE_A4_FREQ);
     }
+    
+    /** http://www.bibmath.net/dico/index.php3?action=affiche&quoi=./l/logarithme.html
+     * http://gilles.costantini.pagesperso-orange.fr/Lycee_fichiers/CoursT_fichiers/ExpLn03.pdf
+     * */
+    /*public float semitoneValueToFrequency(){
+        
+    }*/
 
     /**
      * y=log2(x) <-> x=2^y

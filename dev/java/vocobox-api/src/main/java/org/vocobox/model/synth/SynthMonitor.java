@@ -22,5 +22,4 @@ public interface SynthMonitor {
     public void midiNoteOff(int nChannel, int nKey) ;
     public void midiPitchBend(int nChannel, int value);
     public void midiVolume(int nChannel, int volume);
-
 }

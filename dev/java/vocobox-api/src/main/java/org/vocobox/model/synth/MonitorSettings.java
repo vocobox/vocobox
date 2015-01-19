@@ -46,6 +46,9 @@ public class MonitorSettings {
     public Color confiColor = Color.GREEN;
     public Color evalColor = Color.RED;
     public Color pitchWithConfidence0 = Color.GRAY;
+    public Color midiNoteColor = Color.YELLOW;
+    public Color midiPitchColor = Color.BLUE;
+
     public ColorMapper confidenceSerieColormap = new ColorMapper(new ColorMapWhiteGreen(), 0, 1);
 
     public boolean pitchColorAlphaWithConfidence = true;
