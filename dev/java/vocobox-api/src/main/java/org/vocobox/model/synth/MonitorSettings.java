@@ -23,6 +23,8 @@ public class MonitorSettings {
     
     public boolean applyPalette = true;
     public boolean sticky = false;
+    public float stickyWindowSize = 5;
+
     
     public float timeMax = 2;
     public float timeMaxPitchEval = 1;
