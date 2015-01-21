@@ -18,8 +18,8 @@ public interface SynthMonitor {
     public void pitchConfidenceChangedAt(double time, float confidence, float pitch);
     public void onsetOccuredAt(double time, float salience);
     
-    public void midiNoteOn(int nChannel, int nKey, int nVelocity);
-    public void midiNoteOff(int nChannel, int nKey) ;
-    public void midiPitchBend(int nChannel, int value);
-    public void midiVolume(int nChannel, int volume);
+    public void midiNoteOn(int channel, int key, int velocity);
+    public void midiNoteOff(int channel, int key) ;
+    public void midiPitchBend(int channel, int value);
+    public void midiVolume(int channel, int volume);
 }

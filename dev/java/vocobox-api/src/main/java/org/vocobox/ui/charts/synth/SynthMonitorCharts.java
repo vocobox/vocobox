@@ -24,12 +24,11 @@ import org.jzy3d.plot3d.primitives.axes.layout.renderers.IntegerTickRenderer;
 import org.jzy3d.plot3d.primitives.axes.layout.renderers.PitchTickRenderer;
 import org.jzy3d.plot3d.rendering.view.View;
 import org.jzy3d.plot3d.rendering.view.modes.ViewBoundMode;
-import org.jzy3d.plot3d.rendering.view.modes.ViewPositionMode;
 import org.jzy3d.plot3d.transform.space.SpaceTransformLog2;
 import org.jzy3d.plot3d.transform.space.SpaceTransformer;
 import org.vocobox.model.synth.MonitorSettings;
 import org.vocobox.model.synth.SynthMonitor;
-import org.vocobox.model.time.Timer;
+import org.vocobox.model.synth.SynthMonitorDefault;
 import org.vocobox.model.voice.pitch.evaluate.PitchPrecisionDistanceInSemitone;
 import org.vocobox.ui.Palette;
 
@@ -38,7 +37,7 @@ import org.vocobox.ui.Palette;
  * 
  * @author Martin Pernollet
  */
-public class SynthMonitorCharts extends Timer implements SynthMonitor {
+public class SynthMonitorCharts extends SynthMonitorDefault implements SynthMonitor {
 
     public List<Chart> charts = new ArrayList<Chart>();
     public Chart2d pitchChart;
@@ -123,35 +122,6 @@ public class SynthMonitorCharts extends Timer implements SynthMonitor {
      * ###################################################################
      */
 
-    @Override
-    public void amplitudeChanged(float value) {
-        amplitudeChangeAt(elapsed(), value);
-    }
-
-    @Override
-    public void pitchChanged(float value) {
-        pitchChangeAt(elapsed(), value);
-    }
-
-    @Override
-    public void pitchChanged(float value, Object info) {
-        pitchChangeAt(elapsed(), value, info);
-    }
-
-    @Override
-    public void pitchConfidenceChanged(float value) {
-        pitchConfidenceChangedAt(elapsed(), value, 0);
-    }
-
-    @Override
-    public void onsetOccured(float salience) {
-        onsetOccuredAt(elapsed(), salience);
-    }
-
-    @Override
-    public void offsetOccured() {
-    }
-
     /* Drawing */
 
     @Override
@@ -177,7 +147,7 @@ public class SynthMonitorCharts extends Timer implements SynthMonitor {
         showPitchEvaluation(time, value, getExpectedFrequency(time));
     }
 
-    private float getExpectedFrequency(double time) {
+    protected float getExpectedFrequency(double time) {
         return expectedFrequency;
     }
 
@@ -258,24 +228,6 @@ public class SynthMonitorCharts extends Timer implements SynthMonitor {
         axebox.getAnnotations().add(onset);
     }
 
-    /* */
-
-    @Override
-    public void midiNoteOn(int nChannel, int nKey, int nVelocity) {
-    }
-
-    @Override
-    public void midiNoteOff(int nChannel, int nKey) {
-    }
-
-    @Override
-    public void midiPitchBend(int nChannel, int value) {
-    }
-
-    @Override
-    public void midiVolume(int nChannel, int volume) {
-    }
-
     /*
      * CHARTS
      * ####################################################################
@@ -286,7 +238,6 @@ public class SynthMonitorCharts extends Timer implements SynthMonitor {
     }
 
     protected Chart2d newChartLog() {
-        //
         return (Chart2d) factoryLog.newChart(settings.quality, settings.toolkit);
     }
 

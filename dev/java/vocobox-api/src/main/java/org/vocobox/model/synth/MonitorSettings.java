@@ -22,7 +22,6 @@ public class MonitorSettings {
     public Quality quality = Quality.Advanced;
     
     public boolean applyPalette = true;
-
     public boolean sticky = false;
     
     public float timeMax = 2;
@@ -41,13 +40,14 @@ public class MonitorSettings {
 
     // TODO add length of each chart + auto resize policy
     
-    public Color pitchColor = Color.BLUE;
+    public Color pitchColor = Color.MAGENTA;
     public Color ampliColor = Color.CYAN;
     public Color confiColor = Color.GREEN;
     public Color evalColor = Color.RED;
     public Color pitchWithConfidence0 = Color.GRAY;
     public Color midiNoteColor = Color.YELLOW;
-    public Color midiPitchColor = Color.BLUE;
+    public Color midiPitchColor = Color.MAGENTA;
+    public Color midiNoteInferedColor = Color.GRAY.clone().alphaSelf(0.3f);
 
     public ColorMapper confidenceSerieColormap = new ColorMapper(new ColorMapWhiteGreen(), 0, 1);
 
@@ -59,6 +59,8 @@ public class MonitorSettings {
     public int ampliSerieWidth = 2;
     public int confidenceSerieWidth = 3;
     public int evalSerieWidth = 2;
+    public int midiSerieWidth = 2;
+    public int midiPitchWidth = 2;
     
     /**
      * Coloring with alpha based on amplitude or confidence, depending on {@link MonitorSettings}
