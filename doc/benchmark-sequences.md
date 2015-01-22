@@ -1,7 +1,7 @@
 In below charts, expected notes (midi file) are drawn as rectangle.
 
 Pitch detected value is show has a translucent scatter :
-* gray when it stand in the frequency range of an expected note, red otherwise.
+* green when it stand in the frequency range of an expected note, red otherwise.
 * alpha according to amplitude.
 
 Amplitude is shown in background. It is scaled to show source enveloppe amplified according synthetizer input gain setting of the simulation.
