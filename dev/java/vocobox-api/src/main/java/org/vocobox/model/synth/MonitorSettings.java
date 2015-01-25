@@ -47,9 +47,10 @@ public class MonitorSettings {
     public Color confiColor = Color.GREEN;
     public Color evalColor = Color.RED;
     public Color pitchWithConfidence0 = Color.GRAY;
-    public Color midiNoteColor = Color.YELLOW;
-    public Color midiPitchColor = Color.MAGENTA;
+    public Color midiNoteColor = Color.MAGENTA;
+    public Color midiPitchColor = Color.YELLOW;
     public Color midiNoteInferedColor = Color.GRAY.clone().alphaSelf(0.3f);
+    public Color midiVolumeColor = Color.WHITE;
 
     public ColorMapper confidenceSerieColormap = new ColorMapper(new ColorMapWhiteGreen(), 0, 1);
 
@@ -61,8 +62,12 @@ public class MonitorSettings {
     public int ampliSerieWidth = 2;
     public int confidenceSerieWidth = 3;
     public int evalSerieWidth = 2;
-    public int midiSerieWidth = 2;
+    public int midiNoteWidth = 2;
     public int midiPitchWidth = 2;
+    public int midiVolumeWidth = 1;
+    
+    public boolean showVolume = false;
+    
     
     /**
      * Coloring with alpha based on amplitude or confidence, depending on {@link MonitorSettings}

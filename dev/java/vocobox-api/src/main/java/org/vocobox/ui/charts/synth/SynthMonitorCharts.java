@@ -76,6 +76,7 @@ public class SynthMonitorCharts extends SynthMonitorDefault implements SynthMoni
 
     // memory of last event info
     public double currentTimeReadOnly = 0;
+    public float currentFrequencyReadOnly = 0;
     public float currentConfidenceReadOnly = 1;
     public float currentAmplitudeReadOnly = 1;
     protected float expectedFrequency;
@@ -142,6 +143,7 @@ public class SynthMonitorCharts extends SynthMonitorDefault implements SynthMoni
     @Override
     public void pitchChangeAt(double time, float value) {
         currentTimeReadOnly = time;
+        currentFrequencyReadOnly = value;
         Color c = settings.pitchProcessor.getColor(time, value, this, settings);
         showPitch(time, value, c);
         showPitchEvaluation(time, value, getExpectedFrequency(time));
