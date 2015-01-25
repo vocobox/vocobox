@@ -198,6 +198,11 @@ But Java can be a good platform for real time, as shown by <a href="http://resea
 We noticed Tarsos processes files in much faster time a player would read it.
 
 
+## Bibliograhy
+
+Several interesting papers related to voice frequency detection can be found in the
+ <a href="https://github.com/vocobox/vocobox/tree/master/doc/papers">doc/papers</a> folder
+
 ## Getting and building source code
 
 Create a Vocobox directory
