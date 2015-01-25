@@ -51,6 +51,4 @@ Avec des changements de configuration des harmoniques au cours de la séquence, 
 
 #### Voice
 
-Avec des changements de configuration des harmoniques au cours de la séquence
-
 <img src="images/benchmarks/sequence/seq1/voice.png"/>
