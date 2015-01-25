@@ -107,6 +107,11 @@ Vocobox delivers pitch detection through following analyzers
 </tr>
 </table>
 
+Note that you can process FFT using Spectro Edit, as provided by Jzy3d Spectro. It is used below to draw note signal analysis.
+JSyn and TarsosDSP also provides FFT processing.
+
+<img src="doc/images/notes-fft.png"></img>
+
 ### Synthetizers
 
 Synthetizer powered by <a href="https://github.com/philburk/jsyn">JSyn</a> are available in a <a href="https://github.com/vocobox/vocobox/tree/master/dev/java/vocobox-synth-jsyn">dedicated maven module</a>. The below implementations are basic, we can do much more with JSyn!
