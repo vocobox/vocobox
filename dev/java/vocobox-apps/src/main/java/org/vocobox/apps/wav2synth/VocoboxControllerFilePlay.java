@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.SwingUtilities;
 
 import org.vocobox.apps.VocoboxControllerAbstract;
 import org.vocobox.io.datasets.HumanVoiceDataset;
@@ -21,7 +22,7 @@ import org.vocobox.voice.pitch.tarsos.VoiceFilePlay;
  * Control synth while playing the input wav file. 
  * 
  * Synth controls are scheduled by file reading so might appear inapproriate.
- * @see VocoboxControllerFileRead that read and schedule events more smartly.
+ * @see VocoboxControllerWav2SynthRead that read and schedule events more smartly.
  * 
  * @author Martin Pernollet
  *
@@ -61,8 +62,18 @@ public class VocoboxControllerFilePlay extends VocoboxControllerAbstract{
         this.monitorSettings = new MonitorSettings();
         monitorSettings.applyPalette = true;
         monitorSettings.timeMax = 20;
-        //monitorSettings.
+        
         this.app = new VocoboxAppFile();
+        
+        //monitorSettings.
+        SwingUtilities.invokeLater(new Runnable() {
+            
+            @Override
+            public void run() {
+                
+            }
+        });
+
     }
     
     @Override

@@ -1,5 +1,6 @@
 package org.vocobox.apps.wav2synth;
 
+import java.awt.Dialog.ModalExclusionType;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -17,6 +18,10 @@ public class VocoboxAppFile extends JFrame{
     VocoboxPanelsFile panels;
     
     public VocoboxAppFile(){
+        super();
+        System.out.println("vocobox app file!");
+        //setModal(false);
+        setModalExclusionType(ModalExclusionType.NO_EXCLUDE);
         LookAndFeel.apply();
         windowExitListener(this);
         show();
