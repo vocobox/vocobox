@@ -19,11 +19,11 @@
 			<version>${version.lib.vocobox}</version>
 		</dependency>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.vocobox</groupId>
 			<artifactId>vocobox-synth-midi</artifactId>
 			<version>${version.lib.vocobox}</version>
-		</dependency>
+		</dependency>-->
 
 		<dependency>
 			<groupId>org.vocobox</groupId>

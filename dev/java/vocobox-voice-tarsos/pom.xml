@@ -12,6 +12,10 @@
 		<artifactId>vocobox-master</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
+	
+	<properties>
+	 <version.lib.miglayout>3.7.4</version.lib.miglayout>
+  </properties>
 
 	<dependencies>
 		<dependency>

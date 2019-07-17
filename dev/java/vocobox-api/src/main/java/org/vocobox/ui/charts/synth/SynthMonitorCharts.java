@@ -16,7 +16,7 @@ import org.jzy3d.plot3d.primitives.axes.AxeCrossAnnotation;
 import org.jzy3d.plot3d.primitives.axes.AxeXLineAnnotation;
 import org.jzy3d.plot3d.primitives.axes.AxeXRectangleAnnotation;
 import org.jzy3d.plot3d.primitives.axes.IAxe;
-import org.jzy3d.plot3d.primitives.axes.LogAxeBox;
+//import org.jzy3d.plot3d.primitives.axes.LogAxeBox;
 import org.jzy3d.plot3d.primitives.axes.layout.IAxeLayout;
 import org.jzy3d.plot3d.primitives.axes.layout.providers.PitchTickProvider;
 import org.jzy3d.plot3d.primitives.axes.layout.providers.RegularTickProvider;
@@ -62,7 +62,7 @@ public class SynthMonitorCharts extends SynthMonitorDefault implements SynthMoni
     protected List<Runnable> boundsUpdaters = new ArrayList<Runnable>();
     protected SynthChartFactory factory = new SynthChartFactory(settings);
     protected SynthChartFactory factoryLog = new SynthChartFactory(settings) {
-        @Override
+        /*@Override
         public IAxe newAxe(BoundingBox3d box, View view) {
             LogAxeBox axe = new LogAxeBox(box, null); // should support null
                                                       // args, with later
@@ -71,7 +71,7 @@ public class SynthMonitorCharts extends SynthMonitorDefault implements SynthMoni
             axe.setScale(new Coord3d(10.0, 1.0, 1.0));
             axe.setView(view);
             return axe;
-        }
+        }*/
     };
 
     // memory of last event info

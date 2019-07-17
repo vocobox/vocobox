@@ -24,8 +24,6 @@
 			<groupId>org.jzy3d</groupId>
 			<artifactId>jzy3d-spectro</artifactId>
 			<version>${version.lib.jzy3d}</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/lib/jzy3d-spectro.jar</systemPath>
 		</dependency>
 
 
@@ -69,7 +67,8 @@
 		<dependency>
 			<groupId>com.miglayout</groupId>
 			<artifactId>miglayout</artifactId>
-			<version>${version.lib.miglayout}</version>
+			<!-- <version>${version.lib.miglayout}</version> -->
+      <version>3.7.4</version>
 		</dependency>
 
   </dependencies>

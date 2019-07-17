@@ -1,7 +1,5 @@
 package org.vocobox.trials.charts;
 
-import javax.media.opengl.GLProfile;
-
 import org.jzy3d.ui.MultiChartPanel;
 import org.vocobox.events.policies.DefaultSoundEventPolicy;
 import org.vocobox.model.song.Song;
@@ -9,6 +7,8 @@ import org.vocobox.model.synth.MonitorSettings;
 import org.vocobox.model.synth.VocoSynth;
 import org.vocobox.synth.jsyn.monoscillo.JsynMonoscilloSynth;
 import org.vocobox.ui.charts.synth.SynthMonitorCharts;
+
+import com.jogamp.opengl.GLProfile;
 
 /**
  * Shows a basic usage of synthetizer monitoring charts.

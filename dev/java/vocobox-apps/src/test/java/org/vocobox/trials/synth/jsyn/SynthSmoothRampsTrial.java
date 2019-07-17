@@ -1,7 +1,5 @@
 package org.vocobox.trials.synth.jsyn;
 
-import javax.media.opengl.GLProfile;
-
 import org.jzy3d.ui.MultiChartPanel;
 import org.vocobox.events.policies.MuteNoConfidencePolicy;
 import org.vocobox.model.song.Song;
@@ -10,6 +8,7 @@ import org.vocobox.model.synth.VocoSynth;
 import org.vocobox.synth.jsyn.monoscillo.JsynMonoscilloRampSynth;
 import org.vocobox.ui.charts.synth.SynthMonitorCharts;
 
+import com.jogamp.opengl.GLProfile;
 import com.jsyn.unitgen.LinearRamp;
 
 /**

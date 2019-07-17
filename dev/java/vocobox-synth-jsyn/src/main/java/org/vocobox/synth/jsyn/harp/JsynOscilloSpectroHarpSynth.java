@@ -44,7 +44,7 @@ public class JsynOscilloSpectroHarpSynth {
 
             UnitOscillator oscillator = makeOscillator();
             oscillator.frequency.set(frequency);
-            oscillator.amplitude.set(0.1);
+            oscillator.amplitude.set(0.0);
             oscilloHarp.put(frequency, oscillator);
             wireToLineOut(oscillator);
             synth.add(oscillator);
